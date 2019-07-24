@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "730664631993",
+    "firebase_url": "https://ticketo-de9cf.firebaseio.com",
+    "project_id": "ticketo-de9cf",
+    "storage_bucket": "ticketo-de9cf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:730664631993:android:0febe2c7ee3f9fb4",
+        "android_client_info": {
+          "package_name": "com.google.ticketo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "730664631993-3qer9q8u1qb4ld23ppmib3052bb1m792.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.google.ticketo",
+            "certificate_hash": "60cd8725de304e1a7a0f81d94731aa87bd67dbb3"
+          }
+        },
+        {
+          "client_id": "730664631993-7bo7c57mdk11m1jllnotfq9r5brtfujo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBpWrppMVrJggYLDeMwl_iFPwAK37QwfyE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "730664631993-7bo7c57mdk11m1jllnotfq9r5brtfujo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
