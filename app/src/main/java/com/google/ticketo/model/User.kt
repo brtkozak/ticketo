@@ -1,4 +1,4 @@
-package com.google.ticketo.Model
+package com.google.ticketo.model
 
 class User(
     var facebookId: String?,

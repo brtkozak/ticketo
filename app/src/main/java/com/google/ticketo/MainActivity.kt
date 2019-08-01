@@ -12,6 +12,7 @@ import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.ticketo.ui.login.LoginActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -27,13 +28,17 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        navController = Navigation.findNavController(this, R.id.nav_host_fragment)
+
         auth = FirebaseAuth.getInstance()
         val currentUser = auth.currentUser
-//        if (currentUser == null) {
+
+        if (currentUser == null) {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
-//        }
-        navController = Navigation.findNavController(this, R.id.nav_host_fragment)
+            finish()
+        }
+
         bottom_nav.setupWithNavController(navController)
         NavigationUI.setupActionBarWithNavController(this, navController)
     }
@@ -41,4 +46,6 @@ class MainActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         return NavigationUI.navigateUp(navController, null)
     }
+
 }
+

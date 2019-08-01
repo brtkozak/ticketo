@@ -1,4 +1,4 @@
-package com.google.ticketo.Model.Responses
+package com.google.ticketo.model.Responses
 
 data class Picture(
     val `data`: Data

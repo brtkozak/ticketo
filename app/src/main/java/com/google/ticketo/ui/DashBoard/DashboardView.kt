@@ -1,4 +1,4 @@
-package com.google.ticketo.sample
+package com.google.ticketo.ui.DashBoard
 
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
