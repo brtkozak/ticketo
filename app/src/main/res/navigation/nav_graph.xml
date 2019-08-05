@@ -4,8 +4,9 @@
             xmlns:tools="http://schemas.android.com/tools" android:id="@+id/nav_graph" app:startDestination="@id/dashboardView">
     <fragment android:id="@+id/dashboardView" android:name="com.google.ticketo.ui.DashBoard.DashboardView"
               android:label="dashboard_fragment" tools:layout="@layout/dashboard_fragment">
-        <action android:id="@+id/action_dashboardView_to_loginView" app:destination="@id/loginView"/>
+        <action android:id="@+id/action_dashboardView_to_myProfileView" app:destination="@id/myProfileView"
+        />
     </fragment>
-    <fragment android:id="@+id/loginView" android:name="com.google.ticketo.ui.login.LoginView"
-              android:label="login_fragment" tools:layout="@layout/login_fragment"/>
+    <fragment android:id="@+id/myProfileView" android:name="com.google.ticketo.ui.profile.MyProfileView"
+              android:label="my_profile_fragment" tools:layout="@layout/my_profile_fragment"/>
 </navigation>

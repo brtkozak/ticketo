@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-            android:id="@+id/homeListEventFragment"
+            android:id="@+id/dashboardView"
             android:icon="@drawable/ic_launcher_background"
             android:title=""/>
     <item
@@ -9,7 +9,7 @@
             android:icon="@drawable/ic_launcher_background"
             android:title=""/>
     <item
-            android:id="@+id/followedEventsFragment"
+            android:id="@+id/myProfileView"
             android:icon="@drawable/ic_launcher_background"
             android:title=""/>
 </menu>
