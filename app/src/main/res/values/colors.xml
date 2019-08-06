@@ -2,6 +2,7 @@
 <resources>
     <color name="black">#000000</color>
     <color name="appBar">#202020</color>
-    <color name="backgroud">#121212</color>
+    <color name="background">#121212</color>
     <color name="white">#FFFFFF</color>
+    <color name="cardColor">#1D1D1D</color>
 </resources>
