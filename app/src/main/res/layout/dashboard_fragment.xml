@@ -4,12 +4,69 @@
         xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.DashBoard.DashboardView">
+        tools:context=".ui.dashboard.DashboardView">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <com.google.android.material.appbar.AppBarLayout
+                android:layout_width="match_parent"
+                android:layout_height="300dp">
+
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:contentScrim="@color/appBar"
+                    app:expandedTitleGravity="top"
+                    android:background="@color/appBar"
+                    app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+                <androidx.appcompat.widget.Toolbar
+                        android:layout_width="match_parent"
+                        android:layout_height="?attr/actionBarSize"
+                        app:layout_collapseMode="pin"/>
+
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                          android:orientation="vertical">
+                <TextView android:layout_width="match_parent" android:layout_height="100dp"
+                          android:text="1"/>
+                <TextView android:layout_width="match_parent" android:layout_height="100dp"
+                          android:text="2"/>
+                <TextView android:layout_width="match_parent" android:layout_height="100dp"
+                          android:text="3"/>
+                <TextView android:layout_width="match_parent" android:layout_height="100dp"
+                          android:text="4"/>
+                <TextView android:layout_width="match_parent" android:layout_height="100dp"
+                          android:text="5"/>
+                <TextView android:layout_width="match_parent" android:layout_height="100dp"
+                          android:text="6"/>
+                <TextView android:layout_width="match_parent" android:layout_height="100dp"
+                          android:text="7"/>
+                <TextView android:layout_width="match_parent" android:layout_height="100dp"
+                          android:text="8"/>
+                <TextView android:layout_width="match_parent" android:layout_height="100dp"
+                          android:text="9"/>
+                <TextView android:layout_width="match_parent" android:layout_height="100dp"
+                          android:text="10"/>
+                <TextView android:layout_width="match_parent" android:layout_height="100dp"
+                          android:text="11"/>
+                <TextView android:layout_width="match_parent" android:layout_height="100dp"
+                          android:text="12"/>
+
+
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </FrameLayout>

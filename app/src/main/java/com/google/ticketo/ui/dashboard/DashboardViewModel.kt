@@ -1,4 +1,4 @@
-package com.google.ticketo.ui.DashBoard
+package com.google.ticketo.ui.dashboard
 
 import androidx.lifecycle.ViewModel;
 

@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         bottom_nav.setupWithNavController(navController)
-        NavigationUI.setupActionBarWithNavController(this, navController)
+//        NavigationUI.setupActionBarWithNavController(this, navController)
     }
 
     override fun onSupportNavigateUp(): Boolean {

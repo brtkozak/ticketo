@@ -7,9 +7,10 @@ import com.google.ticketo.model.Responses.UserResponse
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
 
-class UserRepository {
+class FacebookRepository {
 
     companion object {
+
         private val facebookApi = FacebookApi.create()
         private val fireAuth = FirebaseAuth.getInstance()
 

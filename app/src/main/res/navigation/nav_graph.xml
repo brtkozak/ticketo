@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools" android:id="@+id/nav_graph" app:startDestination="@id/dashboardView">
-    <fragment android:id="@+id/dashboardView" android:name="com.google.ticketo.ui.DashBoard.DashboardView"
+    <fragment android:id="@+id/dashboardView" android:name="com.google.ticketo.ui.dashboard.DashboardView"
               android:label="dashboard_fragment" tools:layout="@layout/dashboard_fragment">
         <action android:id="@+id/action_dashboardView_to_myProfileView" app:destination="@id/myProfileView"
         />
