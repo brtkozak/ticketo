@@ -1,5 +1,6 @@
 package com.google.ticketo.ui.search
 
+import android.app.Activity
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.text.Editable
@@ -11,12 +12,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.navigation.findNavController
-
+import com.google.ticketo.R
 import kotlinx.android.synthetic.main.search_fragment.*
-import android.app.Activity
-import android.R
-
-
 
 class SearchView : Fragment() {
 
@@ -25,7 +22,7 @@ class SearchView : Fragment() {
     }
 
     private lateinit var viewModel: SearchViewModel
-
+    private lateinit var imgr: InputMethodManager
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         sharedElementEnterTransition = TransitionInflater.from(context).inflateTransition(android.R.transition.move)
@@ -35,19 +32,22 @@ class SearchView : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.serch_fragment, container, false)
+        imgr = activity?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        return inflater.inflate(R.layout.search_fragment, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(SearchViewModel::class.java)
 
-        search_fragment_input.requestFocus()
-        val imgr = activity?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-        imgr.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY)
-
+        startTyping()
         listeners()
         onClicks()
+    }
+
+    private fun startTyping() {
+        search_fragment_input.requestFocus()
+        imgr.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_IMPLICIT_ONLY)
     }
 
     private fun onClicks() {
