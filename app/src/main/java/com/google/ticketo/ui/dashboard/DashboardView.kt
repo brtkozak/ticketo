@@ -6,13 +6,9 @@ import androidx.fragment.app.Fragment
 
 import kotlinx.android.synthetic.main.dashboard_fragment.*
 import android.view.*
-import android.widget.SearchView
-import androidx.core.view.ViewCompat
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import com.google.ticketo.R
-import kotlinx.android.synthetic.main.search_fragment.*
-
 
 class DashboardView : Fragment() {
 
