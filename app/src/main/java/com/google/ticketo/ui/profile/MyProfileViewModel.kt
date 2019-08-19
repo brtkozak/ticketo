@@ -3,15 +3,15 @@ package com.google.ticketo.ui.profile
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel;
-import com.google.ticketo.database.Remote.FirestoreRepository
+import com.google.ticketo.database.Remote.firestore.FirestoreRepository
 import com.google.ticketo.model.User
 
 class MyProfileViewModel : ViewModel(), CurrentUserCallback {
 
-    private val user = MutableLiveData<User>()
+    private val _user = MutableLiveData<User>()
     private val firestore = FirestoreRepository.getInstance()
 
-    fun getUser() = user as LiveData<User>
+    val user : LiveData<User> = _user
 
     init {
         firestore.callback=this
@@ -19,7 +19,7 @@ class MyProfileViewModel : ViewModel(), CurrentUserCallback {
     }
 
     override fun updateUser(user: User?) {
-        this.user.value=user
+        this._user.value=user
     }
 
 }

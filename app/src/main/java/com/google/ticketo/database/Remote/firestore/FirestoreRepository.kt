@@ -1,16 +1,9 @@
-package com.google.ticketo.database.Remote
+package com.google.ticketo.database.Remote.firestore
 
-import android.util.Log
-import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.ticketo.model.User
 import com.google.ticketo.ui.profile.CurrentUserCallback
-import io.reactivex.Observable
-import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
-import java.util.*
 
 
 ///SINGLETON
@@ -26,7 +19,8 @@ class FirestoreRepository {
 
         fun getInstance(): FirestoreRepository {
             if (instance == null)
-                instance = FirestoreRepository()
+                instance =
+                    FirestoreRepository()
             return instance as FirestoreRepository
         }
     }

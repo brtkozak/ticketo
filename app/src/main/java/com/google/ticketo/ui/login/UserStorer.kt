@@ -4,14 +4,11 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.facebook.AccessToken
 import com.facebook.CallbackManager
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.ticketo.database.Remote.FacebookRepository
-import com.google.ticketo.model.Responses.UserResponse
+import com.google.ticketo.database.Remote.facebook.FacebookRepository
+import com.google.ticketo.model.Responses.userResponse.UserResponse
 import com.google.ticketo.model.User
 
 class UserStorer {
@@ -28,7 +25,7 @@ class UserStorer {
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
-                    FacebookRepository.getCurrentUserData(token.userId).subscribe { response -> storeUser(response) }
+                    FacebookRepository.getInstance().getCurrentUserData(token.userId).subscribe { response -> storeUser(response) }
                     //                    updateUI(user)
                 } else {
                     // If sign in fails, display a message to the user.

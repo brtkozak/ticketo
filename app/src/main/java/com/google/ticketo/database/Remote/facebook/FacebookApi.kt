@@ -1,7 +1,7 @@
-package com.google.ticketo.database.Remote
+package com.google.ticketo.database.Remote.facebook
 
 import com.facebook.AccessToken
-import com.google.ticketo.model.Responses.UserResponse
+import com.google.ticketo.model.Responses.userResponse.UserResponse
 import io.reactivex.Observable
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient

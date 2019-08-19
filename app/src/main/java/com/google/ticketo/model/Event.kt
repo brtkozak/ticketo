@@ -5,28 +5,25 @@ import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.ticketo.R
+import java.time.LocalDate
+import java.util.*
 
-data class User(
-    var facebookId: String? = null,
-    var firebaseId: String? = null,
+data class Event(
+    var id: String? = null,
     var name: String? = null,
-    var picture: String? = null,
-    var facebookFriends: Int? = null,
-    var profileLink: String? = null
-) {
-
-      companion object {
+    var date: LocalDate? = null,
+    var place: String? = null,
+    var image: String? = null
+){
+    companion object {
         @JvmStatic
-        @BindingAdapter("profilePic")
-        fun ImageView.profilePic(imageUrl: String?) {
+        @BindingAdapter("eventPic")
+        fun ImageView.eventPic(imageUrl: String?) {
             Glide.with(this.context)
                 .load(imageUrl)
-                .apply(RequestOptions.circleCropTransform())
                 .placeholder(R.drawable.ic_launcher_foreground)
-                .override(350, 350)
+                .apply(RequestOptions.centerCropTransform())
                 .into(this)
         }
     }
 }
-
-

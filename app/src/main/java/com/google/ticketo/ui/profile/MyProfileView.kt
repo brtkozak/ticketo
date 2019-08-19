@@ -41,7 +41,7 @@ class MyProfileView : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(MyProfileViewModel::class.java)
 
-        viewModel.getUser().observe(this, Observer {
+        viewModel.user.observe(this, Observer {
             binding.user = it
             if (my_profile_profile_pic.drawable != resources.getDrawable(R.drawable.ic_launcher_foreground)) {
                 my_profile_progress_bar.visibility=View.GONE

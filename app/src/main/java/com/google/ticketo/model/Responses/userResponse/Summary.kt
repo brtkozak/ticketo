@@ -1,4 +1,4 @@
-package com.google.ticketo.model.Responses
+package com.google.ticketo.model.Responses.userResponse
 
 import com.google.gson.annotations.SerializedName
 
