@@ -30,13 +30,25 @@ class DashboardView : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(DashboardViewModel::class.java)
 
-        dashboard_fragment_events_in_country.layoutManager=LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false )
+        dashboard_fragment_events_in_country.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        dashboard_fragment_events_in_city.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        viewModel.eventsMap.observe(this, Observer {
+            it.forEach { events ->
+                when (events.key) {
+                    EventCategory.country -> dashboard_fragment_events_in_country.adapter = EventAdapter(events.value)
+                    EventCategory.city -> dashboard_fragment_events_in_city.adapter = EventAdapter(events.value)
+                }
+            }
+        })
 
-        viewModel.eventsInCountry.observe(this, Observer {
-            dashboard_fragment_events_in_country.adapter=EventAdapter(it)
-        }
-        )
-
+        viewModel.progress.observe(this, Observer {
+            if(!it){
+                dashboard_fragment_progress_bar.visibility=View.GONE
+                dashboard_fragment_events_container.visibility=View.VISIBLE
+            }
+        })
 
         onClicks()
     }
@@ -50,4 +62,8 @@ class DashboardView : Fragment() {
         }
     }
 
+}
+
+enum class EventCategory() {
+    country, city
 }
