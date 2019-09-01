@@ -34,21 +34,34 @@ class DashboardView : Fragment() {
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         dashboard_fragment_events_in_city.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        viewModel.eventsMap.observe(this, Observer {
-            it.forEach { events ->
-                when (events.key) {
-                    EventCategory.country -> dashboard_fragment_events_in_country.adapter = EventAdapter(events.value)
-                    EventCategory.city -> dashboard_fragment_events_in_city.adapter = EventAdapter(events.value)
-                }
+
+        viewModel.events.observe(this, Observer {
+            dashboard_fragment_events_in_country.adapter = EventAdapter(it)
+            dashboard_fragment_events_in_city.adapter = EventAdapter(it)
+        })
+
+        viewModel.loading.observe(this, Observer {
+            if (!it) {
+                dashboard_fragment_progress_bar.visibility = View.GONE
+                dashboard_fragment_events_container.visibility = View.VISIBLE
             }
         })
 
-        viewModel.progress.observe(this, Observer {
-            if(!it){
-                dashboard_fragment_progress_bar.visibility=View.GONE
-                dashboard_fragment_events_container.visibility=View.VISIBLE
-            }
-        })
+//        viewModel.eventsMap.observe(this, Observer {
+//            it.forEach { events ->
+//                when (events.key) {
+//                    EventCategory.country -> dashboard_fragment_events_in_country.adapter = EventAdapter(events.value)
+//                    EventCategory.city -> dashboard_fragment_events_in_city.adapter = EventAdapter(events.value)
+//                }
+//            }
+//        })
+//
+//        viewModel.progress.observe(this, Observer {
+//            if(!it){
+//                dashboard_fragment_progress_bar.visibility=View.GONE
+//                dashboard_fragment_events_container.visibility=View.VISIBLE
+//            }
+//        })
 
         onClicks()
     }

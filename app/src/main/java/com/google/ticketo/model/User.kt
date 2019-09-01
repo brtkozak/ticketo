@@ -13,20 +13,6 @@ data class User(
     var picture: String? = null,
     var facebookFriends: Int? = null,
     var profileLink: String? = null
-) {
-
-      companion object {
-        @JvmStatic
-        @BindingAdapter("profilePic")
-        fun ImageView.profilePic(imageUrl: String?) {
-            Glide.with(this.context)
-                .load(imageUrl)
-                .apply(RequestOptions.circleCropTransform())
-                .placeholder(R.drawable.ic_launcher_foreground)
-                .override(350, 350)
-                .into(this)
-        }
-    }
-}
+)
 
 

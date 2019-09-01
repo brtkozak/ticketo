@@ -1,18 +1,19 @@
 package com.google.ticketo.database.Remote.firestore
 
+import androidx.lifecycle.LiveData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.ticketo.model.DtoConverter
+import com.google.ticketo.model.Event
 import com.google.ticketo.model.User
-import com.google.ticketo.ui.profile.CurrentUserCallback
+import io.reactivex.Single
 
 
 ///SINGLETON
 class FirestoreRepository {
 
-
     private val database = FirebaseFirestore.getInstance()
     private val fireAuth = FirebaseAuth.getInstance()
-    lateinit var callback: CurrentUserCallback
 
     companion object {
         private var instance: FirestoreRepository? = null
@@ -25,16 +26,37 @@ class FirestoreRepository {
         }
     }
 
-    fun getCurrentUser() {
-        val query = database.collection("users").document(fireAuth.uid!!)
-        query.get().addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                val user = task.result?.toObject(User::class.java)
-                callback.updateUser(user)
-            } else {
-
+    fun getCurrentUser(): Single<User> =
+        database
+            .collection("users")
+            .document(fireAuth.uid!!)
+            .single()
+            .map {
+                it.toObject(User::class.java)
             }
+
+    fun getAllEvents(): Single<List<Event>> =
+        database.collection("events")
+            .single()
+            .map {
+                DtoConverter.querySnapshotToEventsList(it)
+            }
+
+
+    fun insertEvent() {
+        val events = mutableListOf<Event>()
+
+        val event1 = Event(
+
+        )
+
+        events.forEach {
+            database.collection("events")
+                .add(it)
+                .addOnSuccessListener { documentReference ->
+                }
+                .addOnFailureListener { e ->
+                }
         }
     }
-
 }

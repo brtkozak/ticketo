@@ -30,7 +30,7 @@
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/my_profile_containter"
+                android:id="@+id/my_profile_container"
                 android:visibility="gone"
                 tools:visibility="visible"
                 android:layout_width="match_parent"
@@ -49,7 +49,7 @@
                     app:layout_constraintTop_toTopOf="@+id/my_profile_card_view"
                     app:layout_constraintBottom_toTopOf="@+id/my_profile_card_view"
                     android:elevation="2dp"
-                    profilePic="@{user.picture}"
+                    app:profilePic="@{user.picture}"
             />
 
             <com.google.android.material.card.MaterialCardView

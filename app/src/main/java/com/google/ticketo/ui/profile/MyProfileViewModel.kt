@@ -1,25 +1,33 @@
 package com.google.ticketo.ui.profile
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel;
+import android.util.Log
+import androidx.lifecycle.*
 import com.google.ticketo.database.Remote.firestore.FirestoreRepository
 import com.google.ticketo.model.User
+import io.reactivex.Observable
+import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
+import java.util.concurrent.TimeUnit
 
-class MyProfileViewModel : ViewModel(), CurrentUserCallback {
+class MyProfileViewModel : ViewModel() {
 
-    private val _user = MutableLiveData<User>()
     private val firestore = FirestoreRepository.getInstance()
+    private val _user = MutableLiveData<User>()
+    val user: LiveData<User> = _user
 
-    val user : LiveData<User> = _user
+    private val _loading = MutableLiveData<Boolean> (true)
+    val loading : LiveData<Boolean> = _loading
 
     init {
-        firestore.callback=this
-        firestore.getCurrentUser()
+        getUser()
     }
 
-    override fun updateUser(user: User?) {
-        this._user.value=user
+    private fun getUser() {
+       firestore.getCurrentUser()
+           .subscribe { it ->
+               _user.value=it
+               _loading.value=false
+           }
     }
-
 }

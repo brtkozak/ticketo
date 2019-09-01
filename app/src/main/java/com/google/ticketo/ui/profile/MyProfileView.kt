@@ -42,10 +42,13 @@ class MyProfileView : Fragment() {
         viewModel = ViewModelProviders.of(this).get(MyProfileViewModel::class.java)
 
         viewModel.user.observe(this, Observer {
-            binding.user = it
-            if (my_profile_profile_pic.drawable != resources.getDrawable(R.drawable.ic_launcher_foreground)) {
+            binding.user=it
+        })
+
+        viewModel.loading.observe(this, Observer {
+            if(!it){
                 my_profile_progress_bar.visibility=View.GONE
-                my_profile_containter.visibility = View.VISIBLE
+                my_profile_container.visibility=View.VISIBLE
             }
         })
 
