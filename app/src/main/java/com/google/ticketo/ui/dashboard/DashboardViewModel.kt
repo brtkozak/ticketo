@@ -2,10 +2,12 @@ package com.google.ticketo.ui.dashboard
 
 import android.util.Log
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel;
 import com.google.ticketo.database.Remote.events.EventsRepository
 import com.google.ticketo.database.Remote.firestore.FirestoreRepository
+import com.google.ticketo.database.Repository
 import com.google.ticketo.model.Event
 import com.google.ticketo.model.User
 import io.reactivex.Completable
@@ -15,26 +17,41 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.BiFunction
 import java.util.concurrent.TimeUnit
 
-class DashboardViewModel : ViewModel() {
+class DashboardViewModel(repository: Repository) : ViewModel() {
 
-    private val firestore = FirestoreRepository.getInstance()
-    private val _events = MutableLiveData<List<Event>>()
-    val events: LiveData<List<Event>> = _events
 
-    private val _loading = MutableLiveData<Boolean> (true)
-    val loading : LiveData<Boolean> = _loading
+    lateinit var events: LiveData<List<Event>>
+
+    private val _loading = MutableLiveData<Boolean>(true)
+    val loading: LiveData<Boolean> = _loading
 
     init {
-        getEvents()
+        events=repository.getEventsInCity("Wrocław")
     }
 
-    private fun getEvents() {
-            firestore.getAllEvents()
-                .subscribe { it ->
-                    _events.value = it
-                    _loading.value=false
-                }
-    }
+    ////////////////////////
+//
+//    private val firestore = FirestoreRepository.getInstance()
+//    private val _events = MutableLiveData<List<Event>>()
+//    val events: LiveData<List<Event>> = _events
+//
+//    private val _loading = MutableLiveData<Boolean> (true)
+//    val loading : LiveData<Boolean> = _loading
+//
+//    init {
+//        getEvents()
+//    }
+//
+//    private fun getEvents() {
+//            firestore.getAllEvents()
+//                .subscribe { it ->
+//                    _events.value = it
+//                    _loading.value=false
+//                }
+//    }
+//
+
+    ///////////////////////
 
 
 //    private val eventsRepository = EventsRepository.getInstance()

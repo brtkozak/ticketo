@@ -11,6 +11,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.ticketo.R
+import com.google.ticketo.database.Repository
 
 class DashboardView : Fragment() {
 
@@ -28,24 +29,27 @@ class DashboardView : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(DashboardViewModel::class.java)
+        viewModel = ViewModelProviders.of(this, DashboardViewModelFactory(Repository.getInstance(context!!))).get(DashboardViewModel::class.java)
 
         dashboard_fragment_events_in_country.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         dashboard_fragment_events_in_city.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
+        dashboard_fragment_progress_bar.visibility = View.GONE
+        dashboard_fragment_events_container.visibility = View.VISIBLE
+
         viewModel.events.observe(this, Observer {
             dashboard_fragment_events_in_country.adapter = EventAdapter(it)
             dashboard_fragment_events_in_city.adapter = EventAdapter(it)
         })
 
-        viewModel.loading.observe(this, Observer {
-            if (!it) {
-                dashboard_fragment_progress_bar.visibility = View.GONE
-                dashboard_fragment_events_container.visibility = View.VISIBLE
-            }
-        })
+//        viewModel.loading.observe(this, Observer {
+//            if (!it) {
+//                dashboard_fragment_progress_bar.visibility = View.GONE
+//                dashboard_fragment_events_container.visibility = View.VISIBLE
+//            }
+//        })
 
 //        viewModel.eventsMap.observe(this, Observer {
 //            it.forEach { events ->
@@ -53,13 +57,6 @@ class DashboardView : Fragment() {
 //                    EventCategory.country -> dashboard_fragment_events_in_country.adapter = EventAdapter(events.value)
 //                    EventCategory.city -> dashboard_fragment_events_in_city.adapter = EventAdapter(events.value)
 //                }
-//            }
-//        })
-//
-//        viewModel.progress.observe(this, Observer {
-//            if(!it){
-//                dashboard_fragment_progress_bar.visibility=View.GONE
-//                dashboard_fragment_events_container.visibility=View.VISIBLE
 //            }
 //        })
 
