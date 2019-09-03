@@ -20,15 +20,8 @@ import java.util.concurrent.TimeUnit
 class DashboardViewModel(repository: Repository) : ViewModel() {
 
 
-    lateinit var events: LiveData<List<Event>>
-
-    private val _loading = MutableLiveData<Boolean>(true)
-    val loading: LiveData<Boolean> = _loading
-
-    init {
-//        events=repository.getEventsInCity("Wrocław")
-        events = repository.getEventsThisWeekend()
-    }
+    var eventsByCity: LiveData<List<Event>> = repository.getEventsInCity("Wrocław")
+    var eventsThisWeekend: LiveData<List<Event>> = repository.getEventsThisWeekend()
 
     ////////////////////////
 //

@@ -47,9 +47,7 @@ class Repository(context: Context) {
             val exist =
                 (eventDao.checkUpdateWithCity(city, getUpdateTime(Date(), eventsTimeout)) != null)
             if (!exist) {
-
                 Log.d("looog", "from remote")
-
                 firestoreRepository
                     .getEventsByCity(city)
                     .subscribe { it ->
@@ -70,26 +68,25 @@ class Repository(context: Context) {
     fun getEventsThisWeekend(): LiveData<List<Event>> {
         val day = Calendar.getInstance().get(Calendar.DAY_OF_WEEK)
         var startDate = Date()
-        var endDate = getClosestDay(DayOfWeek.SUNDAY)
-        if(day!=Calendar.FRIDAY || day!=Calendar.SATURDAY || day!=Calendar.SUNDAY){
-            startDate=getClosestDay(DayOfWeek.FRIDAY)
+        val endDate = getClosestDay(DayOfWeek.SUNDAY, 1)
+        if (day != Calendar.FRIDAY || day != Calendar.SATURDAY || day != Calendar.SUNDAY) {
+            startDate = getClosestDay(DayOfWeek.FRIDAY)
         }
-        updateGetEventsThisWeekend(startDate, endDate)
+        Log.d(startDate.toString(), endDate.toString())
+        updateGetEventsByDates(startDate, endDate)
         return eventDao.getEventsThisWeekend(startDate, endDate)
     }
 
-    private fun updateGetEventsThisWeekend(startDate: Date, endDate: Date) {
+    private fun updateGetEventsByDates(startDate: Date, endDate: Date) {
         executor.execute {
             val exist =
                 (eventDao.checkUpdateWithDates(startDate, endDate, getUpdateTime(Date(), eventsTimeout)) != null)
-//            if (!exist) {
-
+            if (!exist) {
                 Log.d("looog", "from remote")
 
                 firestoreRepository
                     .getEventsByDates(startDate, endDate)
                     .subscribe { it ->
-                        Log.d("looog", "" + it.size)
                         it.forEach {
                             it.lastUpdate = Date()
                         }
@@ -98,13 +95,13 @@ class Repository(context: Context) {
                             eventDao.insertEvents(it)
                         }
                     }
-//            } else
+            } else
                 Log.d("looog", "from local")
         }
     }
 
-    private fun getClosestDay(day: DayOfWeek): Date {
-        val date = LocalDate.now().with(TemporalAdjusters.nextOrSame(day))
+    private fun getClosestDay(day: DayOfWeek, plusDays: Long = 0): Date {
+        val date = LocalDate.now().with(TemporalAdjusters.nextOrSame(day)).plusDays(plusDays)
         return Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant())
     }
 

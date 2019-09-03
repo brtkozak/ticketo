@@ -67,6 +67,7 @@
                                 android:id="@+id/dashboard_fragment_logo"
                                 android:layout_width="wrap_content"
                                 android:layout_height="30dp"
+                                android:transitionName="event_image"
                                 android:adjustViewBounds="true"
                                 android:src="@drawable/ic_search_black_24dp"
                                 app:layout_constraintStart_toStartOf="parent"
@@ -122,7 +123,7 @@
                               android:layout_height="30dp"
                               android:text="W twoim kraju"/>
                     <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/dashboard_fragment_events_in_country"
+                            android:id="@+id/dashboard_fragment_events_this_weekend"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
                     </androidx.recyclerview.widget.RecyclerView>

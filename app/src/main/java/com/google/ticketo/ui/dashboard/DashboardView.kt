@@ -2,6 +2,7 @@ package com.google.ticketo.ui.dashboard
 
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 
 import kotlinx.android.synthetic.main.dashboard_fragment.*
@@ -31,7 +32,7 @@ class DashboardView : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this, DashboardViewModelFactory(Repository.getInstance(context!!))).get(DashboardViewModel::class.java)
 
-        dashboard_fragment_events_in_country.layoutManager =
+        dashboard_fragment_events_this_weekend.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         dashboard_fragment_events_in_city.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
@@ -39,9 +40,12 @@ class DashboardView : Fragment() {
         dashboard_fragment_progress_bar.visibility = View.GONE
         dashboard_fragment_events_container.visibility = View.VISIBLE
 
-        viewModel.events.observe(this, Observer {
-            dashboard_fragment_events_in_country.adapter = EventAdapter(it)
+        viewModel.eventsByCity.observe(this, Observer {
             dashboard_fragment_events_in_city.adapter = EventAdapter(it)
+        })
+
+        viewModel.eventsThisWeekend.observe(this, Observer{
+            dashboard_fragment_events_this_weekend.adapter = EventAdapter(it)
         })
 
 //        viewModel.loading.observe(this, Observer {
