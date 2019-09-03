@@ -16,21 +16,13 @@ data class Event(
     var id: String = "",
     var name: String? = null,
     var imageUrl: String? = null,
-    @Embedded
-    var date: EventDate? = null,
+    var startDate: Date? = null,
+    var endDate: Date? = null,
     @Embedded
     var location: Location? = null,
     @Embedded
     var price: Price? = null,
-    var lastUpdate: LocalDate? = null
-)
-
-data class EventDate(
-    var day: Int? = null,
-    var month: Int? = null,
-    var year: Int? = null,
-    var fullDate: String? = null,
-    var startHour: String? = null
+    var lastUpdate: Date? = null
 )
 
 data class Location(

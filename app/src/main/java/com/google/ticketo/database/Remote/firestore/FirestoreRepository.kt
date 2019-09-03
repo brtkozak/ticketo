@@ -7,6 +7,7 @@ import com.google.ticketo.model.DtoConverter
 import com.google.ticketo.model.Event
 import com.google.ticketo.model.User
 import io.reactivex.Single
+import java.util.*
 
 //SINGLETON
 class FirestoreRepository {
@@ -48,6 +49,16 @@ class FirestoreRepository {
                 .map {
                     DtoConverter.querySnapshotToEventsList(it)
                 }
+
+    fun getEventsByDates(startDate: Date, endDate: Date) : Single<List<Event>> =
+        database.collection("events")
+            .whereGreaterThanOrEqualTo("startDate", startDate)
+            .whereLessThanOrEqualTo("startDate", endDate)
+            .single()
+            .map {
+                DtoConverter.querySnapshotToEventsList(it)
+            }
+
 
     fun insertEvent() {
         val events = mutableListOf<Event>()

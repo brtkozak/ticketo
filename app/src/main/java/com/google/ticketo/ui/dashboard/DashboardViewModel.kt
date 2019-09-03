@@ -26,7 +26,8 @@ class DashboardViewModel(repository: Repository) : ViewModel() {
     val loading: LiveData<Boolean> = _loading
 
     init {
-        events=repository.getEventsInCity("Wrocław")
+//        events=repository.getEventsInCity("Wrocław")
+        events = repository.getEventsThisWeekend()
     }
 
     ////////////////////////

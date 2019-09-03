@@ -17,9 +17,15 @@ interface EventDao {
     fun getEventsInCity(city: String): LiveData<List<Event>>
 
     @Query("SELECT * FROM event WHERE city= :city AND lastUpdate> :lastUpdate LIMIT 1")
-    fun checkUpdateWithCity(city: String, lastUpdate: Date) : Event?
+    fun checkUpdateWithCity(city: String, lastUpdate: Date): Event?
+
+    @Query("SELECT * FROM event WHERE startDate BETWEEN :startDate AND :endDate ")
+    fun getEventsThisWeekend(startDate: Date, endDate: Date) : LiveData<List<Event>>
+
+    @Query("SELECT * FROM event WHERE  startDate BETWEEN :startDate AND :endDate AND lastUpdate> :lastUpdate LIMIT 1")
+    fun checkUpdateWithDates(startDate: Date, endDate: Date, lastUpdate: Date): Event?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertEvents(events : List<Event>)
+    fun insertEvents(events: List<Event>)
 
 }

@@ -69,13 +69,38 @@ class Repository(context: Context) {
 
     fun getEventsThisWeekend(): LiveData<List<Event>> {
         val day = Calendar.getInstance().get(Calendar.DAY_OF_WEEK)
-        var dateSart = Date()
-        var dateEnd = getClosestDay(DayOfWeek.SUNDAY)
+        var startDate = Date()
+        var endDate = getClosestDay(DayOfWeek.SUNDAY)
         if(day!=Calendar.FRIDAY || day!=Calendar.SATURDAY || day!=Calendar.SUNDAY){
-            dateSart=getClosestDay(DayOfWeek.FRIDAY)
+            startDate=getClosestDay(DayOfWeek.FRIDAY)
         }
-        updateGetEventsThisWeekend(dateSart, dateEnd)
-        return eventDao.getEventsThisWeekend(dateSart, dateEnd)
+        updateGetEventsThisWeekend(startDate, endDate)
+        return eventDao.getEventsThisWeekend(startDate, endDate)
+    }
+
+    private fun updateGetEventsThisWeekend(startDate: Date, endDate: Date) {
+        executor.execute {
+            val exist =
+                (eventDao.checkUpdateWithDates(startDate, endDate, getUpdateTime(Date(), eventsTimeout)) != null)
+//            if (!exist) {
+
+                Log.d("looog", "from remote")
+
+                firestoreRepository
+                    .getEventsByDates(startDate, endDate)
+                    .subscribe { it ->
+                        Log.d("looog", "" + it.size)
+                        it.forEach {
+                            it.lastUpdate = Date()
+                        }
+                        executor.execute {
+                            Log.d("looog", "saving")
+                            eventDao.insertEvents(it)
+                        }
+                    }
+//            } else
+                Log.d("looog", "from local")
+        }
     }
 
     private fun getClosestDay(day: DayOfWeek): Date {

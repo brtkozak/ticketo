@@ -14,6 +14,7 @@ object DtoConverter {
         val result = mutableListOf<Event>()
         querySnapshot.forEach {
             result.add(it.toObject(Event::class.java))
+            Log.d("looog", it.toObject(Event::class.java).toString())
         }
         return result
     }
