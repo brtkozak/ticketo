@@ -30,7 +30,7 @@ class FirestoreRepository {
             .document(fireAuth.uid!!)
             .single()
             .map {
-                it.toObject(User::class.java)
+                it.toObject(User::class.java)!!
             }
 
     fun getAllEvents(): Single<List<Event>> =

@@ -8,6 +8,8 @@ import com.google.firebase.database.core.Repo
 import com.google.ticketo.database.Local.LocalDatabase
 import com.google.ticketo.database.Remote.firestore.FirestoreRepository
 import com.google.ticketo.model.Event
+import io.reactivex.Observable
+import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import java.sql.Timestamp
 import java.time.DayOfWeek
@@ -112,4 +114,7 @@ class Repository(context: Context) {
         return cal.time
     }
 
+    fun getEvent(eventId : String) : Observable<Event> {
+        return eventDao.getEvent(eventId)
+    }
 }

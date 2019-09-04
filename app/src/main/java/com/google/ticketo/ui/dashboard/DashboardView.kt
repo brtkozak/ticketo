@@ -2,17 +2,18 @@ package com.google.ticketo.ui.dashboard
 
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 
 import kotlinx.android.synthetic.main.dashboard_fragment.*
 import android.view.*
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.ticketo.R
 import com.google.ticketo.database.Repository
+import com.google.ticketo.ui.RepositoryViewModelFactory
 
 class DashboardView : Fragment() {
 
@@ -30,16 +31,29 @@ class DashboardView : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this, DashboardViewModelFactory(Repository.getInstance(context!!))).get(DashboardViewModel::class.java)
+        viewModel = ViewModelProvider(this,
+            RepositoryViewModelFactory(Repository.getInstance(context!!))
+        ).get(DashboardViewModel::class.java)
 
-        dashboard_fragment_events_this_weekend.layoutManager =
-            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        dashboard_fragment_events_in_city.layoutManager =
-            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        initView()
 
         dashboard_fragment_progress_bar.visibility = View.GONE
         dashboard_fragment_events_container.visibility = View.VISIBLE
 
+        setObservers()
+        setOnClicks()
+    }
+
+
+
+    private fun initView() {
+        dashboard_fragment_events_this_weekend.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        dashboard_fragment_events_in_city.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+    }
+
+    private fun setObservers() {
         viewModel.eventsByCity.observe(this, Observer {
             dashboard_fragment_events_in_city.adapter = EventAdapter(it)
         })
@@ -47,27 +61,9 @@ class DashboardView : Fragment() {
         viewModel.eventsThisWeekend.observe(this, Observer{
             dashboard_fragment_events_this_weekend.adapter = EventAdapter(it)
         })
-
-//        viewModel.loading.observe(this, Observer {
-//            if (!it) {
-//                dashboard_fragment_progress_bar.visibility = View.GONE
-//                dashboard_fragment_events_container.visibility = View.VISIBLE
-//            }
-//        })
-
-//        viewModel.eventsMap.observe(this, Observer {
-//            it.forEach { events ->
-//                when (events.key) {
-//                    EventCategory.country -> dashboard_fragment_events_in_country.adapter = EventAdapter(events.value)
-//                    EventCategory.city -> dashboard_fragment_events_in_city.adapter = EventAdapter(events.value)
-//                }
-//            }
-//        })
-
-        onClicks()
     }
 
-    private fun onClicks() {
+    private fun setOnClicks() {
         dashboard_fragment_search_container.setOnClickListener {
             val extras = FragmentNavigatorExtras(
                 dashboard_fragment_search_cardview to "search_bar"
@@ -76,8 +72,4 @@ class DashboardView : Fragment() {
         }
     }
 
-}
-
-enum class EventCategory() {
-    country, city
 }
