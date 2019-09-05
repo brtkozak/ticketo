@@ -1,5 +1,6 @@
 package com.google.ticketo.ui.event_details
 
+import android.annotation.SuppressLint
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.ticketo.database.Repository
@@ -12,6 +13,7 @@ class EventDetailsViewModel(private val repository: Repository) : ViewModel() {
     private val _event = MutableLiveData<Event> ()
     val event = _event
 
+    @SuppressLint("CheckResult")
     fun setEvent(eventId : String){
         repository.getEvent(eventId)
             .observeOn(AndroidSchedulers.mainThread())

@@ -8,6 +8,7 @@ import com.google.firebase.database.core.Repo
 import com.google.ticketo.database.Local.LocalDatabase
 import com.google.ticketo.database.Remote.firestore.FirestoreRepository
 import com.google.ticketo.model.Event
+import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
@@ -30,6 +31,7 @@ class Repository(context: Context) {
     companion object {
         private var instance: Repository? = null
 
+        @Synchronized
         fun getInstance(context: Context): Repository {
             if (Repository.instance == null)
                 Repository.instance =
@@ -114,7 +116,7 @@ class Repository(context: Context) {
         return cal.time
     }
 
-    fun getEvent(eventId : String) : Observable<Event> {
-        return eventDao.getEvent(eventId)
+    fun getEvent(eventId : String) : Single<Event> {
+        return Single.fromCallable { eventDao.getEvent(eventId) }
     }
 }

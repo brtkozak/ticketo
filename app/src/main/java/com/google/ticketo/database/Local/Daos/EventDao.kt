@@ -6,7 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.google.ticketo.model.Event
-import io.reactivex.Observable
+import io.reactivex.Flowable
 import io.reactivex.Single
 import java.util.*
 
@@ -28,7 +28,7 @@ interface EventDao {
     fun checkUpdateWithDates(startDate: Date, endDate: Date, lastUpdate: Date): Event?
 
     @Query("SELECT * FROM event WHERE id = :eventId")
-    fun getEvent(eventId : String) : Observable<Event>
+    fun getEvent(eventId: String): Event
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertEvents(events: List<Event>)

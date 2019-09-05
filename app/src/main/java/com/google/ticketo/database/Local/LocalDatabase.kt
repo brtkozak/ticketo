@@ -16,6 +16,7 @@ abstract class LocalDatabase : RoomDatabase(){
     companion object {
         private var instance: LocalDatabase? = null
 
+        @Synchronized
         fun getInstance(context: Context): LocalDatabase {
             if (instance == null)
                 instance = Room.databaseBuilder(

@@ -6,6 +6,8 @@ import androidx.fragment.app.Fragment
 
 import kotlinx.android.synthetic.main.dashboard_fragment.*
 import android.view.*
+import androidx.core.os.bundleOf
+import androidx.databinding.library.baseAdapters.BR.event
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
@@ -14,8 +16,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.ticketo.R
 import com.google.ticketo.database.Repository
 import com.google.ticketo.ui.RepositoryViewModelFactory
+import kotlinx.android.synthetic.main.item_dashboard_event.*
 
-class DashboardView : Fragment() {
+class DashboardView : Fragment(), EventAdapter.DashboardCallback {
 
     companion object {
         fun newInstance() = DashboardView()
@@ -31,7 +34,8 @@ class DashboardView : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this,
+        viewModel = ViewModelProvider(
+            this,
             RepositoryViewModelFactory(Repository.getInstance(context!!))
         ).get(DashboardViewModel::class.java)
 
@@ -45,7 +49,6 @@ class DashboardView : Fragment() {
     }
 
 
-
     private fun initView() {
         dashboard_fragment_events_this_weekend.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
@@ -55,11 +58,11 @@ class DashboardView : Fragment() {
 
     private fun setObservers() {
         viewModel.eventsByCity.observe(this, Observer {
-            dashboard_fragment_events_in_city.adapter = EventAdapter(it)
+            dashboard_fragment_events_in_city.adapter = EventAdapter(it, this)
         })
 
-        viewModel.eventsThisWeekend.observe(this, Observer{
-            dashboard_fragment_events_this_weekend.adapter = EventAdapter(it)
+        viewModel.eventsThisWeekend.observe(this, Observer {
+            dashboard_fragment_events_this_weekend.adapter = EventAdapter(it, this)
         })
     }
 
@@ -70,6 +73,16 @@ class DashboardView : Fragment() {
             )
             view!!.findNavController().navigate(R.id.action_dashboardView_to_searchView, null, null, extras)
         }
+    }
+
+    override fun goToDetails(eventId: String, imageUrl : String) {
+        val bundle = bundleOf(
+            "eventId" to eventId,
+            "imageUrl" to imageUrl)
+        val extras = FragmentNavigatorExtras(
+            item_dashboard_event_image to "event_image"
+        )
+        view!!.findNavController().navigate(R.id.action_dashboardView_to_eventDetailsView, bundle, null, extras)
     }
 
 }

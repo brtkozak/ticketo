@@ -16,6 +16,7 @@ class FirestoreRepository {
     companion object {
         private var instance: FirestoreRepository? = null
 
+        @Synchronized
         fun getInstance(): FirestoreRepository {
             if (instance == null)
                 instance =
