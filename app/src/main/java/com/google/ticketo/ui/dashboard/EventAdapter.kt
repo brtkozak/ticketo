@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
+import androidx.core.view.ViewCompat
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.recyclerview.widget.RecyclerView
@@ -34,7 +35,7 @@ class EventAdapter(val events: List<Event>, val callback : DashboardCallback ) :
        fun bind(event: Event){
            binding.event=event
            itemView.setOnClickListener {
-               callback.goToDetails(event.id, event.imageUrl!!)
+//               callback.goToDetails(event.id, event.imageUrl!!)
            }
        }
     }
