@@ -1,13 +1,16 @@
 package com.google.ticketo.ui.dashboard
 
+import android.content.Intent
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 
 import kotlinx.android.synthetic.main.dashboard_fragment.*
 import android.view.*
+import androidx.core.app.ActivityOptionsCompat
 import androidx.core.os.bundleOf
 import androidx.databinding.library.baseAdapters.BR.event
+import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
@@ -54,6 +57,7 @@ class DashboardView : Fragment(), EventAdapter.DashboardCallback {
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         dashboard_fragment_events_in_city.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+
     }
 
     private fun setObservers() {
@@ -75,12 +79,12 @@ class DashboardView : Fragment(), EventAdapter.DashboardCallback {
         }
     }
 
-    override fun goToDetails(eventId: String, imageUrl : String) {
+    override fun goToDetails(eventId: String, imageUrl : String, xd : View) {
         val bundle = bundleOf(
             "eventId" to eventId,
             "imageUrl" to imageUrl)
         val extras = FragmentNavigatorExtras(
-            item_dashboard_event_image to "event_image"
+            xd to "event_image"
         )
         view!!.findNavController().navigate(R.id.action_dashboardView_to_eventDetailsView, bundle, null, extras)
     }

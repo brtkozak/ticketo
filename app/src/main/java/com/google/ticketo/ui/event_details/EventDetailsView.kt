@@ -44,6 +44,8 @@ class EventDetailsView : Fragment() {
         val eventId = arguments?.get("eventId") as String
         val imageUrl = arguments?.get("imageUrl") as String
 
+        event_details_image.transitionName=eventId
+
         Glide.with(this.context!!)
             .load(imageUrl)
             .centerCrop()

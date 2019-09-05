@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.core.os.bundleOf
 import androidx.core.view.ViewCompat
 import androidx.navigation.findNavController
@@ -35,13 +36,13 @@ class EventAdapter(val events: List<Event>, val callback : DashboardCallback ) :
        fun bind(event: Event){
            binding.event=event
            itemView.setOnClickListener {
-//               callback.goToDetails(event.id, event.imageUrl!!)
+               callback.goToDetails(event.id, event.imageUrl!!, itemView))
            }
        }
     }
 
     interface DashboardCallback{
-        fun goToDetails(eventId : String, imageUrl : String)
+        fun goToDetails(eventId : String, imageUrl : String, view : View)
     }
 
 }
