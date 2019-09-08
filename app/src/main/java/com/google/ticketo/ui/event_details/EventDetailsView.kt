@@ -1,6 +1,7 @@
 package com.google.ticketo.ui.event_details
 
 import android.annotation.SuppressLint
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.transition.TransitionInflater
 import androidx.fragment.app.Fragment
@@ -48,7 +49,9 @@ class EventDetailsView : Fragment() {
         viewModel.setEvent(eventId)
 
         setObservers()
+        onClicks()
     }
+
 
     @SuppressLint("SimpleDateFormat")
     private fun setObservers() {
@@ -62,4 +65,24 @@ class EventDetailsView : Fragment() {
         })
     }
 
+    private fun onClicks() {
+        event_details_buy.setOnClickListener {
+            changeBackgroundTint(it)
+        }
+
+        evene_details_sell.setOnClickListener {
+            changeBackgroundTint(it)
+        }
+    }
+
+    @SuppressLint("ResourceAsColor")
+    private fun changeBackgroundTint(view: View) {
+        if (view.backgroundTintList == ColorStateList.valueOf(resources.getColor(R.color.primary))) {
+            view.backgroundTintList = ColorStateList.valueOf(resources.getColor(R.color.appBar))
+
+        }
+        else {
+            view.backgroundTintList = ColorStateList.valueOf(resources.getColor(R.color.primary))
+        }
+    }
 }
