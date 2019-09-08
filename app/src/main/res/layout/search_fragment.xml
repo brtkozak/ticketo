@@ -12,7 +12,7 @@
 
         <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="45dp"
+                android:layout_height="@dimen/toolbar_height"
                 app:cardCornerRadius="5dp"
                 android:layout_marginStart="6dp"
                 android:layout_marginEnd="6dp"
@@ -32,7 +32,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="30dp"
                         android:adjustViewBounds="true"
-                        android:src="@drawable/ic_arrow_back_white_24dp"
+                        android:src="@drawable/ic_arrow_back"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -61,7 +61,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="30dp"
                         android:adjustViewBounds="true"
-                        android:src="@drawable/ic_clear_black_24dp"
+                        android:src="@drawable/ic_clear"
                         android:background="@color/white"
                         android:visibility="gone"
                         tools:visibility="visible"

@@ -17,6 +17,10 @@ import com.google.ticketo.databinding.EventDetailsFragmentBinding
 import com.google.ticketo.ui.RepositoryViewModelFactory
 import kotlinx.android.synthetic.main.event_details_fragment.*
 import android.view.ViewTreeObserver
+import android.widget.ImageView
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
+import androidx.navigation.findNavController
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.ticketo.R
 import java.text.SimpleDateFormat
@@ -70,8 +74,17 @@ class EventDetailsView : Fragment() {
             changeBackgroundTint(it)
         }
 
-        evene_details_sell.setOnClickListener {
+        event_details_sell.setOnClickListener {
             changeBackgroundTint(it)
+        }
+
+        event_details_back.setOnClickListener {
+            view!!.findNavController().popBackStack()
+        }
+
+        event_details_favourite.setOnClickListener {
+            val view = it as ImageView
+            DrawableCompat.setTint(it.drawable, ContextCompat.getColor(this.context!!, R.color.primary))
         }
     }
 
@@ -79,7 +92,6 @@ class EventDetailsView : Fragment() {
     private fun changeBackgroundTint(view: View) {
         if (view.backgroundTintList == ColorStateList.valueOf(resources.getColor(R.color.primary))) {
             view.backgroundTintList = ColorStateList.valueOf(resources.getColor(R.color.appBar))
-
         }
         else {
             view.backgroundTintList = ColorStateList.valueOf(resources.getColor(R.color.primary))

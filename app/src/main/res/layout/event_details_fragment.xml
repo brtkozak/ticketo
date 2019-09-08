@@ -13,6 +13,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
         <ImageView
                 android:id="@+id/event_details_image"
                 android:layout_width="match_parent"
@@ -22,7 +23,41 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:eventPic="@{event.imageUrl}"/>
+                app:eventPic="@{event.imageUrl}"
+                app:layout_constraintHorizontal_bias="0.0"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/toolbar_height"
+                android:background="@drawable/gradient_top"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                    android:id="@+id/event_details_back"
+                    android:src="@drawable/ic_arrow_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:adjustViewBounds="true"
+                    android:background="@null"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="16dp"/>
+            <ImageView
+                    android:id="@+id/event_details_favourite"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:adjustViewBounds="true"
+                    android:background="@null"
+                    android:src="@drawable/ic_favourite_empty"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginEnd="16dp"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <com.google.android.material.button.MaterialButton
                 android:id="@+id/event_details_buy"
@@ -39,7 +74,7 @@
                 app:layout_constraintEnd_toEndOf="@+id/textView4"/>
 
         <com.google.android.material.button.MaterialButton
-                android:id="@+id/evene_details_sell"
+                android:id="@+id/event_details_sell"
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:text="@string/sell"
