@@ -73,10 +73,9 @@ class Repository(context: Context) {
         val day = Calendar.getInstance().get(Calendar.DAY_OF_WEEK)
         var startDate = Date()
         val endDate = getClosestDay(DayOfWeek.SUNDAY, 1)
-        if (day != Calendar.FRIDAY || day != Calendar.SATURDAY || day != Calendar.SUNDAY) {
+        if (day != Calendar.FRIDAY && day != Calendar.SATURDAY && day != Calendar.SUNDAY) {
             startDate = getClosestDay(DayOfWeek.FRIDAY)
         }
-        Log.d(startDate.toString(), endDate.toString())
         updateGetEventsByDates(startDate, endDate)
         return eventDao.getEventsThisWeekend(startDate, endDate)
     }

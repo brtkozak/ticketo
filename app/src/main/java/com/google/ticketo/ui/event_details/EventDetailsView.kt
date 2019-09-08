@@ -1,5 +1,6 @@
 package com.google.ticketo.ui.event_details
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.transition.TransitionInflater
 import androidx.fragment.app.Fragment
@@ -17,6 +18,7 @@ import kotlinx.android.synthetic.main.event_details_fragment.*
 import android.view.ViewTreeObserver
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.ticketo.R
+import java.text.SimpleDateFormat
 
 class EventDetailsView : Fragment() {
 
@@ -26,11 +28,6 @@ class EventDetailsView : Fragment() {
 
     private lateinit var viewModel: EventDetailsViewModel
     private lateinit var binding: EventDetailsFragmentBinding
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        sharedElementEnterTransition = TransitionInflater.from(context).inflateTransition(android.R.transition.fade)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,14 +39,6 @@ class EventDetailsView : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         val eventId = arguments?.get("eventId") as String
-        val imageUrl = arguments?.get("imageUrl") as String
-
-        event_details_image.transitionName=eventId
-
-        Glide.with(this.context!!)
-            .load(imageUrl)
-            .centerCrop()
-            .into(event_details_image)
 
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this, RepositoryViewModelFactory(Repository.getInstance(context!!))).get(
@@ -61,9 +50,15 @@ class EventDetailsView : Fragment() {
         setObservers()
     }
 
+    @SuppressLint("SimpleDateFormat")
     private fun setObservers() {
         viewModel.event.observe(this, Observer {
             binding.event = it
+
+            val dateFormat = SimpleDateFormat("E dd.MM.yyyy")
+            val timeFormat = SimpleDateFormat("HH:mm")
+            event_details_date.text = dateFormat.format(it.startDate)
+            event_details_time.text = timeFormat.format(it.startDate)
         })
     }
 

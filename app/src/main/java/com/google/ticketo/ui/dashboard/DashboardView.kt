@@ -30,7 +30,7 @@ class DashboardView : Fragment(), EventAdapter.DashboardCallback {
     private lateinit var viewModel: DashboardViewModel
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstancestate: Bundle?
     ): View? {
         return inflater.inflate(R.layout.dashboard_fragment, container, false)
     }
@@ -79,12 +79,11 @@ class DashboardView : Fragment(), EventAdapter.DashboardCallback {
         }
     }
 
-    override fun goToDetails(eventId: String, imageUrl : String, xd : View) {
+    override fun goToDetails(eventId: String) {
         val bundle = bundleOf(
-            "eventId" to eventId,
-            "imageUrl" to imageUrl)
+            "eventId" to eventId)
         val extras = FragmentNavigatorExtras(
-            xd to "event_image"
+            item_dashboard_event_image to "event_image"
         )
         view!!.findNavController().navigate(R.id.action_dashboardView_to_eventDetailsView, bundle, null, extras)
     }

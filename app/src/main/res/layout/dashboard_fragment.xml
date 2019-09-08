@@ -121,7 +121,7 @@
                         tools:visibility="visible">
                     <TextView android:layout_width="match_parent"
                               android:layout_height="30dp"
-                              android:text="W twoim kraju"/>
+                              android:text="W ten weekend"/>
                     <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/dashboard_fragment_events_this_weekend"
                             android:layout_width="match_parent"

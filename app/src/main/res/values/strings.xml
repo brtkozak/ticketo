@@ -11,5 +11,7 @@
     <string name="search">Szukaj</string>
     <string name="favourites">Ulubione</string>
     <string name="search2">Wyszukaj</string>
+    <string name="buy">Kupię</string>
+    <string name="sell">Sprzedam</string>
 
 </resources>

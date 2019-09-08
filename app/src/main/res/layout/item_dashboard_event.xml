@@ -28,8 +28,8 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:eventPic="@{event.imageUrl}"
                         android:transitionName="event_image"
+                        app:eventPic="@{event.imageUrl}"
                 />
 
                 <com.google.android.material.textview.MaterialTextView

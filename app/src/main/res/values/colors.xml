@@ -6,4 +6,5 @@
     <color name="background_gradient">#080808</color>
     <color name="white">#FFFFFF</color>
     <color name="cardColor">#1D1D1D</color>
+    <color name="primary">#70B8FF</color>
 </resources>
