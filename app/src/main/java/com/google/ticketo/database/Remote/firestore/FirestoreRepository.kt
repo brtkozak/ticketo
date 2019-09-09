@@ -59,6 +59,35 @@ class FirestoreRepository {
             }
 
 
+    fun getBuyersCount(eventId: String): Single<Int> =
+        database.collection("events")
+            .document(eventId)
+            .collection("buyers")
+            .single()
+            .map {
+                it.size()
+            }
+
+    fun getSellersCount(eventId: String): Single<Int> =
+        database.collection("events")
+            .document(eventId)
+            .collection("sellers")
+            .single()
+            .map {
+                it.size()
+            }
+
+    fun addToBuyers(user : User, eventId: String) : Single <Boolean>{
+        database.collection("events")
+            .document(eventId)
+            .collection("buyers")
+            .document(user.firebaseId!!).set(user)
+            .addOnSuccessListener {
+
+            }
+    }
+
+
     fun insertEvent() {
         val events = mutableListOf<Event>()
 
@@ -95,8 +124,7 @@ class FirestoreRepository {
         events.addAll(listOf(event1, event2, event3))
 
         events.forEach {
-            database.collection("events")
-                .add(it)
+            database.collection("events").document(it.id).set(it)
                 .addOnSuccessListener { documentReference ->
                 }
                 .addOnFailureListener { e ->

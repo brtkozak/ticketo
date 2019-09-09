@@ -18,6 +18,7 @@ import com.google.ticketo.ui.RepositoryViewModelFactory
 import kotlinx.android.synthetic.main.event_details_fragment.*
 import android.view.ViewTreeObserver
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.navigation.findNavController
@@ -49,9 +50,7 @@ class EventDetailsView : Fragment() {
         viewModel = ViewModelProvider(this, RepositoryViewModelFactory(Repository.getInstance(context!!))).get(
             EventDetailsViewModel::class.java
         )
-
         viewModel.setEvent(eventId)
-
         setObservers()
         onClicks()
     }
@@ -61,21 +60,30 @@ class EventDetailsView : Fragment() {
     private fun setObservers() {
         viewModel.event.observe(this, Observer {
             binding.event = it
-
             val dateFormat = SimpleDateFormat("E dd.MM.yyyy")
             val timeFormat = SimpleDateFormat("HH:mm")
             event_details_date.text = dateFormat.format(it.startDate)
             event_details_time.text = timeFormat.format(it.startDate)
         })
+
+        viewModel.buyers.observe(this, Observer {
+            event_details_buyers.text = it.toString()
+        })
+
+        viewModel.sellers.observe(this, Observer {
+            event_details_sellers.text = it.toString()
+        })
     }
 
     private fun onClicks() {
         event_details_buy.setOnClickListener {
-            changeBackgroundTint(it)
+            onBuyClick()
+            setSelectedState(it)
         }
 
         event_details_sell.setOnClickListener {
-            changeBackgroundTint(it)
+            onSellClick()
+            setSelectedState(it)
         }
 
         event_details_back.setOnClickListener {
@@ -83,18 +91,38 @@ class EventDetailsView : Fragment() {
         }
 
         event_details_favourite.setOnClickListener {
-            val view = it as ImageView
-            DrawableCompat.setTint(it.drawable, ContextCompat.getColor(this.context!!, R.color.primary))
+            setSelectedState(it)
         }
     }
 
-    @SuppressLint("ResourceAsColor")
-    private fun changeBackgroundTint(view: View) {
-        if (view.backgroundTintList == ColorStateList.valueOf(resources.getColor(R.color.primary))) {
-            view.backgroundTintList = ColorStateList.valueOf(resources.getColor(R.color.appBar))
+    private fun onBuyClick() {
+        if(!event_details_buy.isSelected && !event_details_sell.isSelected){
+            viewModel.addToBuyers()
         }
-        else {
-            view.backgroundTintList = ColorStateList.valueOf(resources.getColor(R.color.primary))
+        else if(!event_details_buy.isSelected && event_details_sell.isSelected){
+            viewModel.addToBuyers()
+            viewModel.removeFromSellers()
+        }
+        else{
+            viewModel.removeFromBuyers()
         }
     }
+
+    private fun onSellClick() {
+        if(!event_details_sell.isSelected && !event_details_buy.isSelected){
+            viewModel.addToSellers()
+        }
+        if(!event_details_sell.isSelected && event_details_buy.isSelected){
+            viewModel.addToSellers()
+            viewModel.removeFromBuyers()
+        }
+        else{
+            viewModel.removeFromSellers()
+        }
+    }
+
+    private fun setSelectedState(it: View?) {
+        it?.isSelected = !it?.isSelected!!
+    }
+
 }

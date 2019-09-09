@@ -11,6 +11,7 @@ import com.google.ticketo.model.Event
 import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import java.sql.Timestamp
 import java.time.DayOfWeek
@@ -23,20 +24,20 @@ import java.util.concurrent.Executor
 import java.util.concurrent.Executors
 
 class Repository(context: Context) {
-    private val firestoreRepository = FirestoreRepository.getInstance()
+    val firestoreRepository = FirestoreRepository.getInstance()
     private val executor = Executors.newSingleThreadExecutor()
     val localDatabase = LocalDatabase.getInstance(context)
-    val eventDao = localDatabase.eventDao()
+    private val eventDao = localDatabase.eventDao()
 
     companion object {
         private var instance: Repository? = null
 
         @Synchronized
         fun getInstance(context: Context): Repository {
-            if (Repository.instance == null)
-                Repository.instance =
+            if (instance == null)
+                instance =
                     Repository(context)
-            return Repository.instance as Repository
+            return instance as Repository
         }
     }
 
@@ -115,7 +116,19 @@ class Repository(context: Context) {
         return cal.time
     }
 
-    fun getEvent(eventId : String) : Single<Event> {
+    fun getEvent(eventId: String): Single<Event> {
         return Single.fromCallable { eventDao.getEvent(eventId) }
+    }
+
+    fun getBuyersCount(eventId: String): Single<Int> =
+        firestoreRepository.getBuyersCount(eventId)
+
+    fun getSellersCount(eventId: String): Single<Int> =
+        firestoreRepository.getSellersCount(eventId)
+
+    fun addToBuyers(eventId: String) : Single<Boolean> {
+        return firestoreRepository.getCurrentUser().flatMap {
+            firestoreRepository.addToBuyers(it, eventId)
+        }
     }
 }
