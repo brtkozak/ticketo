@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.transition.TransitionInflater
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -66,24 +67,24 @@ class EventDetailsView : Fragment() {
             event_details_time.text = timeFormat.format(it.startDate)
         })
 
-        viewModel.buyers.observe(this, Observer {
-            event_details_buyers.text = it.toString()
-        })
-
-        viewModel.sellers.observe(this, Observer {
-            event_details_sellers.text = it.toString()
-        })
+//        viewModel.buyers.observe(this, Observer {
+//            event_details_buyers.text = it.toString()
+//        })
+//
+//        viewModel.sellers.observe(this, Observer {
+//            event_details_sellers.text = it.toString()
+//        })
     }
 
     private fun onClicks() {
         event_details_buy.setOnClickListener {
             onBuyClick()
-            setSelectedState(it)
+            setSelectedState(it, event_details_sell)
         }
 
         event_details_sell.setOnClickListener {
             onSellClick()
-            setSelectedState(it)
+            setSelectedState(it, event_details_buy)
         }
 
         event_details_back.setOnClickListener {
@@ -96,33 +97,34 @@ class EventDetailsView : Fragment() {
     }
 
     private fun onBuyClick() {
-        if(!event_details_buy.isSelected && !event_details_sell.isSelected){
+        if (!event_details_buy.isSelected && !event_details_sell.isSelected) {
             viewModel.addToBuyers()
-        }
-        else if(!event_details_buy.isSelected && event_details_sell.isSelected){
+        } else if (!event_details_buy.isSelected && event_details_sell.isSelected) {
             viewModel.addToBuyers()
             viewModel.removeFromSellers()
-        }
-        else{
+        } else {
             viewModel.removeFromBuyers()
         }
     }
 
     private fun onSellClick() {
-        if(!event_details_sell.isSelected && !event_details_buy.isSelected){
+        if (!event_details_sell.isSelected && !event_details_buy.isSelected) {
             viewModel.addToSellers()
-        }
-        if(!event_details_sell.isSelected && event_details_buy.isSelected){
+        } else if (!event_details_sell.isSelected && event_details_buy.isSelected) {
             viewModel.addToSellers()
             viewModel.removeFromBuyers()
-        }
-        else{
+        } else {
             viewModel.removeFromSellers()
         }
     }
 
-    private fun setSelectedState(it: View?) {
+    private fun setSelectedState(it: View?, toUnCheck: View? = null) {
         it?.isSelected = !it?.isSelected!!
+
+        if (toUnCheck != null && it.isSelected && toUnCheck.isSelected) {
+            toUnCheck.isSelected = false
+        }
+
     }
 
 }

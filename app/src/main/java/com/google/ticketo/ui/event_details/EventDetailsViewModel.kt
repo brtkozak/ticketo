@@ -11,14 +11,19 @@ import io.reactivex.schedulers.Schedulers
 
 class EventDetailsViewModel(private val repository: Repository) : ViewModel() {
 
+    var eventId : String? = null
+
     private val _event = MutableLiveData<Event>()
     val event = _event
 
-    private val _buyers = MutableLiveData<Int>()
-    val buyers: LiveData<Int> = _buyers
+//    private val _buyers = MutableLiveData<Int>()
+//    val buyers: LiveData<Int> = _buyers
+//
+//    private val _sellers = MutableLiveData<Int>()
+//    val sellers: LiveData<Int> = _sellers
 
-    private val _sellers = MutableLiveData<Int>()
-    val sellers: LiveData<Int> = _sellers
+    private val BUYERS = "buyers"
+    private val SELLERS = "sellers"
 
     @SuppressLint("CheckResult")
     fun setEvent(eventId: String) {
@@ -27,46 +32,59 @@ class EventDetailsViewModel(private val repository: Repository) : ViewModel() {
             .subscribeOn(Schedulers.io())
             .subscribe { it ->
                 _event.value = it
+                this.eventId=it.id
             }
 
-        setBuyers(eventId)
-        setSellers(eventId)
+//        setBuyers(eventId)
+//        setSellers(eventId)
     }
 
-    @SuppressLint("CheckResult")
-    private fun setBuyers(eventId: String) {
-        repository.getBuyersCount(eventId)
+//    @SuppressLint("CheckResult")
+//    private fun setBuyers(eventId: String) {
+//        repository.getBuyersCount(eventId)
+//            .observeOn(AndroidSchedulers.mainThread())
+//            .subscribeOn(Schedulers.io())
+//            .subscribe { it ->
+//                _buyers.value = it
+//            }
+//    }
+//
+//    @SuppressLint("CheckResult")
+//    private fun setSellers(eventId: String) {
+//        repository.getSellersCount(eventId)
+//            .observeOn(AndroidSchedulers.mainThread())
+//            .subscribeOn(Schedulers.io())
+//            .subscribe { it ->
+//                _sellers.value = it
+//            }
+//    }
+
+
+    fun addToBuyers() {
+        repository.addToGroup(eventId!!, BUYERS )
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
-            .subscribe { it ->
-                _buyers.value = it
-            }
-    }
-
-    @SuppressLint("CheckResult")
-    private fun setSellers(eventId: String) {
-        repository.getSellersCount(eventId)
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(Schedulers.io())
-            .subscribe { it ->
-                _sellers.value = it
-            }
-    }
-
-
-    fun addToBuyers(eventId : String) {
-        repository.addToBuyers(eventId)
+            .subscribe()
     }
 
     fun removeFromBuyers() {
-
+        repository.removeFromGroup(eventId!!, BUYERS)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .subscribe()
     }
 
     fun addToSellers() {
-
+        repository.addToGroup(eventId!!, SELLERS)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .subscribe()
     }
 
     fun removeFromSellers() {
-
+        repository.removeFromGroup(eventId!!, SELLERS)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .subscribe()
     }
 }

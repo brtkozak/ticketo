@@ -77,16 +77,20 @@ class FirestoreRepository {
                 it.size()
             }
 
-    fun addToBuyers(user : User, eventId: String) : Single <Boolean>{
+    fun addToGroup(user: User, eventId: String, group : String): Single<Boolean> =
         database.collection("events")
             .document(eventId)
-            .collection("buyers")
+            .collection(group)
             .document(user.firebaseId!!).set(user)
-            .addOnSuccessListener {
+            .single()
 
-            }
-    }
-
+    fun removeFromGroup(userId: String, eventId: String, group: String): Single<Boolean> =
+        database.collection("events")
+            .document(eventId)
+            .collection(group)
+            .document(userId)
+            .delete()
+            .single()
 
     fun insertEvent() {
         val events = mutableListOf<Event>()

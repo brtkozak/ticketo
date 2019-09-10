@@ -126,9 +126,15 @@ class Repository(context: Context) {
     fun getSellersCount(eventId: String): Single<Int> =
         firestoreRepository.getSellersCount(eventId)
 
-    fun addToBuyers(eventId: String) : Single<Boolean> {
-        return firestoreRepository.getCurrentUser().flatMap {
-            firestoreRepository.addToBuyers(it, eventId)
+    fun addToGroup(eventId: String, group : String): Single<Boolean> =
+        firestoreRepository.getCurrentUser().flatMap {
+            firestoreRepository.addToGroup(it, eventId, group)
         }
-    }
+
+
+    fun removeFromGroup(eventId: String, group : String): Single<Boolean> =
+        firestoreRepository.getCurrentUser().flatMap {
+            firestoreRepository.removeFromGroup(it.firebaseId!!, eventId, group)
+        }
+
 }
