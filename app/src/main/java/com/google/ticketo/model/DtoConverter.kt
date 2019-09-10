@@ -9,15 +9,20 @@ import java.time.LocalDate
 
 object DtoConverter {
 
-
     fun querySnapshotToEventsList(querySnapshot: QuerySnapshot) : List<Event>{
         val result = mutableListOf<Event>()
         querySnapshot.forEach {
             result.add(it.toObject(Event::class.java))
-            Log.d("looog", it.toObject(Event::class.java).toString())
         }
         return result
     }
 
+    fun querySnapshoTtoLisOfUsers(querySnapshot: QuerySnapshot) : List<User> {
+        val result = mutableListOf<User>()
+        querySnapshot.forEach {
+            result.add(it.toObject(User::class.java))
+        }
+        return result
+    }
 
 }

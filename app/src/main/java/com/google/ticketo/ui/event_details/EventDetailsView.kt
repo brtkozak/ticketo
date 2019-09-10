@@ -52,6 +52,7 @@ class EventDetailsView : Fragment() {
             EventDetailsViewModel::class.java
         )
         viewModel.setEvent(eventId)
+        viewModel.eventId=eventId
         setObservers()
         onClicks()
     }
@@ -66,6 +67,11 @@ class EventDetailsView : Fragment() {
             event_details_date.text = dateFormat.format(it.startDate)
             event_details_time.text = timeFormat.format(it.startDate)
         })
+
+        viewModel.getBuyers().observe(this, Observer {
+            event_details_buyers.text=it.size.toString()
+        })
+
 
 //        viewModel.buyers.observe(this, Observer {
 //            event_details_buyers.text = it.toString()

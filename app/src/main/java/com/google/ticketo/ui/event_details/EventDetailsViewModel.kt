@@ -6,12 +6,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.ticketo.database.Repository
 import com.google.ticketo.model.Event
+import com.google.ticketo.model.User
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 class EventDetailsViewModel(private val repository: Repository) : ViewModel() {
 
-    var eventId : String? = null
+    var eventId: String? = null
 
     private val _event = MutableLiveData<Event>()
     val event = _event
@@ -32,12 +33,15 @@ class EventDetailsViewModel(private val repository: Repository) : ViewModel() {
             .subscribeOn(Schedulers.io())
             .subscribe { it ->
                 _event.value = it
-                this.eventId=it.id
             }
 
 //        setBuyers(eventId)
 //        setSellers(eventId)
     }
+
+    fun getBuyers(): LiveData<List<User>> =
+        repository.getGroup(eventId!!, BUYERS)
+
 
 //    @SuppressLint("CheckResult")
 //    private fun setBuyers(eventId: String) {
@@ -61,7 +65,7 @@ class EventDetailsViewModel(private val repository: Repository) : ViewModel() {
 
 
     fun addToBuyers() {
-        repository.addToGroup(eventId!!, BUYERS )
+        repository.addToGroup(eventId!!, BUYERS)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
             .subscribe()
@@ -87,4 +91,5 @@ class EventDetailsViewModel(private val repository: Repository) : ViewModel() {
             .subscribeOn(Schedulers.io())
             .subscribe()
     }
+
 }

@@ -8,6 +8,7 @@ import com.google.firebase.database.core.Repo
 import com.google.ticketo.database.Local.LocalDatabase
 import com.google.ticketo.database.Remote.firestore.FirestoreRepository
 import com.google.ticketo.model.Event
+import com.google.ticketo.model.User
 import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.Single
@@ -125,6 +126,9 @@ class Repository(context: Context) {
 
     fun getSellersCount(eventId: String): Single<Int> =
         firestoreRepository.getSellersCount(eventId)
+
+    fun getGroup(eventId: String, group : String) : LiveData<List<User>> =
+            firestoreRepository.getGroup(eventId, group)
 
     fun addToGroup(eventId: String, group : String): Single<Boolean> =
         firestoreRepository.getCurrentUser().flatMap {
