@@ -11,7 +11,7 @@ import java.util.*
 class FirestoreRepository {
 
     private val database = FirebaseFirestore.getInstance()
-    private val fireAuth = FirebaseAuth.getInstance()
+    val fireAuth = FirebaseAuth.getInstance()
 
     companion object {
         private var instance: FirestoreRepository? = null
@@ -91,13 +91,24 @@ class FirestoreRepository {
             .document(user.firebaseId!!).set(user)
             .single()
 
-    fun removeFromGroup(userId: String, eventId: String, group: String): Single<Boolean> =
+    fun removeFromGroup(eventId: String, group: String): Single<Boolean> =
         database.collection("events")
             .document(eventId)
             .collection(group)
-            .document(userId)
+            .document(fireAuth.uid!!)
             .delete()
             .single()
+
+    fun checkIfUserInGroup(eventId: String, group : String) : Single<Boolean> =
+            database.collection("events")
+                .document(eventId)
+                .collection(group)
+                .document(fireAuth.uid!!)
+                .single()
+                .map {
+                    it.exists()
+                }
+
 
     fun insertEvent() {
         val events = mutableListOf<Event>()

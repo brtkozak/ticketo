@@ -22,6 +22,7 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
+import androidx.core.view.isVisible
 import androidx.navigation.findNavController
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.ticketo.R
@@ -52,7 +53,7 @@ class EventDetailsView : Fragment() {
             EventDetailsViewModel::class.java
         )
         viewModel.setEvent(eventId)
-        viewModel.eventId=eventId
+        viewModel.eventId = eventId
         setObservers()
         onClicks()
     }
@@ -69,17 +70,37 @@ class EventDetailsView : Fragment() {
         })
 
         viewModel.getBuyers().observe(this, Observer {
-            event_details_buyers.text=it.size.toString()
+            event_details_buyers.text = it.size.toString()
         })
 
+        viewModel.getSellers().observe(this, Observer {
+            event_details_sellers.text = it.size.toString()
+        })
 
-//        viewModel.buyers.observe(this, Observer {
-//            event_details_buyers.text = it.toString()
-//        })
-//
-//        viewModel.sellers.observe(this, Observer {
-//            event_details_sellers.text = it.toString()
-//        })
+        viewModel.initState.observe(this, Observer {
+            if (it == viewModel.BUYERS) {
+                event_details_buy.isSelected = true
+            } else if (it == viewModel.SELLERS) {
+                event_details_sell.isSelected = true
+            }
+        })
+
+        viewModel.buyLock.observe(this, Observer {
+            if (it == 0) {
+                unlockBuy()
+            } else {
+                lockBuy()
+            }
+        })
+
+        viewModel.sellLock.observe(this, Observer {
+            if (it == 0) {
+                unlockSell()
+            } else {
+                lockSell()
+            }
+        })
+
     }
 
     private fun onClicks() {
@@ -104,23 +125,29 @@ class EventDetailsView : Fragment() {
 
     private fun onBuyClick() {
         if (!event_details_buy.isSelected && !event_details_sell.isSelected) {
+            viewModel._buyLock.value = 1
             viewModel.addToBuyers()
         } else if (!event_details_buy.isSelected && event_details_sell.isSelected) {
+            viewModel._buyLock.value = 2
             viewModel.addToBuyers()
-            viewModel.removeFromSellers()
+            viewModel.removeFromSellers(viewModel.BUYERS)
         } else {
-            viewModel.removeFromBuyers()
+            viewModel._buyLock.value = 1
+            viewModel.removeFromBuyers(viewModel.BUYERS)
         }
     }
 
     private fun onSellClick() {
         if (!event_details_sell.isSelected && !event_details_buy.isSelected) {
+            viewModel._sellLock.value = 1
             viewModel.addToSellers()
         } else if (!event_details_sell.isSelected && event_details_buy.isSelected) {
+            viewModel._sellLock.value = 2
             viewModel.addToSellers()
-            viewModel.removeFromBuyers()
+            viewModel.removeFromBuyers(viewModel.SELLERS)
         } else {
-            viewModel.removeFromSellers()
+            viewModel._sellLock.value = 1
+            viewModel.removeFromSellers(viewModel.SELLERS)
         }
     }
 
@@ -130,7 +157,30 @@ class EventDetailsView : Fragment() {
         if (toUnCheck != null && it.isSelected && toUnCheck.isSelected) {
             toUnCheck.isSelected = false
         }
+    }
 
+    private fun lockBuy() {
+        event_details_buy.isVisible = false
+        event_details_progress_buy.isVisible = true
+        event_details_sell.isClickable=false
+    }
+
+    private fun unlockBuy() {
+        event_details_buy.isVisible = true
+        event_details_progress_buy.isVisible = false
+        event_details_sell.isClickable=true
+    }
+
+    private fun lockSell(){
+        event_details_sell.isVisible = false
+        event_details_progress_sell.isVisible = true
+        event_details_buy.isClickable=false
+    }
+
+    private fun unlockSell() {
+        event_details_sell.isVisible = true
+        event_details_progress_sell.isVisible = false
+        event_details_buy.isClickable=true
     }
 
 }

@@ -130,15 +130,26 @@ class Repository(context: Context) {
     fun getGroup(eventId: String, group : String) : LiveData<List<User>> =
             firestoreRepository.getGroup(eventId, group)
 
+//    fun addToGroup(eventId: String, group : String): Single<Boolean> =
+//        firestoreRepository.getCurrentUser().flatMap {
+//            firestoreRepository.addToGroup(it, eventId, group)
+//        }
+//
+//
+//    fun removeFromGroup(eventId: String, group : String): Single<Boolean> =
+//        firestoreRepository.getCurrentUser().flatMap {
+//            firestoreRepository.removeFromGroup(it.firebaseId!!, eventId, group)
+//        }
+
     fun addToGroup(eventId: String, group : String): Single<Boolean> =
         firestoreRepository.getCurrentUser().flatMap {
             firestoreRepository.addToGroup(it, eventId, group)
         }
 
-
     fun removeFromGroup(eventId: String, group : String): Single<Boolean> =
-        firestoreRepository.getCurrentUser().flatMap {
-            firestoreRepository.removeFromGroup(it.firebaseId!!, eventId, group)
-        }
+            firestoreRepository.removeFromGroup(eventId, group)
+
+    fun checkIfUserInGroup(eventId : String, group : String) : Single<Boolean> =
+            firestoreRepository.checkIfUserInGroup(eventId, group)
 
 }

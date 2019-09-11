@@ -15,16 +15,19 @@ class EventDetailsViewModel(private val repository: Repository) : ViewModel() {
     var eventId: String? = null
 
     private val _event = MutableLiveData<Event>()
-    val event = _event
+    val event: LiveData<Event> = _event
 
-//    private val _buyers = MutableLiveData<Int>()
-//    val buyers: LiveData<Int> = _buyers
-//
-//    private val _sellers = MutableLiveData<Int>()
-//    val sellers: LiveData<Int> = _sellers
+    private val _initState = MutableLiveData<String>()
+    val initState: LiveData<String> = _initState
 
-    private val BUYERS = "buyers"
-    private val SELLERS = "sellers"
+    val _buyLock = MutableLiveData<Int>(0)
+    val buyLock: LiveData<Int> = _buyLock
+
+    val _sellLock = MutableLiveData<Int>(0)
+    val sellLock: LiveData<Int> = _sellLock
+
+    val BUYERS = "buyers"
+    val SELLERS = "sellers"
 
     @SuppressLint("CheckResult")
     fun setEvent(eventId: String) {
@@ -33,63 +36,84 @@ class EventDetailsViewModel(private val repository: Repository) : ViewModel() {
             .subscribeOn(Schedulers.io())
             .subscribe { it ->
                 _event.value = it
+                checkIfUserInBuyers()
+                checkIfUserInSellers()
             }
-
-//        setBuyers(eventId)
-//        setSellers(eventId)
     }
 
     fun getBuyers(): LiveData<List<User>> =
         repository.getGroup(eventId!!, BUYERS)
 
+    fun getSellers(): LiveData<List<User>> =
+        repository.getGroup(eventId!!, SELLERS)
 
-//    @SuppressLint("CheckResult")
-//    private fun setBuyers(eventId: String) {
-//        repository.getBuyersCount(eventId)
-//            .observeOn(AndroidSchedulers.mainThread())
-//            .subscribeOn(Schedulers.io())
-//            .subscribe { it ->
-//                _buyers.value = it
-//            }
-//    }
-//
-//    @SuppressLint("CheckResult")
-//    private fun setSellers(eventId: String) {
-//        repository.getSellersCount(eventId)
-//            .observeOn(AndroidSchedulers.mainThread())
-//            .subscribeOn(Schedulers.io())
-//            .subscribe { it ->
-//                _sellers.value = it
-//            }
-//    }
-
-
+    @SuppressLint("CheckResult")
     fun addToBuyers() {
         repository.addToGroup(eventId!!, BUYERS)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
-            .subscribe()
+            .subscribe { it ->
+                _buyLock.value = _buyLock.value?.minus(1)
+            }
     }
 
-    fun removeFromBuyers() {
+    @SuppressLint("CheckResult")
+    fun removeFromBuyers(click: String) {
         repository.removeFromGroup(eventId!!, BUYERS)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
-            .subscribe()
+            .subscribe { it ->
+                if (click == BUYERS)
+                    _buyLock.value = _buyLock.value?.minus(1)
+                else
+                    _sellLock.value = _sellLock.value?.minus(1)
+            }
     }
 
+    @SuppressLint("CheckResult")
     fun addToSellers() {
         repository.addToGroup(eventId!!, SELLERS)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
-            .subscribe()
+            .subscribe { it ->
+                _sellLock.value = _sellLock.value?.minus(1)
+            }
     }
 
-    fun removeFromSellers() {
+    @SuppressLint("CheckResult")
+    fun removeFromSellers(click: String) {
         repository.removeFromGroup(eventId!!, SELLERS)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
-            .subscribe()
+            .subscribe { it ->
+                if (click == BUYERS)
+                    _buyLock.value = _buyLock.value?.minus(1)
+                else
+                    _sellLock.value = _sellLock.value?.minus(1)
+            }
     }
+
+    @SuppressLint("CheckResult")
+    fun checkIfUserInBuyers() {
+        repository.checkIfUserInGroup(eventId!!, BUYERS)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .subscribe { it ->
+                if (it)
+                    _initState.value = BUYERS
+            }
+    }
+
+    @SuppressLint("CheckResult")
+    fun checkIfUserInSellers() {
+        repository.checkIfUserInGroup(eventId!!, SELLERS)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .subscribe { it ->
+                if (it)
+                    _initState.value = SELLERS
+            }
+    }
+
 
 }
