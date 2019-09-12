@@ -101,6 +101,10 @@ class EventDetailsView : Fragment() {
             }
         })
 
+        viewModel.layoutReady.observe(this, Observer {
+
+        })
+
     }
 
     private fun onClicks() {

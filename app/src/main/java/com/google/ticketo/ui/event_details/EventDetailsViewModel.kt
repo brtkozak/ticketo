@@ -26,6 +26,9 @@ class EventDetailsViewModel(private val repository: Repository) : ViewModel() {
     val _sellLock = MutableLiveData<Int>(0)
     val sellLock: LiveData<Int> = _sellLock
 
+    val _layoutReady = MutableLiveData<Int>(2)
+    val layoutReady: LiveData<Int> = _layoutReady
+
     val BUYERS = "buyers"
     val SELLERS = "sellers"
 
@@ -101,6 +104,7 @@ class EventDetailsViewModel(private val repository: Repository) : ViewModel() {
             .subscribe { it ->
                 if (it)
                     _initState.value = BUYERS
+                _layoutReady.value = _layoutReady.value?.minus(1)
             }
     }
 
@@ -112,6 +116,8 @@ class EventDetailsViewModel(private val repository: Repository) : ViewModel() {
             .subscribe { it ->
                 if (it)
                     _initState.value = SELLERS
+                _layoutReady.value = _layoutReady.value?.minus(1)
+
             }
     }
 
