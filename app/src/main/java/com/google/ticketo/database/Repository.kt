@@ -8,6 +8,7 @@ import com.google.firebase.database.core.Repo
 import com.google.ticketo.database.Local.LocalDatabase
 import com.google.ticketo.database.Remote.firestore.FirestoreRepository
 import com.google.ticketo.model.Event
+import com.google.ticketo.model.EventIntents
 import com.google.ticketo.model.User
 import com.google.ticketo.utils.Const
 import com.google.ticketo.utils.Const.BUY_INTENT
@@ -69,6 +70,14 @@ class Repository(context: Context) {
                             Log.d("looog", "saving")
                             localDatabase.eventDao().insertEvents(it)
                         }
+
+                        executor.execute {
+                            val eventIntents = mutableListOf<EventIntents>()
+                            it.forEach {
+                                eventIntents.add(EventIntents(eventId = it.id))
+                            }
+                            localDatabase.eventIntentsDao().insertEventsIntents(eventIntents)
+                        }
                     }
             } else
                 Log.d("looog", "from local")
@@ -107,6 +116,14 @@ class Repository(context: Context) {
                             Log.d("looog", "saving")
                             localDatabase.eventDao().insertEvents(it)
                         }
+
+                        executor.execute {
+                            val eventIntents = mutableListOf<EventIntents>()
+                            it.forEach {
+                                eventIntents.add(EventIntents(eventId = it.id))
+                            }
+                            localDatabase.eventIntentsDao().insertEventsIntents(eventIntents)
+                        }
                     }
             } else
                 Log.d("looog", "from local")
@@ -135,12 +152,12 @@ class Repository(context: Context) {
     fun addToGroup(eventId: String, group: String, intent: String): Single<Boolean> {
         if (intent == BUY_INTENT)
             Single.fromCallable {
-                localDatabase.eventDao().updateBuyIntent(eventId, true)
+                localDatabase.eventIntentsDao().updateBuyIntent(eventId, true)
             }.observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe()
         else
-            Single.fromCallable { localDatabase.eventDao().updateSellIntent(eventId, true) }
+            Single.fromCallable { localDatabase.eventIntentsDao().updateSellIntent(eventId, true) }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe()
@@ -152,34 +169,30 @@ class Repository(context: Context) {
 
     fun removeFromGroup(eventId: String, group: String, intent: String): Single<Boolean> {
         if (intent == BUY_INTENT)
-            Single.fromCallable { localDatabase.eventDao().updateBuyIntent(eventId, false) }
+            Single.fromCallable { localDatabase.eventIntentsDao().updateBuyIntent(eventId, false) }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe()
         else
-            Single.fromCallable { localDatabase.eventDao().updateSellIntent(eventId, false) }
+            Single.fromCallable { localDatabase.eventIntentsDao().updateSellIntent(eventId, false) }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe()
 
-        return firestoreRepository.removeFromGroup(eventId, group)
-    }
 
-    fun checkUserIntent(eventId: String, intent: String): Single<Boolean> {
-        return if (intent == BUY_INTENT) {
-            Single.fromCallable { localDatabase.eventDao().checkUserBuyIntent(eventId) }
-        } else {
-            Single.fromCallable { localDatabase.eventDao().checkUserSellIntent(eventId) }
-        }
+        return firestoreRepository.removeFromGroup(eventId, group)
     }
 
     fun updateFavourites(eventId: String, state: Boolean): Single<Int> {
         return Single.fromCallable {
-            localDatabase.eventDao().updateFavourites(eventId, state)
+            localDatabase.eventIntentsDao().updateFavourites(eventId, state)
         }
     }
 
     fun getCurrentUser(): Single<User> =
         firestoreRepository.getCurrentUser()
+
+    fun getEventIntents(eventId: String): LiveData<EventIntents> =
+        localDatabase.eventIntentsDao().getEventIntents(eventId)
 
 }

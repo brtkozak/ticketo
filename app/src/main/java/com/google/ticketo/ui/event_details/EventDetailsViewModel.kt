@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.ticketo.database.Repository
 import com.google.ticketo.model.Event
+import com.google.ticketo.model.EventIntents
 import com.google.ticketo.model.User
 import com.google.ticketo.utils.Const
 import com.google.ticketo.utils.Const.BUYERS
@@ -15,15 +16,12 @@ import com.google.ticketo.utils.Const.SELL_INTENT
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
-class EventDetailsViewModel(private val repository: Repository) : ViewModel() {
+class EventDetailsViewModel(private val repository: Repository,val eventId : String) : ViewModel() {
 
-    var eventId: String? = null
+//    var eventId: String? = null
 
     private val _event = MutableLiveData<Event>()
     val event: LiveData<Event> = _event
-
-    private val _initState = MutableLiveData<String>()
-    val initState: LiveData<String> = _initState
 
     val _buyLock = MutableLiveData<Int>(0)
     val buyLock: LiveData<Int> = _buyLock
@@ -34,6 +32,8 @@ class EventDetailsViewModel(private val repository: Repository) : ViewModel() {
     val _layoutReady = MutableLiveData<Int>(0)  // TODO USE TO LOAD REST OF EVENT DATA
     val layoutReady: LiveData<Int> = _layoutReady
 
+    val eventIntents : LiveData<EventIntents> = repository.getEventIntents(eventId)
+
     @SuppressLint("CheckResult")
     fun setEvent() {
         repository.getEvent(eventId!!)
@@ -42,9 +42,6 @@ class EventDetailsViewModel(private val repository: Repository) : ViewModel() {
             .subscribe { it ->
                 _event.value = it
             }
-
-        checkUserIntent(BUY_INTENT)
-        checkUserIntent(SELL_INTENT)
     }
 
     fun getBuyers(): LiveData<List<User>> =
@@ -84,8 +81,6 @@ class EventDetailsViewModel(private val repository: Repository) : ViewModel() {
             .subscribe { it ->
                 _sellLock.value = _sellLock.value?.minus(1)
             }
-
-
     }
 
     @SuppressLint("CheckResult")
@@ -98,17 +93,6 @@ class EventDetailsViewModel(private val repository: Repository) : ViewModel() {
                     _buyLock.value = _buyLock.value?.minus(1)
                 else
                     _sellLock.value = _sellLock.value?.minus(1)
-            }
-    }
-
-    @SuppressLint("CheckResult")
-    fun checkUserIntent(itent : String){
-        repository.checkUserIntent(eventId!!, itent)
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(Schedulers.io())
-            .subscribe {  it->
-                if(it)
-                    _initState.value= itent
             }
     }
 

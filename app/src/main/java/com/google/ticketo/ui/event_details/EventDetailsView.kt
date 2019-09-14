@@ -45,11 +45,10 @@ class EventDetailsView : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(
             this,
-            RepositoryViewModelFactory(context!!)
+            EventDetailsFactory(context!!, eventId)
         ).get(
             EventDetailsViewModel::class.java
         )
-        viewModel.eventId = eventId
         viewModel.setEvent()
         setObservers()
         onClicks()
@@ -64,7 +63,6 @@ class EventDetailsView : Fragment() {
             val timeFormat = SimpleDateFormat("HH:mm")
             event_details_date.text = dateFormat.format(it.startDate)
             event_details_time.text = timeFormat.format(it.startDate)
-            setFavouriteHeart(it.favourite)
         })
 
         viewModel.getBuyers().observe(this, Observer {
@@ -73,14 +71,6 @@ class EventDetailsView : Fragment() {
 
         viewModel.getSellers().observe(this, Observer {
             event_details_sellers.text = it.size.toString()
-        })
-
-        viewModel.initState.observe(this, Observer {
-            if (it == BUY_INTENT) {
-                event_details_buy.isSelected = true
-            } else if (it == SELL_INTENT) {
-                event_details_sell.isSelected = true
-            }
         })
 
         viewModel.buyLock.observe(this, Observer {
@@ -99,19 +89,24 @@ class EventDetailsView : Fragment() {
             }
         })
 
-        viewModel.layoutReady.observe(this, Observer { // TODO USE TO LOAD REST OF EVENT DATA
+        viewModel.eventIntents.observe(this, Observer {
+            event_details_buy.isSelected=it.buy
+            event_details_sell.isSelected=it.sell
+            event_details_favourite.isSelected=it.favourite
+        })
+
+        viewModel.layoutReady.observe(this, Observer {
+            // TODO USE TO LOAD REST OF EVENT DATA
         })
     }
 
     private fun onClicks() {
         event_details_buy.setOnClickListener {
             onBuyClick()
-            setSelectedState(it, event_details_sell)
         }
 
         event_details_sell.setOnClickListener {
             onSellClick()
-            setSelectedState(it, event_details_buy)
         }
 
         event_details_back.setOnClickListener {
@@ -123,7 +118,6 @@ class EventDetailsView : Fragment() {
                 viewModel.removeFromFavourites()
             else
                 viewModel.addToFavourites()
-            setSelectedState(it)
         }
     }
 
@@ -155,14 +149,6 @@ class EventDetailsView : Fragment() {
         }
     }
 
-    private fun setSelectedState(it: View?, toUnCheck: View? = null) {
-        it?.isSelected = !it?.isSelected!!
-
-        if (toUnCheck != null && it.isSelected && toUnCheck.isSelected) {
-            toUnCheck.isSelected = false
-        }
-    }
-
     private fun lockBuy() {
         event_details_buy.isVisible = false
         event_details_progress_buy.isVisible = true
@@ -187,10 +173,4 @@ class EventDetailsView : Fragment() {
         event_details_buy.isClickable = true
     }
 
-    private fun setFavouriteHeart(favouriteState: Boolean) {
-        event_details_favourite_progressbar.isVisible = false
-        event_details_favourite.isVisible = true
-        event_details_favourite.isSelected = favouriteState
-
-    }
 }

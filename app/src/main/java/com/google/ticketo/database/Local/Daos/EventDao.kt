@@ -33,18 +33,18 @@ interface EventDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertEvents(events: List<Event>)
 
-    @Query("UPDATE event SET favourite = :state WHERE id = :eventId")
-    fun updateFavourites(eventId : String, state : Boolean) : Int
-
-    @Query("SELECT buy FROM event WHERE id = :eventId")
-    fun checkUserBuyIntent(eventId: String) : Boolean
-
-    @Query("SELECT sell FROM event WHERE id = :eventId")
-    fun checkUserSellIntent(eventId : String) : Boolean
-
-    @Query("UPDATE event SET buy = :state WHERE id = :eventId")
-    fun updateBuyIntent(eventId : String, state : Boolean)
-
-    @Query("UPDATE event SET sell = :state WHERE id = :eventId")
-    fun updateSellIntent(eventId : String, state: Boolean)
+//    @Query("UPDATE event SET favourite = :state WHERE id = :eventId")
+//    fun updateFavourites(eventId : String, state : Boolean) : Int
+//
+//    @Query("SELECT buy FROM event WHERE id = :eventId")
+//    fun checkUserBuyIntent(eventId: String) : Boolean
+//
+//    @Query("SELECT sell FROM event WHERE id = :eventId")
+//    fun checkUserSellIntent(eventId : String) : Boolean
+//
+//    @Query("UPDATE event SET buy = :state WHERE id = :eventId")
+//    fun updateBuyIntent(eventId : String, state : Boolean)
+//
+//    @Query("UPDATE event SET sell = :state WHERE id = :eventId")
+//    fun updateSellIntent(eventId : String, state: Boolean)
 }

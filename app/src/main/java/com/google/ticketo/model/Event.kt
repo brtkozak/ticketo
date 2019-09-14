@@ -15,20 +15,20 @@ data class Event(
     var location: Location? = null,
     @Embedded
     var price: Price? = null,
-    var lastUpdate: Date? = null,
-    var favourite : Boolean = false,
-    var buy : Boolean = false,
-    var sell : Boolean =false)
+    var lastUpdate: Date? = null
+)
 
 data class Location(
     @ColumnInfo(name = "locationName")
     var name: String? = null,
     var city: String? = null,
     var address: String? = null,
-    var postalCode: String? = null)
+    var postalCode: String? = null
+)
 
 data class Price(
     var minPrice: Int? = null,
     var maxPrice: Int? = null,
-    var currency: String? = null)
+    var currency: String? = null
+)
 

@@ -257,18 +257,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     android:clickable="true"
-                    android:layout_marginEnd="16dp"
-                    android:visibility="gone"/>
-
-            <ProgressBar
-                    android:id="@+id/event_details_favourite_progressbar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="10dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
+                    android:layout_marginEnd="16dp"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
