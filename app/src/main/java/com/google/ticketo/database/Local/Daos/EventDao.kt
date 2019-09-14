@@ -33,4 +33,7 @@ interface EventDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertEvents(events: List<Event>)
 
+    @Query("UPDATE event SET favourite = :state WHERE id = :eventId")
+    fun updateFavourites(eventId : String, state : Boolean) : Int
+
 }

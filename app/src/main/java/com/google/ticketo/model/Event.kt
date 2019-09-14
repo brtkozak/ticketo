@@ -22,7 +22,8 @@ data class Event(
     var location: Location? = null,
     @Embedded
     var price: Price? = null,
-    var lastUpdate: Date? = null
+    var lastUpdate: Date? = null,
+    var favourite : Boolean = false
 )
 
 data class Location(

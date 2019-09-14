@@ -121,5 +121,18 @@ class EventDetailsViewModel(private val repository: Repository) : ViewModel() {
             }
     }
 
+    fun addToFavourites(){
+        updateFavourites(true)
+    }
 
+    fun removeFromFavourites(){
+        updateFavourites(false)
+    }
+
+    fun updateFavourites(state : Boolean){
+        repository.updateFavourites(eventId!!, state)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .subscribe()
+    }
 }

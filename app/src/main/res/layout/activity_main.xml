@@ -25,13 +25,6 @@
                 app:layout_constraintHorizontal_bias="1.0">
         </fragment>
 
-        <View
-                android:id="@+id/divider"
-                android:layout_width="match_parent"
-                android:background="@drawable/shadow_line"
-                android:layout_height="7dp"
-                android:layout_alignBottom="@+id/nav_host_fragment">
-        </View>
     </RelativeLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView

@@ -27,8 +27,7 @@ import java.util.concurrent.Executors
 class Repository(context: Context) {
     val firestoreRepository = FirestoreRepository.getInstance()
     private val executor = Executors.newSingleThreadExecutor()
-    val localDatabase = LocalDatabase.getInstance(context)
-    private val eventDao = localDatabase.eventDao()
+    private val localDatabase = LocalDatabase.getInstance(context)
 
     companion object {
         private var instance: Repository? = null
@@ -44,14 +43,17 @@ class Repository(context: Context) {
 
     fun getEventsInCity(city: String): LiveData<List<Event>> {
         updateGetEventsInCity(city)
-        return eventDao.getEventsInCity(city)
+        return localDatabase.eventDao().getEventsInCity(city)
     }
 
     private val eventsTimeout = 2
     private fun updateGetEventsInCity(city: String) {
         executor.execute {
             val exist =
-                (eventDao.checkUpdateWithCity(city, getUpdateTime(Date(), eventsTimeout)) != null)
+                (localDatabase.eventDao().checkUpdateWithCity(
+                    city,
+                    getUpdateTime(Date(), eventsTimeout)
+                ) != null)
             if (!exist) {
                 Log.d("looog", "from remote")
                 firestoreRepository
@@ -63,7 +65,7 @@ class Repository(context: Context) {
                         }
                         executor.execute {
                             Log.d("looog", "saving")
-                            eventDao.insertEvents(it)
+                            localDatabase.eventDao().insertEvents(it)
                         }
                     }
             } else
@@ -79,13 +81,17 @@ class Repository(context: Context) {
             startDate = getClosestDay(DayOfWeek.FRIDAY)
         }
         updateGetEventsByDates(startDate, endDate)
-        return eventDao.getEventsThisWeekend(startDate, endDate)
+        return localDatabase.eventDao().getEventsThisWeekend(startDate, endDate)
     }
 
     private fun updateGetEventsByDates(startDate: Date, endDate: Date) {
         executor.execute {
             val exist =
-                (eventDao.checkUpdateWithDates(startDate, endDate, getUpdateTime(Date(), eventsTimeout)) != null)
+                (localDatabase.eventDao().checkUpdateWithDates(
+                    startDate,
+                    endDate,
+                    getUpdateTime(Date(), eventsTimeout)
+                ) != null)
             if (!exist) {
                 Log.d("looog", "from remote")
 
@@ -97,7 +103,7 @@ class Repository(context: Context) {
                         }
                         executor.execute {
                             Log.d("looog", "saving")
-                            eventDao.insertEvents(it)
+                            localDatabase.eventDao().insertEvents(it)
                         }
                     }
             } else
@@ -118,38 +124,26 @@ class Repository(context: Context) {
     }
 
     fun getEvent(eventId: String): Single<Event> {
-        return Single.fromCallable { eventDao.getEvent(eventId) }
+        return Single.fromCallable { localDatabase.eventDao().getEvent(eventId) }
     }
 
-    fun getBuyersCount(eventId: String): Single<Int> =
-        firestoreRepository.getBuyersCount(eventId)
+    fun getGroup(eventId: String, group: String): LiveData<List<User>> =
+        firestoreRepository.getGroup(eventId, group)
 
-    fun getSellersCount(eventId: String): Single<Int> =
-        firestoreRepository.getSellersCount(eventId)
-
-    fun getGroup(eventId: String, group : String) : LiveData<List<User>> =
-            firestoreRepository.getGroup(eventId, group)
-
-//    fun addToGroup(eventId: String, group : String): Single<Boolean> =
-//        firestoreRepository.getCurrentUser().flatMap {
-//            firestoreRepository.addToGroup(it, eventId, group)
-//        }
-//
-//
-//    fun removeFromGroup(eventId: String, group : String): Single<Boolean> =
-//        firestoreRepository.getCurrentUser().flatMap {
-//            firestoreRepository.removeFromGroup(it.firebaseId!!, eventId, group)
-//        }
-
-    fun addToGroup(eventId: String, group : String): Single<Boolean> =
+    fun addToGroup(eventId: String, group: String): Single<Boolean> =
         firestoreRepository.getCurrentUser().flatMap {
             firestoreRepository.addToGroup(it, eventId, group)
         }
 
-    fun removeFromGroup(eventId: String, group : String): Single<Boolean> =
-            firestoreRepository.removeFromGroup(eventId, group)
+    fun removeFromGroup(eventId: String, group: String): Single<Boolean> =
+        firestoreRepository.removeFromGroup(eventId, group)
 
-    fun checkIfUserInGroup(eventId : String, group : String) : Single<Boolean> =
-            firestoreRepository.checkIfUserInGroup(eventId, group)
+    fun checkIfUserInGroup(eventId: String, group: String): Single<Boolean> =
+        firestoreRepository.checkIfUserInGroup(eventId, group)
 
+    fun updateFavourites(eventId: String, state : Boolean): Single<Int> {
+       return Single.fromCallable {
+           localDatabase.eventDao().updateFavourites(eventId, state)
+       }
+    }
 }

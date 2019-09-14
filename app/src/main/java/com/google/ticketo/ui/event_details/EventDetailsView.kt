@@ -2,6 +2,7 @@ package com.google.ticketo.ui.event_details
 
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
+import android.graphics.Rect
 import android.os.Bundle
 import android.transition.TransitionInflater
 import android.util.Log
@@ -41,7 +42,8 @@ class EventDetailsView : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.event_details_fragment, container, false)
+        binding =
+            DataBindingUtil.inflate(inflater, R.layout.event_details_fragment, container, false)
         return binding.root
     }
 
@@ -49,7 +51,10 @@ class EventDetailsView : Fragment() {
         val eventId = arguments?.get("eventId") as String
 
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this, RepositoryViewModelFactory(Repository.getInstance(context!!))).get(
+        viewModel = ViewModelProvider(
+            this,
+            RepositoryViewModelFactory(Repository.getInstance(context!!))
+        ).get(
             EventDetailsViewModel::class.java
         )
         viewModel.setEvent(eventId)
@@ -67,6 +72,7 @@ class EventDetailsView : Fragment() {
             val timeFormat = SimpleDateFormat("HH:mm")
             event_details_date.text = dateFormat.format(it.startDate)
             event_details_time.text = timeFormat.format(it.startDate)
+            setFavouriteHeart(it.favourite)
         })
 
         viewModel.getBuyers().observe(this, Observer {
@@ -123,6 +129,10 @@ class EventDetailsView : Fragment() {
         }
 
         event_details_favourite.setOnClickListener {
+            if (it.isSelected)
+                viewModel.removeFromFavourites()
+            else
+                viewModel.addToFavourites()
             setSelectedState(it)
         }
     }
@@ -166,25 +176,31 @@ class EventDetailsView : Fragment() {
     private fun lockBuy() {
         event_details_buy.isVisible = false
         event_details_progress_buy.isVisible = true
-        event_details_sell.isClickable=false
+        event_details_sell.isClickable = false
     }
 
     private fun unlockBuy() {
         event_details_buy.isVisible = true
         event_details_progress_buy.isVisible = false
-        event_details_sell.isClickable=true
+        event_details_sell.isClickable = true
     }
 
-    private fun lockSell(){
+    private fun lockSell() {
         event_details_sell.isVisible = false
         event_details_progress_sell.isVisible = true
-        event_details_buy.isClickable=false
+        event_details_buy.isClickable = false
     }
 
     private fun unlockSell() {
         event_details_sell.isVisible = true
         event_details_progress_sell.isVisible = false
-        event_details_buy.isClickable=true
+        event_details_buy.isClickable = true
     }
 
+    private fun setFavouriteHeart(favouriteState: Boolean) {
+        event_details_favourite_progressbar.isVisible = false
+        event_details_favourite.isVisible = true
+        event_details_favourite.isSelected = favouriteState
+
+    }
 }
