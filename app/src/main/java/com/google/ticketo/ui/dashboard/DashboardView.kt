@@ -39,7 +39,7 @@ class DashboardView : Fragment(), EventAdapter.DashboardCallback {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(
             this,
-            RepositoryViewModelFactory(Repository.getInstance(context!!))
+            RepositoryViewModelFactory(context!!)
         ).get(DashboardViewModel::class.java)
 
         initView()

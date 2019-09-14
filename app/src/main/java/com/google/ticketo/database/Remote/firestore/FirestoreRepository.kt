@@ -109,7 +109,6 @@ class FirestoreRepository {
                     it.exists()
                 }
 
-
     fun insertEvent() {
         val events = mutableListOf<Event>()
 

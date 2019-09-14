@@ -9,11 +9,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 
 import com.google.ticketo.R
 import com.google.ticketo.databinding.MyProfileFragmentBinding
+import com.google.ticketo.ui.RepositoryViewModelFactory
 import kotlinx.android.synthetic.main.my_profile_fragment.*
 
 class MyProfileView : Fragment() {
@@ -32,23 +34,26 @@ class MyProfileView : Fragment() {
     ): View? {
 
         binding =
-            DataBindingUtil.inflate<MyProfileFragmentBinding>(inflater, R.layout.my_profile_fragment, container, false)
+            DataBindingUtil.inflate(inflater, R.layout.my_profile_fragment, container, false)
 
         return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(MyProfileViewModel::class.java)
+        viewModel = ViewModelProvider(
+            this,
+            RepositoryViewModelFactory(context!!)
+        ).get(MyProfileViewModel::class.java)
 
         viewModel.user.observe(this, Observer {
-            binding.user=it
+            binding.user = it
         })
 
         viewModel.loading.observe(this, Observer {
-            if(!it){
-                my_profile_progress_bar.visibility=View.GONE
-                my_profile_container.visibility=View.VISIBLE
+            if (!it) {
+                my_profile_progress_bar.visibility = View.GONE
+                my_profile_container.visibility = View.VISIBLE
             }
         })
 

@@ -1,11 +1,7 @@
 package com.google.ticketo.ui.event_details
 
 import android.annotation.SuppressLint
-import android.content.res.ColorStateList
-import android.graphics.Rect
 import android.os.Bundle
-import android.transition.TransitionInflater
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -13,20 +9,16 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.bumptech.glide.Glide
-import com.google.ticketo.database.Repository
 import com.google.ticketo.databinding.EventDetailsFragmentBinding
 import com.google.ticketo.ui.RepositoryViewModelFactory
 import kotlinx.android.synthetic.main.event_details_fragment.*
-import android.view.ViewTreeObserver
-import android.widget.ImageView
-import android.widget.Toast
-import androidx.core.content.ContextCompat
-import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.view.isVisible
 import androidx.navigation.findNavController
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.ticketo.R
+import com.google.ticketo.utils.Const.BUYERS
+import com.google.ticketo.utils.Const.BUY_INTENT
+import com.google.ticketo.utils.Const.SELLERS
+import com.google.ticketo.utils.Const.SELL_INTENT
 import java.text.SimpleDateFormat
 
 class EventDetailsView : Fragment() {
@@ -53,12 +45,12 @@ class EventDetailsView : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(
             this,
-            RepositoryViewModelFactory(Repository.getInstance(context!!))
+            RepositoryViewModelFactory(context!!)
         ).get(
             EventDetailsViewModel::class.java
         )
-        viewModel.setEvent(eventId)
         viewModel.eventId = eventId
+        viewModel.setEvent()
         setObservers()
         onClicks()
     }
@@ -84,9 +76,9 @@ class EventDetailsView : Fragment() {
         })
 
         viewModel.initState.observe(this, Observer {
-            if (it == viewModel.BUYERS) {
+            if (it == BUY_INTENT) {
                 event_details_buy.isSelected = true
-            } else if (it == viewModel.SELLERS) {
+            } else if (it == SELL_INTENT) {
                 event_details_sell.isSelected = true
             }
         })
@@ -107,10 +99,8 @@ class EventDetailsView : Fragment() {
             }
         })
 
-        viewModel.layoutReady.observe(this, Observer {
-
+        viewModel.layoutReady.observe(this, Observer { // TODO USE TO LOAD REST OF EVENT DATA
         })
-
     }
 
     private fun onClicks() {
@@ -144,10 +134,10 @@ class EventDetailsView : Fragment() {
         } else if (!event_details_buy.isSelected && event_details_sell.isSelected) {
             viewModel._buyLock.value = 2
             viewModel.addToBuyers()
-            viewModel.removeFromSellers(viewModel.BUYERS)
+            viewModel.removeFromSellers(BUYERS)
         } else {
             viewModel._buyLock.value = 1
-            viewModel.removeFromBuyers(viewModel.BUYERS)
+            viewModel.removeFromBuyers(BUYERS)
         }
     }
 
@@ -158,10 +148,10 @@ class EventDetailsView : Fragment() {
         } else if (!event_details_sell.isSelected && event_details_buy.isSelected) {
             viewModel._sellLock.value = 2
             viewModel.addToSellers()
-            viewModel.removeFromBuyers(viewModel.SELLERS)
+            viewModel.removeFromBuyers(SELLERS)
         } else {
             viewModel._sellLock.value = 1
-            viewModel.removeFromSellers(viewModel.SELLERS)
+            viewModel.removeFromSellers(SELLERS)
         }
     }
 

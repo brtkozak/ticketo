@@ -9,6 +9,8 @@ import com.google.ticketo.database.Local.LocalDatabase
 import com.google.ticketo.database.Remote.firestore.FirestoreRepository
 import com.google.ticketo.model.Event
 import com.google.ticketo.model.User
+import com.google.ticketo.utils.Const
+import com.google.ticketo.utils.Const.BUY_INTENT
 import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.Single
@@ -130,20 +132,54 @@ class Repository(context: Context) {
     fun getGroup(eventId: String, group: String): LiveData<List<User>> =
         firestoreRepository.getGroup(eventId, group)
 
-    fun addToGroup(eventId: String, group: String): Single<Boolean> =
-        firestoreRepository.getCurrentUser().flatMap {
+    fun addToGroup(eventId: String, group: String, intent: String): Single<Boolean> {
+        if (intent == BUY_INTENT)
+            Single.fromCallable {
+                localDatabase.eventDao().updateBuyIntent(eventId, true)
+            }.observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe()
+        else
+            Single.fromCallable { localDatabase.eventDao().updateSellIntent(eventId, true) }
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe()
+
+        return firestoreRepository.getCurrentUser().flatMap {
             firestoreRepository.addToGroup(it, eventId, group)
         }
-
-    fun removeFromGroup(eventId: String, group: String): Single<Boolean> =
-        firestoreRepository.removeFromGroup(eventId, group)
-
-    fun checkIfUserInGroup(eventId: String, group: String): Single<Boolean> =
-        firestoreRepository.checkIfUserInGroup(eventId, group)
-
-    fun updateFavourites(eventId: String, state : Boolean): Single<Int> {
-       return Single.fromCallable {
-           localDatabase.eventDao().updateFavourites(eventId, state)
-       }
     }
+
+    fun removeFromGroup(eventId: String, group: String, intent: String): Single<Boolean> {
+        if (intent == BUY_INTENT)
+            Single.fromCallable { localDatabase.eventDao().updateBuyIntent(eventId, false) }
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe()
+        else
+            Single.fromCallable { localDatabase.eventDao().updateSellIntent(eventId, false) }
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe()
+
+        return firestoreRepository.removeFromGroup(eventId, group)
+    }
+
+    fun checkUserIntent(eventId: String, intent: String): Single<Boolean> {
+        return if (intent == BUY_INTENT) {
+            Single.fromCallable { localDatabase.eventDao().checkUserBuyIntent(eventId) }
+        } else {
+            Single.fromCallable { localDatabase.eventDao().checkUserSellIntent(eventId) }
+        }
+    }
+
+    fun updateFavourites(eventId: String, state: Boolean): Single<Int> {
+        return Single.fromCallable {
+            localDatabase.eventDao().updateFavourites(eventId, state)
+        }
+    }
+
+    fun getCurrentUser(): Single<User> =
+        firestoreRepository.getCurrentUser()
+
 }

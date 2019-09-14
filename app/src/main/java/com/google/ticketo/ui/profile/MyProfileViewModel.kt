@@ -1,8 +1,10 @@
 package com.google.ticketo.ui.profile
 
+import android.annotation.SuppressLint
 import android.util.Log
 import androidx.lifecycle.*
 import com.google.ticketo.database.Remote.firestore.FirestoreRepository
+import com.google.ticketo.database.Repository
 import com.google.ticketo.model.User
 import io.reactivex.Observable
 import io.reactivex.Single
@@ -10,9 +12,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 
-class MyProfileViewModel : ViewModel() {
+class MyProfileViewModel(val repository : Repository) : ViewModel() {
 
-    private val firestore = FirestoreRepository.getInstance()
     private val _user = MutableLiveData<User>()
     val user: LiveData<User> = _user
 
@@ -23,11 +24,14 @@ class MyProfileViewModel : ViewModel() {
         getUser()
     }
 
+    @SuppressLint("CheckResult")
     private fun getUser() {
-       firestore.getCurrentUser()
-           .subscribe { it ->
-               _user.value=it
-               _loading.value=false
-           }
+        repository.getCurrentUser()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .subscribe { it ->
+                _user.value=it
+                _loading.value=false
+            }
     }
 }
