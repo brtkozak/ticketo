@@ -6,16 +6,26 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.FragmentNavigatorExtras
+import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.google.ticketo.R
+import com.google.ticketo.ui.RepositoryViewModelFactory
+import kotlinx.android.synthetic.main.favourites_fragment.*
+import kotlinx.android.synthetic.main.item_dashboard_event.*
 
-class FavouritesView : Fragment() {
+class FavouritesView : Fragment(), EventAdapter.FavouritesCallback {
 
     companion object {
         fun newInstance() = FavouritesView()
     }
 
     private lateinit var viewModel: FavouritesViewModel
+    private lateinit var adapter : EventAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,8 +36,41 @@ class FavouritesView : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(FavouritesViewModel::class.java)
-        // TODO: Use the ViewModel
+        viewModel = ViewModelProvider(this, RepositoryViewModelFactory(context!!)).get(FavouritesViewModel::class.java)
+
+        initView()
+        observers()
     }
 
+    private fun initView() {
+        favourites_events.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+
+        adapter = EventAdapter(context!!, this)
+        favourites_events.adapter=adapter
+    }
+
+    private fun observers(){
+        viewModel.favouriteEvents.observe(this, Observer {
+            adapter.eventsList=it
+            adapter.notifyDataSetChanged()
+//            favourites_events.adapter=EventAdapter(it, context!!, this)
+        })
+    }
+
+
+
+
+    override fun goToDetails(eventId: String) {
+        val bundle = bundleOf(
+            "eventId" to eventId)
+        val extras = FragmentNavigatorExtras(
+            item_dashboard_event_image to "event_image"
+        )
+        view!!.findNavController().navigate(R.id.action_favouritesView_to_eventDetailsView, bundle, null, extras)
+    }
+
+    override fun removeFromFavourites(eventId: String) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 }

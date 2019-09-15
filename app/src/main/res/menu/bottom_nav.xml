@@ -5,7 +5,7 @@
             android:icon="@drawable/ic_search"
             android:title="@string/search"/>
     <item
-            android:id="@+id/favourites"
+            android:id="@+id/favouritesView"
             android:icon="@drawable/ic_favorite_filled"
             android:title="@string/favourites"/>
     <item

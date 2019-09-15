@@ -6,23 +6,52 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.google.ticketo.R
+import com.google.ticketo.databinding.ItemFavouritesEventBinding
+import com.google.ticketo.databinding.ItemFavouritesEventBindingImpl
 import com.google.ticketo.model.Event
+import kotlinx.android.synthetic.main.item_favourites_event.view.*
 
-class EventAdapter(val eventsList : List<Event>, val context : Context) : RecyclerView.Adapter<EventAdapter.EventHolder>() {
+class EventAdapter(val context: Context, val callback: FavouritesCallback) :
+    RecyclerView.Adapter<EventAdapter.EventHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventHolder =
-        EventHolder(LayoutInflater.from(context).inflate(R.layout.item_favourites_event, parent, false))
+    var eventsList: List<Event>? = null
 
-    override fun getItemCount(): Int = eventsList.size
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventHolder {
+        val binding = ItemFavouritesEventBinding.inflate(LayoutInflater.from(parent.context))
+        val layoutInflater =
+            LayoutInflater.from(context).inflate(R.layout.item_favourites_event, parent, false)
+        return EventHolder(layoutInflater, binding, callback)
+    }
+
+    override fun getItemCount(): Int {
+        return eventsList?.size ?: 0
+    }
 
     override fun onBindViewHolder(holder: EventHolder, position: Int) {
-        holder.bind(eventsList[position])
+        eventsList?.get(position)?.let { holder.bind(it) }
     }
 
-    class EventHolder(view : View) : RecyclerView.ViewHolder(view) {
+    class EventHolder(
+        val view: View,
+        val binding: ItemFavouritesEventBinding,
+        val callback: FavouritesCallback
+    ) : RecyclerView.ViewHolder(view) {
 
-        fun bind(event: Event){
-
+        fun bind(event: Event) {
+            binding.event = event
+            view.item_favourites_favourite.setOnClickListener {
+                callback.removeFromFavourites(event.id)
+            }
+            view.setOnClickListener {
+                callback.goToDetails(event.id)
+            }
         }
     }
+
+    interface FavouritesCallback {
+        fun goToDetails(eventId: String)
+        fun removeFromFavourites(eventId: String)
+    }
+
 }

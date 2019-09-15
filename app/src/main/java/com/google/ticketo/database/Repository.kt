@@ -195,4 +195,7 @@ class Repository(context: Context) {
     fun getEventIntents(eventId: String): LiveData<EventIntents> =
         localDatabase.eventIntentsDao().getEventIntents(eventId)
 
+    fun getFavouriteEvents() : LiveData<List<Event>> =
+        localDatabase.eventIntentsDao().getFavouriteEvents()
+
 }

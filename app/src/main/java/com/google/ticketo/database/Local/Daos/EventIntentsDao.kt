@@ -5,6 +5,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.google.ticketo.model.Event
 import com.google.ticketo.model.EventIntents
 
 @Dao
@@ -24,4 +25,7 @@ interface EventIntentsDao {
 
     @Query("UPDATE eventintents SET favourite = :state WHERE eventId = :eventId")
     fun updateFavourites(eventId : String, state : Boolean) : Int
+
+    @Query("SELECT event.* FROM event JOIN eventintents ON event.id = eventintents.eventId WHERE favourite= 1")
+    fun getFavouriteEvents() : LiveData<List<Event>>
 }

@@ -17,4 +17,13 @@
               android:label="event_details_fragment" tools:layout="@layout/event_details_fragment">
         <argument android:name="eventId" app:argType="string"/>
     </fragment>
+    <fragment
+            android:id="@+id/favouritesView"
+            android:name="com.google.ticketo.ui.favourites.FavouritesView"
+            android:label="favourites_fragment"
+            tools:layout="@layout/favourites_fragment" >
+        <action
+                android:id="@+id/action_favouritesView_to_eventDetailsView"
+                app:destination="@id/eventDetailsView" />
+    </fragment>
 </navigation>
