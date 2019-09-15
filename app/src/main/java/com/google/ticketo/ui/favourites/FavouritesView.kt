@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
@@ -17,6 +18,7 @@ import com.google.ticketo.R
 import com.google.ticketo.ui.RepositoryViewModelFactory
 import kotlinx.android.synthetic.main.favourites_fragment.*
 import kotlinx.android.synthetic.main.item_dashboard_event.*
+import kotlinx.android.synthetic.main.item_favourites_event.*
 
 class FavouritesView : Fragment(), EventAdapter.FavouritesCallback {
 
@@ -25,7 +27,7 @@ class FavouritesView : Fragment(), EventAdapter.FavouritesCallback {
     }
 
     private lateinit var viewModel: FavouritesViewModel
-    private lateinit var adapter : EventAdapter
+    private lateinit var adapter: EventAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,7 +38,10 @@ class FavouritesView : Fragment(), EventAdapter.FavouritesCallback {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this, RepositoryViewModelFactory(context!!)).get(FavouritesViewModel::class.java)
+        viewModel = ViewModelProvider(
+            this,
+            RepositoryViewModelFactory(context!!)
+        ).get(FavouritesViewModel::class.java)
 
         initView()
         observers()
@@ -47,30 +52,28 @@ class FavouritesView : Fragment(), EventAdapter.FavouritesCallback {
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
         adapter = EventAdapter(context!!, this)
-        favourites_events.adapter=adapter
+        favourites_events.adapter = adapter
     }
 
-    private fun observers(){
+    private fun observers() {
         viewModel.favouriteEvents.observe(this, Observer {
-            adapter.eventsList=it
+            favourites_empty_list.isVisible = it.isEmpty()
+            adapter.eventsList = it
             adapter.notifyDataSetChanged()
-//            favourites_events.adapter=EventAdapter(it, context!!, this)
         })
     }
 
 
-
-
     override fun goToDetails(eventId: String) {
         val bundle = bundleOf(
-            "eventId" to eventId)
-        val extras = FragmentNavigatorExtras(
-            item_dashboard_event_image to "event_image"
+            "eventId" to eventId
         )
-        view!!.findNavController().navigate(R.id.action_favouritesView_to_eventDetailsView, bundle, null, extras)
+
+        view!!.findNavController()
+            .navigate(R.id.action_favouritesView_to_eventDetailsView, bundle, null, null)
     }
 
     override fun removeFromFavourites(eventId: String) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        viewModel.removeFromFavourites(eventId)
     }
 }

@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.google.ticketo.R
 import com.google.ticketo.databinding.ItemFavouritesEventBinding
 import com.google.ticketo.databinding.ItemFavouritesEventBindingImpl
@@ -18,10 +20,9 @@ class EventAdapter(val context: Context, val callback: FavouritesCallback) :
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventHolder {
-        val binding = ItemFavouritesEventBinding.inflate(LayoutInflater.from(parent.context))
         val layoutInflater =
             LayoutInflater.from(context).inflate(R.layout.item_favourites_event, parent, false)
-        return EventHolder(layoutInflater, binding, callback)
+        return EventHolder(layoutInflater, callback)
     }
 
     override fun getItemCount(): Int {
@@ -34,12 +35,19 @@ class EventAdapter(val context: Context, val callback: FavouritesCallback) :
 
     class EventHolder(
         val view: View,
-        val binding: ItemFavouritesEventBinding,
         val callback: FavouritesCallback
     ) : RecyclerView.ViewHolder(view) {
 
         fun bind(event: Event) {
-            binding.event = event
+            view.item_favourites_event_name.text = event.name
+
+            view.item_favourites_event_image.let {
+                Glide.with(it.context)
+                    .load(event.imageUrl)
+                    .apply(RequestOptions.centerCropTransform())
+                    .into(it)
+            }
+
             view.item_favourites_favourite.setOnClickListener {
                 callback.removeFromFavourites(event.id)
             }
