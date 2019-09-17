@@ -1,15 +1,5 @@
 package com.google.ticketo.database.Remote.events
 
-import com.google.ticketo.model.DtoConverter
-import com.google.ticketo.model.Event
-import com.qwerty21.musicevents.data.response.EventsResponse
-import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
-import retrofit2.Response
-import retrofit2.http.GET
-import retrofit2.http.Query
-
 class EventsRepository {
 
 //    private val eventsApi = EvenstApi.create()

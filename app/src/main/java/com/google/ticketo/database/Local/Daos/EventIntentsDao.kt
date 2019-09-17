@@ -14,7 +14,7 @@ interface EventIntentsDao {
     @Query("SELECT * FROM eventintents WHERE eventId= :eventId")
     fun getEventIntents(eventId : String) : LiveData<EventIntents>
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.ABORT)
     fun insertEventsIntents(eventIntents : List<EventIntents>)
 
     @Query("UPDATE eventintents SET buy = :state WHERE eventId = :eventId")
@@ -26,6 +26,6 @@ interface EventIntentsDao {
     @Query("UPDATE eventintents SET favourite = :state WHERE eventId = :eventId")
     fun updateFavourites(eventId : String, state : Boolean) : Int
 
-    @Query("SELECT event.* FROM event JOIN eventintents ON event.id = eventintents.eventId WHERE favourite= 1")
+    @Query("SELECT eventdto.* FROM eventdto JOIN eventintents ON eventdto.id = eventintents.eventId WHERE favourite= 1")
     fun getFavouriteEvents() : LiveData<List<Event>>
 }

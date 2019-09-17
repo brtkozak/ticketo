@@ -36,7 +36,7 @@ class EventDetailsViewModel(private val repository: Repository,val eventId : Str
 
     @SuppressLint("CheckResult")
     fun setEvent() {
-        repository.getEvent(eventId!!)
+        repository.getEvent(eventId)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
             .subscribe { it ->

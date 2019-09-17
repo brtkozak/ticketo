@@ -50,5 +50,4 @@ class EventAdapter(val events: List<Event>, val callback: DashboardCallback) :
     interface DashboardCallback {
         fun goToDetails(eventId: String)
     }
-
 }

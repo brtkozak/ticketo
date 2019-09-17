@@ -1,23 +1,17 @@
-package com.qwerty21.musicevents.data.response
+package com.google.ticketo.model.Responses.eventResponse
 
-import com.google.gson.annotations.SerializedName
-data class EventResponse (
-    @SerializedName("_embedded")
-    val embedded: EmbeddedX,
-    @SerializedName("_links")
-    val links:  Links,
-    val classifications:  List<Classification>,
-    val dates:  Dates,
-    val id: String,
-    val images:  List<Image>,
-    val locale: String,
-    val name: String,
-    val priceRanges:  List<PriceRange>,
-    val promoter:  Promoter,
-    val promoters:  List<Promoter>,
-    val sales:  Sales,
-    val seatmap:  Seatmap,
-    val test: Boolean,
-    val type: String,
-    val url: String
+import com.google.ticketo.model.Location
+import java.util.*
+
+data class EventResponse(
+    val id: String ="",
+    val name: String? = null,
+    val imageUrl: String? = null,
+    val startDate: Date? = null,
+    val endDate: Date? = null,
+    val location: Location? = null,
+    val currency: String? = null,
+    val minPrice: Double? = null,
+    val maxPrice: Double? = null,
+    val lastUpdate: Date? = null
 )

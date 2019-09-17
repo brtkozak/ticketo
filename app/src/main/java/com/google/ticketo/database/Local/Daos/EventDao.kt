@@ -6,45 +6,40 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.google.ticketo.model.Event
+import com.google.ticketo.model.EventDto
 import io.reactivex.Flowable
 import io.reactivex.Single
 import java.util.*
 
 @Dao
 interface EventDao {
-    @Query("SELECT * FROM event")
+    @Query("SELECT * FROM eventdto")
     fun getAllEvents(): LiveData<Event>
 
-    @Query("SELECT * FROM event WHERE city= :city")
+    @Query("SELECT * FROM eventdto JOIN location ON eventdto.location=location.locationName WHERE city= :city")
     fun getEventsInCity(city: String): LiveData<List<Event>>
 
-    @Query("SELECT * FROM event WHERE city= :city AND lastUpdate> :lastUpdate LIMIT 1")
+    @Query("SELECT * FROM eventdto JOiN location ON eventdto.location=location.locationName WHERE city= :city AND lastUpdate> :lastUpdate LIMIT 1")
     fun checkUpdateWithCity(city: String, lastUpdate: Date): Event?
 
-    @Query("SELECT * FROM event WHERE startDate BETWEEN :startDate AND :endDate ")
+    @Query("SELECT * FROM eventdto JOIN location ON eventdto.location=location.locationName WHERE eventdto.id = :id AND lastUpdate> :lastUpdate LIMIT 1")
+    fun checkEventUpdate(id : String, lastUpdate : Date) : Event?
+
+    @Query("SELECT * FROM eventdto JOIN location ON eventdto.location=location.locationName WHERE startDate BETWEEN :startDate AND :endDate ")
     fun getEventsThisWeekend(startDate: Date, endDate: Date) : LiveData<List<Event>>
 
-    @Query("SELECT * FROM event WHERE  startDate BETWEEN :startDate AND :endDate AND lastUpdate> :lastUpdate LIMIT 1")
+    @Query("SELECT * FROM eventdto WHERE  startDate BETWEEN :startDate AND :endDate AND lastUpdate> :lastUpdate LIMIT 1")
     fun checkUpdateWithDates(startDate: Date, endDate: Date, lastUpdate: Date): Event?
 
-    @Query("SELECT * FROM event WHERE id = :eventId")
+    @Query("SELECT * FROM eventdto JOIN location ON eventdto.location=location.locationName WHERE id = :eventId")
     fun getEvent(eventId: String): Event
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertEvents(events: List<Event>)
+    @Query("SELECT * FROM eventdto JOIN location ON eventdto.location=location.locationName WHERE id = :eventId")
+    fun getEventWithDate(eventId: String): Event
 
-//    @Query("UPDATE event SET favourite = :state WHERE id = :eventId")
-//    fun updateFavourites(eventId : String, state : Boolean) : Int
-//
-//    @Query("SELECT buy FROM event WHERE id = :eventId")
-//    fun checkUserBuyIntent(eventId: String) : Boolean
-//
-//    @Query("SELECT sell FROM event WHERE id = :eventId")
-//    fun checkUserSellIntent(eventId : String) : Boolean
-//
-//    @Query("UPDATE event SET buy = :state WHERE id = :eventId")
-//    fun updateBuyIntent(eventId : String, state : Boolean)
-//
-//    @Query("UPDATE event SET sell = :state WHERE id = :eventId")
-//    fun updateSellIntent(eventId : String, state: Boolean)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertEvents(events: List<EventDto>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertEvent(event : EventDto)
 }

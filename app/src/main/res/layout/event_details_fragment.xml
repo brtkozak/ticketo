@@ -122,7 +122,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
                             android:layout_marginTop="16dp"
-                            android:text="@{event.location.city}"
+                            android:text="@{event.city}"
                             app:layout_constraintStart_toEndOf="@+id/imageView"
                             app:layout_constraintTop_toTopOf="parent"
                             tools:text="Wrocław" />
@@ -154,7 +154,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
                             android:layout_marginTop="8dp"
-                            android:text="@{event.location.name}"
+                            android:text="@{event.locationName}"
                             app:layout_constraintStart_toEndOf="@+id/imageView"
                             app:layout_constraintTop_toBottomOf="@+id/event_details_location_city"
                             tools:text="Akademia Club" />

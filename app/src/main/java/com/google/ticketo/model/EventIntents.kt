@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 @Entity(
     foreignKeys = arrayOf(
         ForeignKey(
-            entity = Event::class,
+            entity = EventDto::class,
             parentColumns = arrayOf("id"),
             childColumns = arrayOf("eventId")
         )

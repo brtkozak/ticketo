@@ -8,6 +8,7 @@ import com.google.firebase.database.core.Repo
 import com.google.ticketo.database.Local.LocalDatabase
 import com.google.ticketo.database.Remote.firestore.FirestoreRepository
 import com.google.ticketo.model.Event
+import com.google.ticketo.model.EventDto
 import com.google.ticketo.model.EventIntents
 import com.google.ticketo.model.User
 import com.google.ticketo.utils.Const
@@ -62,22 +63,24 @@ class Repository(context: Context) {
                 firestoreRepository
                     .getEventsByCity(city)
                     .subscribe { it ->
-                        Log.d("looog", "" + it.size)
-                        it.forEach {
-                            it.lastUpdate = Date()
+
+                        executor.execute {
+                            localDatabase.locationDao().insertLocations(it.second)
                         }
+
                         executor.execute {
                             Log.d("looog", "saving")
-                            localDatabase.eventDao().insertEvents(it)
+                            localDatabase.eventDao().insertEvents(it.first)
                         }
 
                         executor.execute {
                             val eventIntents = mutableListOf<EventIntents>()
-                            it.forEach {
+                            it.first.forEach {
                                 eventIntents.add(EventIntents(eventId = it.id))
                             }
                             localDatabase.eventIntentsDao().insertEventsIntents(eventIntents)
                         }
+
                     }
             } else
                 Log.d("looog", "from local")
@@ -109,17 +112,17 @@ class Repository(context: Context) {
                 firestoreRepository
                     .getEventsByDates(startDate, endDate)
                     .subscribe { it ->
-                        it.forEach {
-                            it.lastUpdate = Date()
+                        executor.execute {
+                            localDatabase.locationDao().insertLocations(it.second)
                         }
                         executor.execute {
                             Log.d("looog", "saving")
-                            localDatabase.eventDao().insertEvents(it)
+                            localDatabase.eventDao().insertEvents(it.first)
                         }
 
                         executor.execute {
                             val eventIntents = mutableListOf<EventIntents>()
-                            it.forEach {
+                            it.first.forEach {
                                 eventIntents.add(EventIntents(eventId = it.id))
                             }
                             localDatabase.eventIntentsDao().insertEventsIntents(eventIntents)
@@ -143,7 +146,43 @@ class Repository(context: Context) {
     }
 
     fun getEvent(eventId: String): Single<Event> {
+        updateGetEvent(eventId)
         return Single.fromCallable { localDatabase.eventDao().getEvent(eventId) }
+    }
+
+    private fun updateGetEvent(eventId: String) {
+        executor.execute {
+            val exist =
+                (localDatabase.eventDao().checkEventUpdate(
+                    eventId,
+                    getUpdateTime(Date(), eventsTimeout)
+                ) != null)
+            if (!exist) {
+                Log.d("looog", "from remote")
+
+                firestoreRepository
+                    .getEvent(eventId)
+                    .subscribe { it ->
+                        executor.execute {
+                            it.second?.let { location ->
+                                localDatabase.locationDao().insertLocation(location)
+                            }
+                        }
+                        executor.execute {
+                            Log.d("looog", "saving")
+                            it.first?.let { event -> localDatabase.eventDao().insertEvent(event) }
+                        }
+
+                        executor.execute {
+                            val eventIntents = mutableListOf<EventIntents>()
+                            if (it.first != null)
+                                eventIntents.add(EventIntents(eventId = it.first!!.id))
+                            localDatabase.eventIntentsDao().insertEventsIntents(eventIntents)
+                        }
+                    }
+            } else
+                Log.d("looog", "from local")
+        }
     }
 
     fun getGroup(eventId: String, group: String): LiveData<List<User>> =
@@ -195,7 +234,12 @@ class Repository(context: Context) {
     fun getEventIntents(eventId: String): LiveData<EventIntents> =
         localDatabase.eventIntentsDao().getEventIntents(eventId)
 
-    fun getFavouriteEvents() : LiveData<List<Event>> =
+    fun getFavouriteEvents(): LiveData<List<Event>> =
         localDatabase.eventIntentsDao().getFavouriteEvents()
 
+    fun getSearchByName(search: String): Single<List<String>> =
+        firestoreRepository.getSearchByName(search)
+
+    fun getSearchByLocation(search: String): Single<List<String>> =
+        firestoreRepository.getSearchByLocation(search)
 }

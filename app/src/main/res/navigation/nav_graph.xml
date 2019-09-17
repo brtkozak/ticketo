@@ -12,7 +12,11 @@
     <fragment android:id="@+id/myProfileView" android:name="com.google.ticketo.ui.profile.MyProfileView"
               android:label="my_profile_fragment" tools:layout="@layout/my_profile_fragment"/>
     <fragment android:id="@+id/searchView" android:name="com.google.ticketo.ui.search.SearchView"
-              android:label="search_fragment" tools:layout="@layout/search_fragment"/>
+              android:label="search_fragment" tools:layout="@layout/search_fragment">
+        <action
+                android:id="@+id/action_searchView_to_eventDetailsView"
+                app:destination="@id/eventDetailsView" />
+    </fragment>
     <fragment android:id="@+id/eventDetailsView" android:name="com.google.ticketo.ui.event_details.EventDetailsView"
               android:label="event_details_fragment" tools:layout="@layout/event_details_fragment">
         <argument android:name="eventId" app:argType="string"/>
