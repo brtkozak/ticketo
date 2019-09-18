@@ -2,6 +2,7 @@ package com.google.ticketo.model
 
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.ticketo.model.Responses.eventResponse.EventResponse
+import com.google.ticketo.utils.Const
 import java.util.*
 
 object DtoConverter {
@@ -63,20 +64,20 @@ object DtoConverter {
         return result
     }
 
-    fun querySnapshotToEventsNameList(querySnapshot: QuerySnapshot) : List<String> {
-        val result = mutableListOf<String>()
+    fun querySnapshotToEventsNameList(querySnapshot: QuerySnapshot) : List<Pair<String, String>> {
+        val result = mutableListOf<Pair<String, String>>()
         querySnapshot.forEach {
             val temp = it.toObject(EventResponse::class.java)
-            result.add(temp.name!!)
+            result.add(Pair(temp.name!!, temp.id))
         }
         return result
     }
 
-    fun querySnapshotToEventsLocationList(querySnapshot: QuerySnapshot) : List<String> {
-        val result = mutableListOf<String>()
+    fun querySnapshotToEventsLocationList(querySnapshot: QuerySnapshot) : List<Pair<String, String>> {
+        val result = mutableListOf<Pair<String, String>>()
         querySnapshot.forEach {
             val temp = it.toObject(EventResponse::class.java)
-            result.add(temp.location?.city!!)
+            result.add(Pair(temp.location?.city!!, temp.id))
         }
         return result.distinct()
     }

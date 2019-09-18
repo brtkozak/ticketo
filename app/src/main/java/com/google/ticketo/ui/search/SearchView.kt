@@ -129,9 +129,15 @@ class SearchView : Fragment(), ResultAdapter.SearchCallback {
         val bundle = bundleOf(
             "eventId" to eventId
         )
-
         view!!.findNavController()
             .navigate(R.id.action_searchView_to_eventDetailsView, bundle, null, null)
     }
 
+    override fun searchByCity(city: String) {
+        val bundle = bundleOf(
+            "city" to city
+        )
+        view!!.findNavController()
+            .navigate(R.id.action_searchView_to_eventsByCityView, bundle, null, null)
+    }
 }

@@ -13,6 +13,7 @@
     <string name="search2">Wyszukaj</string>
     <string name="buy">Kupię</string>
     <string name="sell">Sprzedam</string>
-    <string name="emptyList">Lista jest pusta</string>
+    <string name="empty_list">Lista jest pusta</string>
+    <string name="events_in_city">Koncerty w mieście %1$s</string>
 
 </resources>

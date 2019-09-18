@@ -121,7 +121,7 @@ class FirestoreRepository {
                 it.exists()
             }
 
-    fun getSearchByName(search: String) : Single<List<String>>{
+    fun getSearchByName(search: String) : Single<List<Pair<String, String>>>{
         return database.collection("events")
             .orderBy("name")
             .startAt(search.capitalize())
@@ -132,7 +132,7 @@ class FirestoreRepository {
             }
     }
 
-    fun getSearchByLocation(search: String) : Single<List<String>>{
+    fun getSearchByLocation(search: String) : Single<List<Pair<String, String>>>{
         return database.collection("events")
             .orderBy("location.city")
             .startAt(search.capitalize())

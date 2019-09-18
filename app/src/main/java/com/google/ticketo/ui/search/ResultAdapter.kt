@@ -13,8 +13,8 @@ import kotlinx.android.synthetic.main.item_search_result.view.*
 
 class ResultAdapter (val context : Context, val callback : SearchCallback) : RecyclerView.Adapter<ResultAdapter.ResultHolder>(){
 
-    var nameResults: List<String>? = null
-    var locationResults : List<String> ? = null
+    var nameResults: List<Pair<String, String>>? = null
+    var locationResults : List<Pair<String,String>> ? = null
 
     override fun getItemCount(): Int = (nameResults?.size ?: 0) + (locationResults?.size?: 0)
 
@@ -35,12 +35,12 @@ class ResultAdapter (val context : Context, val callback : SearchCallback) : Rec
     }
 
     class ResultHolder(val view : View, val callback: SearchCallback) : RecyclerView.ViewHolder(view){
-        fun bind(result : String, type : ResultType){
-            view.item_search_result_maintext.text=result
+        fun bind(result : Pair<String,String>, type : ResultType){
+            view.item_search_result_maintext.text=result.first
             if(type == ResultType.NAME){
                 view.item_search_result_music.isVisible=true
                 view.item_search_result_location.isVisible=false
-                itemView.setOnClickListener { callback.goToDetails() }  // TODO tutaj trzeba miec ID wiec musi byc para <Id, String>
+                itemView.setOnClickListener { callback.goToDetails(result.second) }
             }
             else{
                 view.item_search_result_music.isVisible=false
@@ -51,6 +51,7 @@ class ResultAdapter (val context : Context, val callback : SearchCallback) : Rec
 
     interface SearchCallback {
         fun goToDetails(eventId: String)
+        fun searchByCity(city : String)
     }
 }
 

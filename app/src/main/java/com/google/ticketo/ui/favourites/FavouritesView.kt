@@ -44,6 +44,7 @@ class FavouritesView : Fragment(), EventAdapter.FavouritesCallback {
         ).get(FavouritesViewModel::class.java)
 
         initView()
+        onClicks()
         observers()
     }
 
@@ -53,6 +54,12 @@ class FavouritesView : Fragment(), EventAdapter.FavouritesCallback {
 
         adapter = EventAdapter(context!!, this)
         favourites_events.adapter = adapter
+    }
+
+    private fun onClicks(){
+        favourites_back.setOnClickListener {
+            view!!.findNavController().popBackStack()
+        }
     }
 
     private fun observers() {

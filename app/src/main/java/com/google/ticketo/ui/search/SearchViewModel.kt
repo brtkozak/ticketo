@@ -10,11 +10,11 @@ import io.reactivex.schedulers.Schedulers
 
 class SearchViewModel(val repository : Repository) : ViewModel() {
 
-    private val _names = MutableLiveData<List<String>>()
-    val names : LiveData<List<String>> = _names
+    private val _names = MutableLiveData<List<Pair<String, String>>>()
+    val names : LiveData<List<Pair<String, String>>> = _names
 
-    private val _locations = MutableLiveData<List<String>>()
-    val locations : LiveData<List<String>> = _locations
+    private val _locations = MutableLiveData<List<Pair<String, String>>>()
+    val locations : LiveData<List<Pair<String, String>>> = _locations
 
     @SuppressLint("CheckResult")
     fun search(search : String) {

@@ -123,7 +123,8 @@ class Repository(context: Context) {
                         executor.execute {
                             val eventIntents = mutableListOf<EventIntents>()
                             it.first.forEach {
-                                eventIntents.add(EventIntents(eventId = it.id))
+                                if (localDatabase.eventIntentsDao().checkEventIntents(it.id) == null)
+                                    eventIntents.add(EventIntents(eventId = it.id))
                             }
                             localDatabase.eventIntentsDao().insertEventsIntents(eventIntents)
                         }
@@ -237,9 +238,9 @@ class Repository(context: Context) {
     fun getFavouriteEvents(): LiveData<List<Event>> =
         localDatabase.eventIntentsDao().getFavouriteEvents()
 
-    fun getSearchByName(search: String): Single<List<String>> =
+    fun getSearchByName(search: String): Single<List<Pair<String, String>>> =
         firestoreRepository.getSearchByName(search)
 
-    fun getSearchByLocation(search: String): Single<List<String>> =
+    fun getSearchByLocation(search: String): Single<List<Pair<String, String>>> =
         firestoreRepository.getSearchByLocation(search)
 }

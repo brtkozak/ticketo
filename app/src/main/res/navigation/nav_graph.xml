@@ -16,6 +16,9 @@
         <action
                 android:id="@+id/action_searchView_to_eventDetailsView"
                 app:destination="@id/eventDetailsView" />
+        <action
+                android:id="@+id/action_searchView_to_eventsByCityView"
+                app:destination="@id/eventsByCityView" />
     </fragment>
     <fragment android:id="@+id/eventDetailsView" android:name="com.google.ticketo.ui.event_details.EventDetailsView"
               android:label="event_details_fragment" tools:layout="@layout/event_details_fragment">
@@ -30,4 +33,9 @@
                 android:id="@+id/action_favouritesView_to_eventDetailsView"
                 app:destination="@id/eventDetailsView" />
     </fragment>
+    <fragment
+            android:id="@+id/eventsByCityView"
+            android:name="com.google.ticketo.ui.search.eventsByCity.EventsByCityView"
+            android:label="events_by_city_fragment"
+            tools:layout="@layout/events_by_city_fragment" />
 </navigation>

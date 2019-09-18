@@ -14,6 +14,9 @@ interface EventIntentsDao {
     @Query("SELECT * FROM eventintents WHERE eventId= :eventId")
     fun getEventIntents(eventId : String) : LiveData<EventIntents>
 
+    @Query("SELECT * FROM eventintents WHERE eventId= :eventId LIMIT 1")
+    fun checkEventIntents (eventId : String) : EventIntents?
+
     @Insert(onConflict = OnConflictStrategy.ABORT)
     fun insertEventsIntents(eventIntents : List<EventIntents>)
 

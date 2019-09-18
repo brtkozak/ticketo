@@ -8,9 +8,9 @@ import com.google.ticketo.model.Location
 @Dao
 interface LocationDao {
 
-    @Insert(onConflict = OnConflictStrategy.ABORT)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertLocations(locations : List<Location>)
 
-    @Insert(onConflict = OnConflictStrategy.ABORT)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertLocation(location : Location)
 }
