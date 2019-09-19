@@ -37,5 +37,9 @@
             android:id="@+id/eventsByCityView"
             android:name="com.google.ticketo.ui.search.eventsByCity.EventsByCityView"
             android:label="events_by_city_fragment"
-            tools:layout="@layout/events_by_city_fragment" />
+            tools:layout="@layout/events_by_city_fragment" >
+        <action
+                android:id="@+id/action_eventsByCityView_to_eventDetailsView"
+                app:destination="@id/eventDetailsView" />
+    </fragment>
 </navigation>

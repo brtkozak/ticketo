@@ -77,11 +77,9 @@ object DtoConverter {
         val result = mutableListOf<Pair<String, String>>()
         querySnapshot.forEach {
             val temp = it.toObject(EventResponse::class.java)
-            result.add(Pair(temp.location?.city!!, temp.id))
+            result.add(Pair(temp.location?.city!!, ""))
         }
         return result.distinct()
     }
-
-
 
 }

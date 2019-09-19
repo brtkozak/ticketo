@@ -16,6 +16,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.google.ticketo.R
 import com.google.ticketo.databinding.MyProfileFragmentBinding
 import com.google.ticketo.ui.RepositoryViewModelFactory
+import com.google.ticketo.utils.NavigationUtils
 import kotlinx.android.synthetic.main.my_profile_fragment.*
 
 class MyProfileView : Fragment() {
@@ -32,20 +33,20 @@ class MyProfileView : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        binding =
-            DataBindingUtil.inflate(inflater, R.layout.my_profile_fragment, container, false)
-
+        binding = DataBindingUtil.inflate(inflater, R.layout.my_profile_fragment, container, false)
         return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(
-            this,
-            RepositoryViewModelFactory(context!!)
-        ).get(MyProfileViewModel::class.java)
+        viewModel = ViewModelProvider(this, RepositoryViewModelFactory(context!!)).get(MyProfileViewModel::class.java)
 
+        observers()
+        onClicks()
+
+    }
+
+    private fun observers(){
         viewModel.user.observe(this, Observer {
             binding.user = it
         })
@@ -56,7 +57,11 @@ class MyProfileView : Fragment() {
                 my_profile_container.visibility = View.VISIBLE
             }
         })
-
     }
 
+    private fun onClicks() {
+        my_profile_back.setOnClickListener {
+            NavigationUtils.backPress(it)
+        }
+    }
 }

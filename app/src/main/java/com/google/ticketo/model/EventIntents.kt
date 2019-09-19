@@ -15,7 +15,7 @@ import androidx.room.PrimaryKey
 )
 data class EventIntents(
     @PrimaryKey(autoGenerate = true)
-    val id: Int = 0,
+    val intentsId: Int = 0,
     val eventId: String,
     var buy: Boolean = false,
     var sell: Boolean = false,

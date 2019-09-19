@@ -19,8 +19,10 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.ticketo.R
 import com.google.ticketo.ui.RepositoryViewModelFactory
+import com.google.ticketo.utils.NavigationUtils
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.search_fragment.*
+import java.util.*
 
 class SearchView : Fragment(), ResultAdapter.SearchCallback {
 
@@ -31,6 +33,8 @@ class SearchView : Fragment(), ResultAdapter.SearchCallback {
     private lateinit var viewModel: SearchViewModel
     private lateinit var imgr: InputMethodManager
     private lateinit var adapter: ResultAdapter
+    private var timer = Timer()
+    private val DELAY: Long = 500
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -71,12 +75,12 @@ class SearchView : Fragment(), ResultAdapter.SearchCallback {
 
     private fun observers() {
         viewModel.names.observe(this, Observer {
-            adapter.nameResults=it
+            adapter.nameResults = it
             adapter.notifyDataSetChanged()
         })
 
         viewModel.locations.observe(this, Observer {
-            adapter.locationResults=it
+            adapter.locationResults = it
             adapter.notifyDataSetChanged()
         })
     }
@@ -91,7 +95,7 @@ class SearchView : Fragment(), ResultAdapter.SearchCallback {
 
     private fun onClicks() {
         search_fragment_back.setOnClickListener {
-            view!!.findNavController().popBackStack()
+            NavigationUtils.backPress(it)
         }
         search_fragment_clear.setOnClickListener {
             search_fragment_input.text?.clear()
@@ -101,6 +105,14 @@ class SearchView : Fragment(), ResultAdapter.SearchCallback {
     private fun listeners() {
         search_fragment_input.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(e: Editable?) {
+                timer.cancel()
+                timer = Timer()
+                timer.schedule(object : TimerTask() {
+                    override fun run() {
+                        if (e.toString().isNotEmpty())
+                            viewModel.search(e.toString())
+                    }
+                }, DELAY)
             }
 
             override fun beforeTextChanged(
@@ -108,17 +120,18 @@ class SearchView : Fragment(), ResultAdapter.SearchCallback {
                 start: Int,
                 count: Int,
                 after: Int
-            ) {  // sam nazywalem te pola wiec moze byc zle
+            ) {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 if (s?.length!! > 0) {
                     search_fragment_clear.visibility = View.VISIBLE
-                    viewModel.search(s.toString())
+//                    viewModel.search(s.toString())
                 } else {
                     search_fragment_clear.visibility = View.GONE
-                    adapter.nameResults=null
-                    adapter.locationResults=null
+                    adapter.nameResults = null
+                    adapter.locationResults = null
+                    adapter.notifyDataSetChanged()
                 }
             }
 
@@ -126,6 +139,7 @@ class SearchView : Fragment(), ResultAdapter.SearchCallback {
     }
 
     override fun goToDetails(eventId: String) {
+        hideKeyboard()
         val bundle = bundleOf(
             "eventId" to eventId
         )
@@ -134,10 +148,15 @@ class SearchView : Fragment(), ResultAdapter.SearchCallback {
     }
 
     override fun searchByCity(city: String) {
+        hideKeyboard()
         val bundle = bundleOf(
             "city" to city
         )
         view!!.findNavController()
             .navigate(R.id.action_searchView_to_eventsByCityView, bundle, null, null)
+    }
+
+    private fun hideKeyboard(){
+        imgr.hideSoftInputFromWindow(view!!.windowToken,0 )
     }
 }

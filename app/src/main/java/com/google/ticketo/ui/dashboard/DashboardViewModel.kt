@@ -7,7 +7,7 @@ import com.google.ticketo.model.Event
 
 class DashboardViewModel(repository: Repository) : ViewModel() {
 
-    var eventsByCity: LiveData<List<Event>> = repository.getEventsInCity("Wrocław")
+    var eventsByCity: LiveData<List<Event>> = repository.getEventsInCity("Darszawa")
     var eventsThisWeekend: LiveData<List<Event>> = repository.getEventsThisWeekend()
 
 }

@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.google.ticketo.R
 import com.google.ticketo.ui.RepositoryViewModelFactory
+import com.google.ticketo.utils.NavigationUtils
 import kotlinx.android.synthetic.main.favourites_fragment.*
 import kotlinx.android.synthetic.main.item_dashboard_event.*
 import kotlinx.android.synthetic.main.item_favourites_event.*
@@ -58,7 +59,7 @@ class FavouritesView : Fragment(), EventAdapter.FavouritesCallback {
 
     private fun onClicks(){
         favourites_back.setOnClickListener {
-            view!!.findNavController().popBackStack()
+            NavigationUtils.backPress(it)
         }
     }
 

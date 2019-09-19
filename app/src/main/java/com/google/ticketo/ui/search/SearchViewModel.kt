@@ -32,6 +32,4 @@ class SearchViewModel(val repository : Repository) : ViewModel() {
                 _locations.value=it
             }
     }
-
-
 }

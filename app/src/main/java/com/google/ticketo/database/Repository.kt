@@ -7,10 +7,7 @@ import androidx.room.Room
 import com.google.firebase.database.core.Repo
 import com.google.ticketo.database.Local.LocalDatabase
 import com.google.ticketo.database.Remote.firestore.FirestoreRepository
-import com.google.ticketo.model.Event
-import com.google.ticketo.model.EventDto
-import com.google.ticketo.model.EventIntents
-import com.google.ticketo.model.User
+import com.google.ticketo.model.*
 import com.google.ticketo.utils.Const
 import com.google.ticketo.utils.Const.BUY_INTENT
 import io.reactivex.Flowable
@@ -76,7 +73,8 @@ class Repository(context: Context) {
                         executor.execute {
                             val eventIntents = mutableListOf<EventIntents>()
                             it.first.forEach {
-                                eventIntents.add(EventIntents(eventId = it.id))
+                                if (localDatabase.eventIntentsDao().checkEventIntents(it.id) == null)
+                                    eventIntents.add(EventIntents(eventId = it.id))
                             }
                             localDatabase.eventIntentsDao().insertEventsIntents(eventIntents)
                         }
@@ -85,6 +83,11 @@ class Repository(context: Context) {
             } else
                 Log.d("looog", "from local")
         }
+    }
+
+    fun getEventsWithIntentsByCity(city : String) : LiveData<List<EventWithIntents>>{
+        updateGetEventsInCity(city)
+        return localDatabase.eventDao().getEventWithIntentsByCity(city)
     }
 
     fun getEventsThisWeekend(): LiveData<List<Event>> {

@@ -15,5 +15,10 @@
     <string name="sell">Sprzedam</string>
     <string name="empty_list">Lista jest pusta</string>
     <string name="events_in_city">Koncerty w mieście %1$s</string>
+    <string name="my_account">Moje konto</string>
+    <string name="recommend_you">Poleca Cię</string>
+    <string name="warn_you">Radzi uważać</string>
+    <string name="you_are_buying">Kupujesz</string>
+    <string name="you_are_selling">Sprzedajesz</string>
 
 </resources>

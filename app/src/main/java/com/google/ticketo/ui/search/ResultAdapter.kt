@@ -45,6 +45,9 @@ class ResultAdapter (val context : Context, val callback : SearchCallback) : Rec
             else{
                 view.item_search_result_music.isVisible=false
                 view.item_search_result_location.isVisible=true
+                itemView.setOnClickListener {
+                    callback.searchByCity(result.first)
+                }
             }
         }
     }

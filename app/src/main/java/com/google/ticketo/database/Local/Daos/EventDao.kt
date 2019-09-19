@@ -7,6 +7,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.google.ticketo.model.Event
 import com.google.ticketo.model.EventDto
+import com.google.ticketo.model.EventWithIntents
 import io.reactivex.Flowable
 import io.reactivex.Single
 import java.util.*
@@ -36,6 +37,9 @@ interface EventDao {
 
     @Query("SELECT * FROM eventdto JOIN location ON eventdto.location=location.locationName WHERE id = :eventId")
     fun getEventWithDate(eventId: String): Event
+
+    @Query("SELECT * FROM eventdto JOIN eventintents ON eventdto.id = eventintents.eventId JOIN Location ON eventdto.location=location.locationName WHERE location.city= :city")
+    fun getEventWithIntentsByCity(city : String) : LiveData<List<EventWithIntents>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertEvents(events: List<EventDto>)

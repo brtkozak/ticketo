@@ -1,55 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-    <ImageView
-            android:id="@+id/item_event_by_city_image"
+    <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
+            app:cardCornerRadius="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-            android:id="@+id/item_events_by_city_favourite"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:adjustViewBounds="true"
-            android:background="@drawable/favourite_button_selector"
-            app:layout_constraintEnd_toEndOf="@+id/imageView3"
             app:layout_constraintTop_toTopOf="parent">
-    </ImageView>
 
-    <TextView
-            android:id="@+id/item_event_by_city_name"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:ellipsize="end"
-            android:maxLines="1"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView3"></TextView>
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/appBar">
 
-    <TextView
-            android:id="@+id/item_event_by_city_date"
-            android:layout_width="wrap_content"
-            android:layout_height="25dp"
-            app:layout_constraintBottom_toTopOf="@+id/item_event_by_city_time"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView3"></TextView>
 
-    <TextView
-            android:id="@+id/item_event_by_city_time"
-            android:layout_width="0dp"
-            android:layout_height="25dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            <ImageView
+                    android:id="@+id/item_event_by_city_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="140dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
 
-    </TextView>
+            <ImageView
+                    android:id="@+id/item_events_by_city_favourite"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:adjustViewBounds="true"
+                    android:background="@drawable/favourite_button_selector"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+            </ImageView>
+
+            <TextView
+                    android:id="@+id/item_event_by_city_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@null"
+                    android:ellipsize="end"
+                    android:maxLines="2"
+                    android:textSize="20sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/item_event_by_city_date"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/item_event_by_city_image"></TextView>
+
+            <TextView
+                    android:id="@+id/item_event_by_city_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@null"
+                    app:layout_constraintBottom_toTopOf="@+id/item_event_by_city_time"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/item_event_by_city_image">
+
+            </TextView>
+
+            <TextView
+                    android:id="@+id/item_event_by_city_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@null"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"></TextView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
