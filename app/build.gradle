@@ -84,6 +84,7 @@ dependencies {
     implementation 'android.arch.persistence.room:rxjava2:1.1.1'
     kapt "androidx.room:room-compiler:2.2.0-beta01"
     //ROOM
+
 }
 
 //FIREBASE

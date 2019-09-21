@@ -9,8 +9,12 @@
         <action android:id="@+id/action_dashboardView_to_searchView" app:destination="@id/searchView"/>
         <action android:id="@+id/action_dashboardView_to_eventDetailsView" app:destination="@id/eventDetailsView"/>
     </fragment>
-    <fragment android:id="@+id/myProfileView" android:name="com.google.ticketo.ui.profile.MyProfileView"
-              android:label="my_profile_fragment" tools:layout="@layout/my_profile_fragment"/>
+    <fragment android:id="@+id/myProfileView" android:name="com.google.ticketo.ui.profile.my_profile.MyProfileView"
+              android:label="my_profile_fragment" tools:layout="@layout/my_profile_fragment">
+        <action
+                android:id="@+id/action_myProfileView_to_intentsView"
+                app:destination="@id/intentsView" />
+    </fragment>
     <fragment android:id="@+id/searchView" android:name="com.google.ticketo.ui.search.SearchView"
               android:label="search_fragment" tools:layout="@layout/search_fragment">
         <action
@@ -42,4 +46,9 @@
                 android:id="@+id/action_eventsByCityView_to_eventDetailsView"
                 app:destination="@id/eventDetailsView" />
     </fragment>
+    <fragment
+            android:id="@+id/intentsView"
+            android:name="com.google.ticketo.ui.profile.my_profile.intents.IntentsView"
+            android:label="intents_fragment"
+            tools:layout="@layout/intents_fragment" />
 </navigation>

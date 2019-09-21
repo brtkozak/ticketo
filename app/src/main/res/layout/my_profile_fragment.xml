@@ -14,7 +14,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context=".ui.profile.MyProfileView">
+            tools:context=".ui.profile.my_profile.MyProfileView">
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -169,7 +169,7 @@
 
                     <TextView
                             android:id="@+id/my_profile_buy_counter"
-                            android:layout_width="wrap_content"
+                            android:layout_width="30dp"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="24dp"
                             app:layout_constraintEnd_toEndOf="@+id/textView3"
@@ -178,7 +178,7 @@
 
                     <TextView
                             android:id="@+id/my_profile_sell_counter"
-                            android:layout_width="wrap_content"
+                            android:layout_width="30dp"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="24dp"
                             app:layout_constraintEnd_toEndOf="@+id/textView5"

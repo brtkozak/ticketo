@@ -1,4 +1,4 @@
-package com.google.ticketo.ui.profile
+package com.google.ticketo.ui.profile.my_profile
 
 import android.annotation.SuppressLint
 import android.util.Log
