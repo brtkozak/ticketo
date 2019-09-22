@@ -27,6 +27,9 @@
     <fragment android:id="@+id/eventDetailsView" android:name="com.google.ticketo.ui.event_details.EventDetailsView"
               android:label="event_details_fragment" tools:layout="@layout/event_details_fragment">
         <argument android:name="eventId" app:argType="string"/>
+        <action
+                android:id="@+id/action_eventDetailsView_to_usersContainerView"
+                app:destination="@id/usersContainerView" />
     </fragment>
     <fragment
             android:id="@+id/favouritesView"
@@ -55,4 +58,9 @@
                 android:id="@+id/action_intentsView_to_eventDetailsView"
                 app:destination="@id/eventDetailsView" />
     </fragment>
+    <fragment
+            android:id="@+id/usersContainerView"
+            android:name="com.google.ticketo.ui.event_details.users.UsersContainerView"
+            android:label="users_container_fragment"
+            tools:layout="@layout/users_container_fragment" />
 </navigation>

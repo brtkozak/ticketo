@@ -1,4 +1,4 @@
-package com.google.ticketo.ui.profile.my_profile.intents
+package com.google.ticketo.ui.event_details.users
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,24 +8,27 @@ import android.view.ViewGroup
 
 import com.google.ticketo.R
 import com.google.ticketo.ui.FragmentAdapter
+import com.google.ticketo.ui.event_details.users.users_list.BuyersView
+import com.google.ticketo.ui.event_details.users.users_list.SellersView
 import com.google.ticketo.ui.profile.my_profile.intents.intents_list.IntentBuyView
 import com.google.ticketo.ui.profile.my_profile.intents.intents_list.IntentSellView
 import com.google.ticketo.utils.NavigationUtils
 import kotlinx.android.synthetic.main.intents_fragment.*
+import kotlinx.android.synthetic.main.users_container_fragment.*
 
-class IntentsView : Fragment() {
+class UsersContainerView : Fragment() {
 
     lateinit var fragmentAdapter: FragmentAdapter
 
     companion object {
-        fun newInstance() = IntentsView()
+        fun newInstance() = UsersContainerView()
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.intents_fragment, container, false)
+        return inflater.inflate(R.layout.users_container_fragment, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -38,18 +41,18 @@ class IntentsView : Fragment() {
 
     private fun initView() {
         fragmentAdapter = FragmentAdapter(childFragmentManager)
-        intents_view_pager.adapter = fragmentAdapter
-        intents_tablayout.setupWithViewPager(intents_view_pager)
+        users_container_view_pager.adapter = fragmentAdapter
+        users_container_tablayout.setupWithViewPager(users_container_view_pager)
     }
 
     private fun addFragments() {
-        fragmentAdapter.addFragment(IntentBuyView(), resources.getString(R.string.you_are_buying))
-        fragmentAdapter.addFragment(IntentSellView(), resources.getString(R.string.you_are_selling))
+        fragmentAdapter.addFragment(BuyersView(), resources.getString(R.string.i_will_buy))
+        fragmentAdapter.addFragment(SellersView(), resources.getString(R.string.i_will_sell))
         fragmentAdapter.notifyDataSetChanged()
     }
 
     private fun onClicks(){
-        intents_back.setOnClickListener {
+        users_container_back.setOnClickListener {
             NavigationUtils.backPress(it)
         }
     }

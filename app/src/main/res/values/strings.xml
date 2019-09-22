@@ -17,9 +17,12 @@
     <string name="events_in_city">Koncerty w mieście %1$s</string>
     <string name="my_account">Moje konto</string>
     <string name="recommend_you">Poleca Cię</string>
-    <string name="warn_you">Radzi uważać</string>
+    <string name="warn_you">Ostrzega</string>
     <string name="you_are_buying">Kupujesz</string>
     <string name="you_are_selling">Sprzedajesz</string>
+    <string name="i_will_buy">Kupię</string>
+    <string name="i_will_sell">Sprzedam</string>
     <string name="your_concerts">Twoje koncerty</string>
+    <string name="offers">Oferty</string>
 
 </resources>

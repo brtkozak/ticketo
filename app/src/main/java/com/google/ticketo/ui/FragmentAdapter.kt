@@ -1,4 +1,4 @@
-package com.google.ticketo.ui.profile.my_profile.intents
+package com.google.ticketo.ui
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager

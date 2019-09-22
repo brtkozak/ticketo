@@ -18,8 +18,6 @@ import io.reactivex.schedulers.Schedulers
 
 class EventDetailsViewModel(private val repository: Repository,val eventId : String) : ViewModel() {
 
-//    var eventId: String? = null
-
     private val _event = MutableLiveData<Event>()
     val event: LiveData<Event> = _event
 
@@ -34,6 +32,10 @@ class EventDetailsViewModel(private val repository: Repository,val eventId : Str
 
     val eventIntents : LiveData<EventIntents> = repository.getEventIntents(eventId)
 
+    val buyers : LiveData<List<User>> = repository.getGroup(eventId, BUYERS)
+
+    val sellers : LiveData<List<User>> = repository.getGroup(eventId, SELLERS)
+
     @SuppressLint("CheckResult")
     fun setEvent() {
         repository.getEvent(eventId)
@@ -44,15 +46,15 @@ class EventDetailsViewModel(private val repository: Repository,val eventId : Str
             }
     }
 
-    fun getBuyers(): LiveData<List<User>> =
-        repository.getGroup(eventId!!, BUYERS)
+//    fun getBuyers(): LiveData<List<User>> =
+//        repository.getGroup(eventId, BUYERS)
 
-    fun getSellers(): LiveData<List<User>> =
-        repository.getGroup(eventId!!, SELLERS)
+//    fun getSellers(): LiveData<List<User>> =
+//        repository.getGroup(eventId, SELLERS)
 
     @SuppressLint("CheckResult")
     fun addToBuyers() {
-        repository.addToGroup(eventId!!, BUYERS, BUY_INTENT)
+        repository.addToGroup(eventId, BUYERS, BUY_INTENT)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
             .subscribe { it ->
@@ -62,7 +64,7 @@ class EventDetailsViewModel(private val repository: Repository,val eventId : Str
 
     @SuppressLint("CheckResult")
     fun removeFromBuyers(click: String) {
-        repository.removeFromGroup(eventId!!, BUYERS, BUY_INTENT)
+        repository.removeFromGroup(eventId, BUYERS, BUY_INTENT)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
             .subscribe { it ->
@@ -85,7 +87,7 @@ class EventDetailsViewModel(private val repository: Repository,val eventId : Str
 
     @SuppressLint("CheckResult")
     fun removeFromSellers(click: String) {
-        repository.removeFromGroup(eventId!!, SELLERS, SELL_INTENT)
+        repository.removeFromGroup(eventId, SELLERS, SELL_INTENT)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
             .subscribe { it ->
@@ -105,7 +107,7 @@ class EventDetailsViewModel(private val repository: Repository,val eventId : Str
     }
 
     fun updateFavourites(state : Boolean){
-        repository.updateFavourites(eventId!!, state)
+        repository.updateFavourites(eventId, state)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
             .subscribe()

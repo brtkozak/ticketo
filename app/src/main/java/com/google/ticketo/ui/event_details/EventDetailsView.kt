@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -15,6 +16,7 @@ import kotlinx.android.synthetic.main.event_details_fragment.*
 import androidx.core.view.isVisible
 import androidx.navigation.findNavController
 import com.google.ticketo.R
+import com.google.ticketo.utils.Const
 import com.google.ticketo.utils.Const.BUYERS
 import com.google.ticketo.utils.Const.BUY_INTENT
 import com.google.ticketo.utils.Const.SELLERS
@@ -44,7 +46,7 @@ class EventDetailsView : Fragment() {
 
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(
-            this,
+            activity!!,
             EventDetailsFactory(context!!, eventId)
         ).get(
             EventDetailsViewModel::class.java
@@ -65,11 +67,11 @@ class EventDetailsView : Fragment() {
             event_details_time.text = timeFormat.format(it.startDate)
         })
 
-        viewModel.getBuyers().observe(this, Observer {
+        viewModel.buyers.observe(this, Observer {
             event_details_buyers.text = it.size.toString()
         })
 
-        viewModel.getSellers().observe(this, Observer {
+        viewModel.sellers.observe(this, Observer {
             event_details_sellers.text = it.size.toString()
         })
 
@@ -90,9 +92,9 @@ class EventDetailsView : Fragment() {
         })
 
         viewModel.eventIntents.observe(this, Observer {
-            event_details_buy.isSelected=it.buy
-            event_details_sell.isSelected=it.sell
-            event_details_favourite.isSelected=it.favourite
+            event_details_buy.isSelected = it.buy
+            event_details_sell.isSelected = it.sell
+            event_details_favourite.isSelected = it.favourite
         })
 
         viewModel.layoutReady.observe(this, Observer {
@@ -118,6 +120,24 @@ class EventDetailsView : Fragment() {
                 viewModel.removeFromFavourites()
             else
                 viewModel.addToFavourites()
+        }
+
+        event_details_buyers.setOnClickListener {
+            val bundle = bundleOf(
+                "itent" to BUY_INTENT
+            )
+
+            view!!.findNavController()
+                .navigate(R.id.action_eventDetailsView_to_usersContainerView, bundle, null, null)
+        }
+
+        event_details_sellers.setOnClickListener {
+            val bundle = bundleOf(
+                "itent" to Const.BUY_INTENT
+            )
+
+            view!!.findNavController()
+                .navigate(R.id.action_eventDetailsView_to_usersContainerView, bundle, null, null)
         }
     }
 
