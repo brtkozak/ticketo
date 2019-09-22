@@ -41,6 +41,18 @@ interface EventDao {
     @Query("SELECT * FROM eventdto JOIN eventintents ON eventdto.id = eventintents.eventId JOIN Location ON eventdto.location=location.locationName WHERE location.city= :city")
     fun getEventWithIntentsByCity(city : String) : LiveData<List<EventWithIntents>>
 
+    @Query("SELECT * FROM eventdto JOIN eventintents ON eventdto.id = eventintents.eventId WHERE eventintents.buy = 1")
+    fun getEventsWithBuyIntent() : LiveData<List<EventWithIntents>>
+
+    @Query("SELECT * FROM eventdto JOIN eventintents ON eventdto.id = eventintents.eventId WHERE eventintents.sell = 1")
+    fun getEventsWithSellIntent() : LiveData<List<EventWithIntents>>
+
+    @Query("SELECT COUNT(*) FROM eventdto JOIN eventintents ON eventdto.id = eventintents.eventId WHERE eventintents.buy = 1")
+    fun getEventsWithBuyIntentCount() : LiveData<Int>
+
+    @Query("SELECT COUNT(*) FROM eventdto JOIN eventintents ON eventdto.id = eventintents.eventId WHERE eventintents.sell = 1")
+    fun getEventsWithSellIntentCount() : LiveData<Int>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertEvents(events: List<EventDto>)
 

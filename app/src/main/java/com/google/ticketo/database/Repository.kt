@@ -246,4 +246,16 @@ class Repository(context: Context) {
 
     fun getSearchByLocation(search: String): Single<List<Pair<String, String>>> =
         firestoreRepository.getSearchByLocation(search)
+
+    fun getEventsWithBuyIntent () : LiveData<List<EventWithIntents>> =
+        localDatabase.eventDao().getEventsWithBuyIntent()
+
+    fun getEventsWithSellIntent () : LiveData<List<EventWithIntents>> =
+        localDatabase.eventDao().getEventsWithSellIntent()
+
+    fun getEventsWithBuyIntentCount () : LiveData<Int> =
+        localDatabase.eventDao().getEventsWithBuyIntentCount()
+
+    fun getEventsWithSellIntentCount () : LiveData<Int> =
+        localDatabase.eventDao().getEventsWithSellIntentCount()
 }

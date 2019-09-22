@@ -8,21 +8,22 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.ticketo.R
-import com.google.ticketo.databinding.ItemFavouritesEventBinding
-import com.google.ticketo.databinding.ItemFavouritesEventBindingImpl
 import com.google.ticketo.model.Event
-import kotlinx.android.synthetic.main.item_favourites_event.view.*
+import kotlinx.android.synthetic.main.item_favourite_event.view.*
 
-class EventAdapter(val context: Context, val callback: FavouritesCallback) :
-    RecyclerView.Adapter<EventAdapter.EventHolder>() {
+class FavouriteEventAdapter(val context: Context, val callback: BaseEventCallback) :
+    RecyclerView.Adapter<FavouriteEventAdapter.EventHolder>() {
 
     var eventsList: List<Event>? = null
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventHolder {
         val layoutInflater =
-            LayoutInflater.from(context).inflate(R.layout.item_favourites_event, parent, false)
-        return EventHolder(layoutInflater, callback)
+            LayoutInflater.from(context).inflate(R.layout.item_favourite_event, parent, false)
+        return EventHolder(
+            layoutInflater,
+            callback
+        )
     }
 
     override fun getItemCount(): Int {
@@ -35,20 +36,20 @@ class EventAdapter(val context: Context, val callback: FavouritesCallback) :
 
     class EventHolder(
         val view: View,
-        val callback: FavouritesCallback
+        val callback: BaseEventCallback
     ) : RecyclerView.ViewHolder(view) {
 
         fun bind(event: Event) {
-            view.item_favourites_event_name.text = event.name
+            view.item_favourite_event_name.text = event.name
 
-            view.item_favourites_event_image.let {
+            view.item_favourite_event_image.let {
                 Glide.with(it.context)
                     .load(event.imageUrl)
                     .apply(RequestOptions.centerCropTransform())
                     .into(it)
             }
 
-            view.item_favourites_favourite.setOnClickListener {
+            view.item_favourite_favourite.setOnClickListener {
                 callback.removeFromFavourites(event.id)
             }
             view.setOnClickListener {
@@ -57,7 +58,7 @@ class EventAdapter(val context: Context, val callback: FavouritesCallback) :
         }
     }
 
-    interface FavouritesCallback {
+    interface BaseEventCallback {
         fun goToDetails(eventId: String)
         fun removeFromFavourites(eventId: String)
     }

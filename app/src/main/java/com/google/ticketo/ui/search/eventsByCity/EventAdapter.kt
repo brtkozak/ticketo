@@ -14,7 +14,7 @@ import com.google.ticketo.model.EventIntents
 import com.google.ticketo.model.EventWithIntents
 import com.google.ticketo.ui.search.ResultAdapter
 import kotlinx.android.synthetic.main.item_events_by_city.view.*
-import kotlinx.android.synthetic.main.item_favourites_event.view.*
+import kotlinx.android.synthetic.main.item_favourite_event.view.*
 import java.text.SimpleDateFormat
 
 class EventAdapter(val context: Context, val callback: EventsByCityCallback) :

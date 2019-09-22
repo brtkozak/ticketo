@@ -1,14 +1,12 @@
 package com.google.ticketo.ui.search
 
 import android.content.Context
-import android.support.v4.media.MediaBrowserCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.google.ticketo.R
-import com.google.ticketo.ui.favourites.EventAdapter
 import kotlinx.android.synthetic.main.item_search_result.view.*
 
 class ResultAdapter (val context : Context, val callback : SearchCallback) : RecyclerView.Adapter<ResultAdapter.ResultHolder>(){

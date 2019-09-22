@@ -3,7 +3,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.profile.my_profile.intents.intents_list.intent_buy.IntentBuyView">
+        tools:context=".ui.profile.my_profile.intents.intents_list.IntentBuyView">
 
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/intent_list"

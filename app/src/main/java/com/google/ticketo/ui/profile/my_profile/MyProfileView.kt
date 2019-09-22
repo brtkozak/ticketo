@@ -59,6 +59,14 @@ class MyProfileView : Fragment() {
                 my_profile_container.visibility = View.VISIBLE
             }
         })
+
+        viewModel.buyCounter.observe(this, Observer {
+            my_profile_buy_counter.text=it.toString()
+        })
+
+        viewModel.sellCounter.observe(this, Observer {
+            my_profile_sell_counter.text=it.toString()
+        })
     }
 
     private fun onClicks() {
@@ -66,7 +74,7 @@ class MyProfileView : Fragment() {
             NavigationUtils.backPress(it)
         }
 
-        my_profile_buy_counter.setOnClickListener {
+        my_profile_buy_container.setOnClickListener {
             val bundle = bundleOf(
                 "itent" to Const.BUY_INTENT
             )
@@ -75,7 +83,7 @@ class MyProfileView : Fragment() {
                 .navigate(R.id.action_myProfileView_to_intentsView, bundle, null, null)
         }
 
-        my_profile_sell_counter.setOnClickListener {
+        my_profile_sell_container.setOnClickListener {
             val bundle = bundleOf(
                 "intent" to Const.SELL_INTENT
             )

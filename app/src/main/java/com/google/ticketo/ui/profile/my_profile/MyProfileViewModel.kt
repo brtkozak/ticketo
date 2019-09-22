@@ -20,6 +20,9 @@ class MyProfileViewModel(val repository : Repository) : ViewModel() {
     private val _loading = MutableLiveData<Boolean> (true)
     val loading : LiveData<Boolean> = _loading
 
+    val buyCounter : LiveData<Int> = repository.getEventsWithBuyIntentCount()
+    val sellCounter : LiveData<Int> = repository.getEventsWithSellIntentCount()
+
     init {
         getUser()
     }

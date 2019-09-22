@@ -1,6 +1,5 @@
 package com.google.ticketo.ui.favourites
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -11,24 +10,21 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.google.ticketo.R
 import com.google.ticketo.ui.RepositoryViewModelFactory
 import com.google.ticketo.utils.NavigationUtils
 import kotlinx.android.synthetic.main.favourites_fragment.*
-import kotlinx.android.synthetic.main.item_dashboard_event.*
-import kotlinx.android.synthetic.main.item_favourites_event.*
 
-class FavouritesView : Fragment(), EventAdapter.FavouritesCallback {
+class FavouritesView : Fragment(), FavouriteEventAdapter.BaseEventCallback {
 
     companion object {
         fun newInstance() = FavouritesView()
     }
 
     private lateinit var viewModel: FavouritesViewModel
-    private lateinit var adapter: EventAdapter
+    private lateinit var adapter: FavouriteEventAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -53,7 +49,7 @@ class FavouritesView : Fragment(), EventAdapter.FavouritesCallback {
         favourites_events.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
-        adapter = EventAdapter(context!!, this)
+        adapter = FavouriteEventAdapter(context!!, this)
         favourites_events.adapter = adapter
     }
 
