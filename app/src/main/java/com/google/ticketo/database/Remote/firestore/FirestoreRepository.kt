@@ -96,6 +96,12 @@ class FirestoreRepository {
                 .collection(group)
         )
 
+    fun getUser(userId : String) : LiveData<User> =
+        UserLiveData(
+            database.collection("users")
+                .document(userId)
+        )
+
     fun addToGroup(user: User, eventId: String, group: String): Single<Boolean> =
         database.collection("events")
             .document(eventId)

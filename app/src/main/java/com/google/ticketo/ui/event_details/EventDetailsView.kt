@@ -14,6 +14,7 @@ import com.google.ticketo.databinding.EventDetailsFragmentBinding
 import com.google.ticketo.ui.RepositoryViewModelFactory
 import kotlinx.android.synthetic.main.event_details_fragment.*
 import androidx.core.view.isVisible
+import androidx.lifecycle.ViewModelStore
 import androidx.navigation.findNavController
 import com.google.ticketo.R
 import com.google.ticketo.utils.Const
@@ -45,12 +46,14 @@ class EventDetailsView : Fragment() {
         val eventId = arguments?.get("eventId") as String
 
         super.onActivityCreated(savedInstanceState)
+
         viewModel = ViewModelProvider(
             activity!!,
             EventDetailsFactory(context!!, eventId)
         ).get(
             EventDetailsViewModel::class.java
         )
+
         viewModel.setEvent()
         setObservers()
         onClicks()

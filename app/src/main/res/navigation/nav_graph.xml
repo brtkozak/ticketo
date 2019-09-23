@@ -62,5 +62,16 @@
             android:id="@+id/usersContainerView"
             android:name="com.google.ticketo.ui.event_details.users.UsersContainerView"
             android:label="users_container_fragment"
-            tools:layout="@layout/users_container_fragment" />
+            tools:layout="@layout/users_container_fragment" >
+        <action
+                android:id="@+id/action_usersContainerView_to_customProfileView"
+                app:destination="@id/customProfileView" />
+        <action
+                android:id="@+id/action_usersContainerView_to_myProfileView"
+                app:destination="@id/myProfileView" />
+    </fragment>
+    <fragment
+            android:id="@+id/customProfileView"
+            android:name="com.google.ticketo.ui.profile.custom_profile.CustomProfileView"
+            android:label="CustomProfileView" />
 </navigation>

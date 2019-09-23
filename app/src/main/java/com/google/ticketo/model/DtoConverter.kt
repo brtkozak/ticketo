@@ -1,5 +1,6 @@
 package com.google.ticketo.model
 
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.ticketo.model.Responses.eventResponse.EventResponse
 import com.google.ticketo.utils.Const
@@ -62,6 +63,10 @@ object DtoConverter {
             result.add(it.toObject(User::class.java))
         }
         return result
+    }
+
+    fun documentSnapshotToUser(documentSnapshot : DocumentSnapshot) : User {
+        return documentSnapshot.toObject(User::class.java)!!
     }
 
     fun querySnapshotToEventsNameList(querySnapshot: QuerySnapshot) : List<Pair<String, String>> {

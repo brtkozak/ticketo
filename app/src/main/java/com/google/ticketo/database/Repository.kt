@@ -258,4 +258,9 @@ class Repository(context: Context) {
 
     fun getEventsWithSellIntentCount () : LiveData<Int> =
         localDatabase.eventDao().getEventsWithSellIntentCount()
+
+    fun getUser(userId : String) : LiveData<User> =
+        firestoreRepository.getUser(userId)
+
+
 }

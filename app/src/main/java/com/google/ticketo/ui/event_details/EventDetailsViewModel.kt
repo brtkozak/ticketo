@@ -16,7 +16,7 @@ import com.google.ticketo.utils.Const.SELL_INTENT
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
-class EventDetailsViewModel(private val repository: Repository,val eventId : String) : ViewModel() {
+class EventDetailsViewModel(private val repository: Repository, var eventId : String) : ViewModel() {
 
     private val _event = MutableLiveData<Event>()
     val event: LiveData<Event> = _event
@@ -45,12 +45,6 @@ class EventDetailsViewModel(private val repository: Repository,val eventId : Str
                 _event.value = it
             }
     }
-
-//    fun getBuyers(): LiveData<List<User>> =
-//        repository.getGroup(eventId, BUYERS)
-
-//    fun getSellers(): LiveData<List<User>> =
-//        repository.getGroup(eventId, SELLERS)
 
     @SuppressLint("CheckResult")
     fun addToBuyers() {
@@ -112,4 +106,6 @@ class EventDetailsViewModel(private val repository: Repository,val eventId : Str
             .subscribeOn(Schedulers.io())
             .subscribe()
     }
+
+    fun isCurrentUser(userId : String) = userId==repository.firestoreRepository.fireAuth.uid
 }

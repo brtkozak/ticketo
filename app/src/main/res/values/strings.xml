@@ -24,5 +24,7 @@
     <string name="i_will_sell">Sprzedam</string>
     <string name="your_concerts">Twoje koncerty</string>
     <string name="offers">Oferty</string>
+    <string name="recommend">Poleca</string>
+    <string name="friends_on_facebook">Znajomi na Facebook\'u: %1$d</string>
 
 </resources>
