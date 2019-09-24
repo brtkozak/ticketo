@@ -41,6 +41,9 @@ interface EventDao {
     @Query("SELECT * FROM eventdto JOIN eventintents ON eventdto.id = eventintents.eventId JOIN Location ON eventdto.location=location.locationName WHERE location.city= :city")
     fun getEventWithIntentsByCity(city : String) : LiveData<List<EventWithIntents>>
 
+    @Query("SELECT * FROM eventdto JOIN eventintents ON eventdto.id = eventintents.eventId JOIN Location ON eventdto.location=location.locationName WHERE eventId = :eventId LIMIT 1")
+    fun getEventWithIntents(eventId : String) : LiveData<EventWithIntents>
+
     @Query("SELECT * FROM eventdto JOIN eventintents ON eventdto.id = eventintents.eventId WHERE eventintents.buy = 1")
     fun getEventsWithBuyIntent() : LiveData<List<EventWithIntents>>
 

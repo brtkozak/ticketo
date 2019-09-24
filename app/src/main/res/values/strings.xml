@@ -27,4 +27,7 @@
     <string name="recommend">Poleca</string>
     <string name="friends_on_facebook">Znajomi na Facebook\'u: %1$d</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>

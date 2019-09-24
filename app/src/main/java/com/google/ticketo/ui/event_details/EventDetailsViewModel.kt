@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import com.google.ticketo.database.Repository
 import com.google.ticketo.model.Event
 import com.google.ticketo.model.EventIntents
+import com.google.ticketo.model.EventWithIntents
 import com.google.ticketo.model.User
 import com.google.ticketo.utils.Const
 import com.google.ticketo.utils.Const.BUYERS
@@ -18,8 +19,7 @@ import io.reactivex.schedulers.Schedulers
 
 class EventDetailsViewModel(private val repository: Repository, var eventId : String) : ViewModel() {
 
-    private val _event = MutableLiveData<Event>()
-    val event: LiveData<Event> = _event
+    val event: LiveData<EventWithIntents> = repository.getEventWithIntents(eventId)
 
     val _buyLock = MutableLiveData<Int>(0)
     val buyLock: LiveData<Int> = _buyLock
@@ -30,21 +30,9 @@ class EventDetailsViewModel(private val repository: Repository, var eventId : St
     val _layoutReady = MutableLiveData<Int>(0)  // TODO USE TO LOAD REST OF EVENT DATA
     val layoutReady: LiveData<Int> = _layoutReady
 
-    val eventIntents : LiveData<EventIntents> = repository.getEventIntents(eventId)
-
     val buyers : LiveData<List<User>> = repository.getGroup(eventId, BUYERS)
 
     val sellers : LiveData<List<User>> = repository.getGroup(eventId, SELLERS)
-
-    @SuppressLint("CheckResult")
-    fun setEvent() {
-        repository.getEvent(eventId)
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(Schedulers.io())
-            .subscribe { it ->
-                _event.value = it
-            }
-    }
 
     @SuppressLint("CheckResult")
     fun addToBuyers() {
@@ -107,5 +95,4 @@ class EventDetailsViewModel(private val repository: Repository, var eventId : St
             .subscribe()
     }
 
-    fun isCurrentUser(userId : String) = userId==repository.firestoreRepository.fireAuth.uid
 }

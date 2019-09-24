@@ -90,6 +90,10 @@ class Repository(context: Context) {
         return localDatabase.eventDao().getEventWithIntentsByCity(city)
     }
 
+    fun getEventWithIntents(eventId: String) : LiveData<EventWithIntents>{
+        return localDatabase.eventDao().getEventWithIntents(eventId)
+    }
+
     fun getEventsThisWeekend(): LiveData<List<Event>> {
         val day = Calendar.getInstance().get(Calendar.DAY_OF_WEEK)
         var startDate = Date()

@@ -14,6 +14,7 @@ import com.google.ticketo.databinding.EventDetailsFragmentBinding
 import com.google.ticketo.ui.RepositoryViewModelFactory
 import kotlinx.android.synthetic.main.event_details_fragment.*
 import androidx.core.view.isVisible
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelStore
 import androidx.navigation.findNavController
 import com.google.ticketo.R
@@ -47,14 +48,7 @@ class EventDetailsView : Fragment() {
 
         super.onActivityCreated(savedInstanceState)
 
-        viewModel = ViewModelProvider(
-            activity!!,
-            EventDetailsFactory(context!!, eventId)
-        ).get(
-            EventDetailsViewModel::class.java
-        )
-
-        viewModel.setEvent()
+        viewModel = ViewModelProvider(this, EventDetailsFactory(context!!, eventId)).get(EventDetailsViewModel::class.java)
         setObservers()
         onClicks()
     }
@@ -68,6 +62,9 @@ class EventDetailsView : Fragment() {
             val timeFormat = SimpleDateFormat("HH:mm")
             event_details_date.text = dateFormat.format(it.startDate)
             event_details_time.text = timeFormat.format(it.startDate)
+            event_details_buy.isSelected = it.buy
+            event_details_sell.isSelected = it.sell
+            event_details_favourite.isSelected = it.favourite
         })
 
         viewModel.buyers.observe(this, Observer {
@@ -92,12 +89,6 @@ class EventDetailsView : Fragment() {
             } else {
                 lockSell()
             }
-        })
-
-        viewModel.eventIntents.observe(this, Observer {
-            event_details_buy.isSelected = it.buy
-            event_details_sell.isSelected = it.sell
-            event_details_favourite.isSelected = it.favourite
         })
 
         viewModel.layoutReady.observe(this, Observer {
@@ -127,7 +118,8 @@ class EventDetailsView : Fragment() {
 
         event_details_buyers.setOnClickListener {
             val bundle = bundleOf(
-                "itent" to BUY_INTENT
+                "intent" to BUY_INTENT,
+                "eventId" to viewModel.eventId
             )
 
             view!!.findNavController()
@@ -136,7 +128,8 @@ class EventDetailsView : Fragment() {
 
         event_details_sellers.setOnClickListener {
             val bundle = bundleOf(
-                "itent" to Const.BUY_INTENT
+                "intent" to SELL_INTENT,
+                "eventId" to viewModel.eventId
             )
 
             view!!.findNavController()
