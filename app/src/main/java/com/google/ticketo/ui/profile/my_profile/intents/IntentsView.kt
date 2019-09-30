@@ -10,12 +10,15 @@ import com.google.ticketo.R
 import com.google.ticketo.ui.FragmentAdapter
 import com.google.ticketo.ui.profile.my_profile.intents.intents_list.IntentBuyView
 import com.google.ticketo.ui.profile.my_profile.intents.intents_list.IntentSellView
+import com.google.ticketo.utils.Const
+import com.google.ticketo.utils.Const.SELL_INTENT
 import com.google.ticketo.utils.NavigationUtils
 import kotlinx.android.synthetic.main.intents_fragment.*
 
 class IntentsView : Fragment() {
 
     lateinit var fragmentAdapter: FragmentAdapter
+    lateinit var intent: String
 
     companion object {
         fun newInstance() = IntentsView()
@@ -29,6 +32,7 @@ class IntentsView : Fragment() {
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
+        intent = arguments?.get("intent") as String
         super.onActivityCreated(savedInstanceState)
 
         initView()
@@ -46,6 +50,7 @@ class IntentsView : Fragment() {
         fragmentAdapter.addFragment(IntentBuyView(), resources.getString(R.string.you_are_buying))
         fragmentAdapter.addFragment(IntentSellView(), resources.getString(R.string.you_are_selling))
         fragmentAdapter.notifyDataSetChanged()
+        checkScroll()
     }
 
     private fun onClicks(){
@@ -54,4 +59,9 @@ class IntentsView : Fragment() {
         }
     }
 
+    private fun checkScroll(){
+        if(intent == SELL_INTENT){
+            intents_view_pager.currentItem = 1
+        }
+    }
 }

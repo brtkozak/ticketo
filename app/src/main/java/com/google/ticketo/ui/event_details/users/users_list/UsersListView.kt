@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.google.ticketo.R
@@ -12,11 +13,11 @@ import com.google.ticketo.model.User
 import com.google.ticketo.ui.event_details.users.UsersContainerInterface
 import kotlinx.android.synthetic.main.users_list_fragment.*
 
-class UsersListView(val users : List<User>, val userContainer: UsersContainerInterface) : Fragment(),
+class UsersListView(val users: List<User>, val userContainer: UsersContainerInterface) : Fragment(),
     UserAdapter.UserCallback {
-
     companion object {
-        fun newInstance(users : List<User>, usersContainer: UsersContainerInterface) = UsersListView(users, usersContainer)
+        fun newInstance(users: List<User>, usersContainer: UsersContainerInterface) =
+            UsersListView(users, usersContainer)
     }
 
     private lateinit var adapter: UserAdapter
@@ -33,13 +34,14 @@ class UsersListView(val users : List<User>, val userContainer: UsersContainerInt
         initView()
     }
 
-    fun initView() {
+    private fun initView() {
         adapter = UserAdapter(context!!, this)
         users_list.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         users_list.adapter = adapter
         adapter.users = users
         adapter.notifyDataSetChanged()
+        users_list_empty_info.isVisible = users.isEmpty()
     }
 
     override fun openUserProfile(userId: String) {

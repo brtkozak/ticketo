@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.ticketo.R
 import com.google.ticketo.ui.RepositoryViewModelFactory
 import kotlinx.android.synthetic.main.intent_list_fragment.*
+import kotlinx.android.synthetic.main.users_list_fragment.*
 
 class IntentSellView : Fragment(), IntentAdapter.IntentCallback {
 
@@ -53,6 +55,7 @@ class IntentSellView : Fragment(), IntentAdapter.IntentCallback {
         viewModel.sellEvents.observe(this, Observer {
             adapter.events = it
             adapter.notifyDataSetChanged()
+            intent_list_empty_info.isVisible = it.isEmpty()
         })
     }
 

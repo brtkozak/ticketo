@@ -163,7 +163,6 @@
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
 
-
                         <TextView
                                 android:id="@+id/my_profile_buy_counter"
                                 android:layout_width="wrap_content"
@@ -172,7 +171,6 @@
                                 app:layout_constraintEnd_toEndOf="@+id/textView3"
                                 app:layout_constraintStart_toStartOf="@+id/textView3"
                                 app:layout_constraintTop_toBottomOf="@+id/textView3" />
-
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 

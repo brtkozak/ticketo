@@ -266,5 +266,13 @@ class Repository(context: Context) {
     fun getUser(userId : String) : LiveData<User> =
         firestoreRepository.getUser(userId)
 
+    fun getReviews(userId : String, reviewType : String) =
+        firestoreRepository.getReviews(userId, reviewType)
+
+    fun addReview(userId: String, reviewType : String) =
+        firestoreRepository.addReview(userId, reviewType)
+
+    fun removeReview(userId : String, reviewType: String) =
+        firestoreRepository.removeReview(userId, reviewType)
 
 }

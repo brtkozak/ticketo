@@ -42,7 +42,7 @@ class FirestoreRepository {
                 DtoConverter.querySnapshotToEventsList(it)
             }
 
-    fun getEvent(id : String) : Single<Pair<EventDto?, Location?>> =
+    fun getEvent(id: String): Single<Pair<EventDto?, Location?>> =
         database.collection("events")
             .whereEqualTo("id", id)
             .single()
@@ -96,11 +96,35 @@ class FirestoreRepository {
                 .collection(group)
         )
 
-    fun getUser(userId : String) : LiveData<User> =
+    fun getUser(userId: String): LiveData<User> =
         UserLiveData(
             database.collection("users")
                 .document(userId)
         )
+
+    fun getReviews(userId: String, reviewType: String): LiveData<List<Review>> =
+        ReviewListLiveData(
+            database.collection("users")
+                .document(userId)
+                .collection(reviewType)
+        )
+
+    fun addReview(userId: String, reviewType: String) : Single<Boolean> =
+        database
+            .collection("users")
+            .document(userId)
+            .collection(reviewType)
+            .document(fireAuth.uid!!).set(Review(fireAuth.uid!!))
+            .single()
+
+    fun removeReview(userId: String, reviewType: String) : Single<Boolean> =
+        database
+            .collection("users")
+            .document(userId)
+            .collection(reviewType)
+            .document(fireAuth.uid!!)
+            .delete()
+            .single()
 
     fun addToGroup(user: User, eventId: String, group: String): Single<Boolean> =
         database.collection("events")
@@ -127,7 +151,7 @@ class FirestoreRepository {
                 it.exists()
             }
 
-    fun getSearchByName(search: String) : Single<List<Pair<String, String>>>{
+    fun getSearchByName(search: String): Single<List<Pair<String, String>>> {
         return database.collection("events")
             .orderBy("name")
             .startAt(search.capitalize())
@@ -138,7 +162,7 @@ class FirestoreRepository {
             }
     }
 
-    fun getSearchByLocation(search: String) : Single<List<Pair<String, String>>>{
+    fun getSearchByLocation(search: String): Single<List<Pair<String, String>>> {
         return database.collection("events")
             .orderBy("location.city")
             .startAt(search.capitalize())

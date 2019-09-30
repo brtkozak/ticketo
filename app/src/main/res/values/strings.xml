@@ -24,10 +24,12 @@
     <string name="i_will_sell">Sprzedam</string>
     <string name="your_concerts">Twoje koncerty</string>
     <string name="offers">Oferty</string>
-    <string name="recommend">Poleca</string>
-    <string name="friends_on_facebook">Znajomi na Facebook\'u: %1$d</string>
+    <string name="recommend_with_colon">Poleca:</string>
+    <string name="warn_with_color">Ostrzega:</string>
+    <string name="friends_on_facebook">Znajomi na Facebook: %1$d</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="no_offers">Brak ofert</string>
 
 </resources>

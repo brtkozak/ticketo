@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
@@ -50,9 +51,10 @@ class IntentBuyView : Fragment(), IntentAdapter.IntentCallback {
     }
 
     fun observers(){
-        viewModel.buyEvents.observe(this, Observer {
+        viewModel.buyEvents.observe(viewLifecycleOwner, Observer {
             adapter.events = it
             adapter.notifyDataSetChanged()
+            intent_list_empty_info.isVisible = it.isEmpty()
         })
     }
 

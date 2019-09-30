@@ -5,7 +5,9 @@ import android.util.Log
 import androidx.lifecycle.*
 import com.google.ticketo.database.Remote.firestore.FirestoreRepository
 import com.google.ticketo.database.Repository
+import com.google.ticketo.model.Review
 import com.google.ticketo.model.User
+import com.google.ticketo.utils.Const
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -22,6 +24,9 @@ class MyProfileViewModel(val repository : Repository) : ViewModel() {
 
     val buyCounter : LiveData<Int> = repository.getEventsWithBuyIntentCount()
     val sellCounter : LiveData<Int> = repository.getEventsWithSellIntentCount()
+
+    val recommendations : LiveData<List<Review>> = repository.getReviews(repository.firestoreRepository.fireAuth.uid!!, Const.RECOMMEND)
+    val warnings : LiveData<List<Review>> = repository.getReviews(repository.firestoreRepository.fireAuth.uid!!, Const.WARN)
 
     init {
         getUser()

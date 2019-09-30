@@ -41,31 +41,40 @@ class MyProfileView : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this, RepositoryViewModelFactory(context!!)).get(
-            MyProfileViewModel::class.java)
+            MyProfileViewModel::class.java
+        )
 
         observers()
         onClicks()
 
     }
 
-    private fun observers(){
-        viewModel.user.observe(this, Observer {
+    private fun observers() {
+        viewModel.user.observe(viewLifecycleOwner, Observer {
             binding.user = it
         })
 
-        viewModel.loading.observe(this, Observer {
+        viewModel.loading.observe(viewLifecycleOwner, Observer {
             if (!it) {
                 my_profile_progress_bar.visibility = View.GONE
                 my_profile_container.visibility = View.VISIBLE
             }
         })
 
-        viewModel.buyCounter.observe(this, Observer {
-            my_profile_buy_counter.text=it.toString()
+        viewModel.buyCounter.observe(viewLifecycleOwner, Observer {
+            my_profile_buy_counter.text = it.toString()
         })
 
-        viewModel.sellCounter.observe(this, Observer {
-            my_profile_sell_counter.text=it.toString()
+        viewModel.sellCounter.observe(viewLifecycleOwner, Observer {
+            my_profile_sell_counter.text = it.toString()
+        })
+
+        viewModel.recommendations.observe(viewLifecycleOwner, Observer {
+            my_profile_recommend.text = it.size.toString()
+        })
+
+        viewModel.warnings.observe(viewLifecycleOwner, Observer {
+            my_profile_warn.text = it.size.toString()
         })
     }
 
@@ -76,7 +85,7 @@ class MyProfileView : Fragment() {
 
         my_profile_buy_container.setOnClickListener {
             val bundle = bundleOf(
-                "itent" to Const.BUY_INTENT
+                "intent" to Const.BUY_INTENT
             )
 
             view!!.findNavController()

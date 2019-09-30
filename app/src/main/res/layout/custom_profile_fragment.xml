@@ -13,10 +13,10 @@
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context=".ui.profile.my_profile.MyProfileView">
+            tools:context=".ui.profile.custom_profile.CustomProfileView">
 
         <ImageView
-                android:id="@+id/my_profile_back"
+                android:id="@+id/custom_profile_back"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:layout_marginStart="16dp"
@@ -37,10 +37,10 @@
                 app:layout_constraintTop_toTopOf="parent">
 
             <ProgressBar
-                    android:id="@+id/my_profile_progress_bar"
+                    android:id="@+id/custom_profile_progress_bar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -48,10 +48,10 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/my_profile_container"
+                android:id="@+id/custom_profile_container"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:visibility="gone"
+                android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -59,7 +59,7 @@
                 tools:visibility="visible">
 
             <ImageView
-                    android:id="@+id/my_profile_profile_pic"
+                    android:id="@+id/custom_profile_pic"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/circle_border"
@@ -67,14 +67,14 @@
                     android:padding="20dp"
                     android:scaleType="centerInside"
                     android:src="@drawable/ic_launcher_foreground"
-                    app:layout_constraintBottom_toTopOf="@+id/my_profile_card_view"
+                    app:layout_constraintBottom_toTopOf="@+id/custom_profile_card_view"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/my_profile_card_view"
+                    app:layout_constraintTop_toTopOf="@+id/custom_profile_card_view"
                     app:profilePic="@{user.picture}" />
 
             <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/my_profile_card_view"
+                    android:id="@+id/custom_profile_card_view"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_marginStart="12dp"
@@ -96,7 +96,7 @@
                         app:layout_constraintTop_toTopOf="parent">
 
                     <TextView
-                            android:id="@+id/my_profile_user_name"
+                            android:id="@+id/custom_profile_user_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
@@ -117,11 +117,11 @@
                             android:layout_marginStart="64dp"
                             android:layout_marginTop="64dp"
                             android:background="@null"
-                            android:text="@string/recommend"
+                            android:text="@string/recommend_with_colon"
                             android:textSize="20sp"
-                            app:layout_constraintEnd_toStartOf="@+id/my_profile_user_name"
+                            app:layout_constraintEnd_toStartOf="@+id/custom_profile_user_name"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/my_profile_user_name" />
+                            app:layout_constraintTop_toBottomOf="@+id/custom_profile_user_name" />
 
                     <TextView
                             android:id="@+id/textView4"
@@ -130,29 +130,53 @@
                             android:layout_marginTop="64dp"
                             android:layout_marginEnd="64dp"
                             android:background="@null"
-                            android:text="@string/warn_you"
+                            android:text="@string/warn_with_color"
                             android:textSize="20sp"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toEndOf="@+id/my_profile_user_name"
-                            app:layout_constraintTop_toBottomOf="@+id/my_profile_user_name" />
+                            app:layout_constraintStart_toEndOf="@+id/custom_profile_user_name"
+                            app:layout_constraintTop_toBottomOf="@+id/custom_profile_user_name" />
 
                     <TextView
-                            android:id="@+id/my_profile_recommend"
+                            android:id="@+id/custom_profile_recommend_counter"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="24dp"
-                            app:layout_constraintEnd_toEndOf="@+id/textView2"
+                            android:layout_marginStart="8dp"
+                            app:layout_constraintBottom_toBottomOf="@+id/textView2"
+                            app:layout_constraintStart_toEndOf="@+id/textView2"
+                            app:layout_constraintTop_toTopOf="@+id/textView2" />
+
+                    <ImageButton
+                            android:id="@+id/custom_profile_recommend_button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:background="@drawable/recommend_button_selector"
+                            android:clickable="true"
+                            app:layout_constraintEnd_toEndOf="@+id/custom_profile_recommend_counter"
                             app:layout_constraintStart_toStartOf="@+id/textView2"
-                            app:layout_constraintTop_toBottomOf="@+id/textView2" />
+                            app:layout_constraintTop_toBottomOf="@+id/textView2">
+                    </ImageButton>
 
                     <TextView
-                            android:id="@+id/my_profile_warn"
+                            android:id="@+id/custom_profile_warn_counter"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="24dp"
-                            app:layout_constraintEnd_toEndOf="@+id/textView4"
+                            android:layout_marginStart="8dp"
+                            app:layout_constraintBottom_toBottomOf="@+id/textView4"
+                            app:layout_constraintStart_toEndOf="@+id/textView4"
+                            app:layout_constraintTop_toTopOf="@+id/textView4" />
+
+                    <ImageButton
+                            android:id="@+id/custom_profile_warn_button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:background="@drawable/warn_button_selector"
+                            android:clickable="true"
+                            app:layout_constraintEnd_toEndOf="@+id/custom_profile_warn_counter"
                             app:layout_constraintStart_toStartOf="@+id/textView4"
-                            app:layout_constraintTop_toBottomOf="@+id/textView4" />
+                            app:layout_constraintTop_toBottomOf="@+id/textView4">
+                    </ImageButton>
 
                     <TextView
                             android:id="@+id/textView6"
@@ -160,9 +184,9 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="24dp"
                             android:text="@{@string/friends_on_facebook(user.facebookFriends) }"
-                            app:layout_constraintEnd_toEndOf="@+id/my_profile_user_name"
-                            app:layout_constraintStart_toStartOf="@+id/my_profile_user_name"
-                            app:layout_constraintTop_toBottomOf="@+id/my_profile_user_name" />
+                            app:layout_constraintEnd_toEndOf="@+id/custom_profile_user_name"
+                            app:layout_constraintStart_toStartOf="@+id/custom_profile_user_name"
+                            app:layout_constraintTop_toBottomOf="@+id/custom_profile_user_name" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

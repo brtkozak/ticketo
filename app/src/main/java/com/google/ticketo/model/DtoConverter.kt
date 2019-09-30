@@ -29,6 +29,14 @@ object DtoConverter {
         return Pair(events, locations)
     }
 
+    fun querySnapshotToListOfReviews(querySnapshot: QuerySnapshot) : List<Review> {
+        val result = mutableListOf<Review>()
+        querySnapshot.forEach {
+            result.add(it.toObject(Review::class.java))
+        }
+        return result
+    }
+
     private fun eventResponseToEventDto(eventResponse: EventResponse?): EventDto? =
         eventResponse?.let {
             EventDto(
