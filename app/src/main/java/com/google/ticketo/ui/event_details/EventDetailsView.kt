@@ -45,14 +45,17 @@ class EventDetailsView : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         val eventId = arguments?.get("eventId") as String
-
         super.onActivityCreated(savedInstanceState)
 
         viewModel = ViewModelProvider(this, EventDetailsFactory(context!!, eventId)).get(EventDetailsViewModel::class.java)
+        initview()
         setObservers()
         onClicks()
     }
 
+    private fun initview(){
+        event_details_appbar_layout.outlineProvider=null
+    }
 
     @SuppressLint("SimpleDateFormat")
     private fun setObservers() {
@@ -134,6 +137,12 @@ class EventDetailsView : Fragment() {
 
             view!!.findNavController()
                 .navigate(R.id.action_eventDetailsView_to_usersContainerView, bundle, null, null)
+        }
+
+        event_details_input.setOnClickListener {
+            val bundle = bundleOf("eventId" to viewModel.eventId)
+            view!!.findNavController()
+                .navigate(R.id.action_eventDetailsView_to_commentInputView, bundle, null, null)
         }
     }
 

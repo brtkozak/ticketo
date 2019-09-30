@@ -30,6 +30,9 @@
         <action
                 android:id="@+id/action_eventDetailsView_to_usersContainerView"
                 app:destination="@id/usersContainerView" />
+        <action
+                android:id="@+id/action_eventDetailsView_to_commentInputView"
+                app:destination="@id/commentInputView" />
     </fragment>
     <fragment
             android:id="@+id/favouritesView"
@@ -74,4 +77,9 @@
             android:id="@+id/customProfileView"
             android:name="com.google.ticketo.ui.profile.custom_profile.CustomProfileView"
             android:label="CustomProfileView" />
+    <fragment
+            android:id="@+id/commentInputView"
+            android:name="com.google.ticketo.ui.event_details.comment_input.CommentInputView"
+            android:label="comment_input_fragment"
+            tools:layout="@layout/comment_input_fragment" />
 </navigation>
