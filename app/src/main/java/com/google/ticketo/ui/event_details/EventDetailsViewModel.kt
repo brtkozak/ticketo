@@ -37,6 +37,10 @@ class EventDetailsViewModel(private val repository: Repository, var eventId : St
     private val _userPic = MutableLiveData<String>()
     val userPic : LiveData<String> = _userPic
 
+    init {
+        getUserPic()
+    }
+
     @SuppressLint("CheckResult")
     fun getUserPic() {
         repository.getUserPic()

@@ -12,7 +12,7 @@ object DateUtlis {
 
     fun getPeriod(date : Date, context : Context) : String{
         val difference = Date().time - date.time
-        val minutesDifference = difference / (60 * 1000) % 60
+        val minutesDifference = difference / (60 * 1000)
 
         if( minutesDifference/ minutesInWeek > 0 )
             return "${(minutesDifference/ minutesInWeek)} ${context.getString(R.string.week)}"
