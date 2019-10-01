@@ -96,6 +96,13 @@ class FirestoreRepository {
                 .collection(group)
         )
 
+    fun getComments(eventId : String) : LiveData<List<Comment>> =
+        CommentListLiveData(
+            database.collection("events")
+                .document(eventId)
+                .collection("comments")
+        )
+
     fun getUser(userId: String): LiveData<User> =
         UserLiveData(
             database.collection("users")
@@ -172,6 +179,14 @@ class FirestoreRepository {
                 DtoConverter.querySnapshotToEventsLocationList(it)
             }
     }
+
+    fun sendComment(comment : Comment, eventId : String) : Single<Boolean> =
+        database
+            .collection("events")
+            .document(eventId)
+            .collection("comments")
+            .add(comment)
+            .single()
 
     fun insertEvent() {
         val events = mutableListOf<EventResponse>()

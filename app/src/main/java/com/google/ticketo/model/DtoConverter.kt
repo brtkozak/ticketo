@@ -73,6 +73,14 @@ object DtoConverter {
         return result
     }
 
+    fun querySnapshotToListOfComments(querySnapshot: QuerySnapshot) : List<Comment> {
+        val result = mutableListOf<Comment>()
+        querySnapshot.forEach {
+            result.add(it.toObject(Comment::class.java))
+        }
+        return result
+    }
+
     fun documentSnapshotToUser(documentSnapshot : DocumentSnapshot) : User {
         return documentSnapshot.toObject(User::class.java)!!
     }

@@ -11,21 +11,20 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.ticketo.databinding.EventDetailsFragmentBinding
-import com.google.ticketo.ui.RepositoryViewModelFactory
 import kotlinx.android.synthetic.main.event_details_fragment.*
 import androidx.core.view.isVisible
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelStore
 import androidx.navigation.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.google.ticketo.R
-import com.google.ticketo.utils.Const
 import com.google.ticketo.utils.Const.BUYERS
 import com.google.ticketo.utils.Const.BUY_INTENT
 import com.google.ticketo.utils.Const.SELLERS
 import com.google.ticketo.utils.Const.SELL_INTENT
 import java.text.SimpleDateFormat
 
-class EventDetailsView : Fragment() {
+class EventDetailsView : Fragment(), CommentAdapter.EventDetailsCallback {
 
     companion object {
         fun newInstance() = EventDetailsView()
@@ -33,6 +32,8 @@ class EventDetailsView : Fragment() {
 
     private lateinit var viewModel: EventDetailsViewModel
     private lateinit var binding: EventDetailsFragmentBinding
+    private lateinit var adapter: CommentAdapter
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,13 +49,17 @@ class EventDetailsView : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         viewModel = ViewModelProvider(this, EventDetailsFactory(context!!, eventId)).get(EventDetailsViewModel::class.java)
-        initview()
+        initView()
         setObservers()
         onClicks()
     }
 
-    private fun initview(){
+    private fun initView(){
         event_details_appbar_layout.outlineProvider=null
+
+        event_details_comments.layoutManager =  LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        adapter=CommentAdapter(context!!, viewModel.userId, this)
+        event_details_comments.adapter=adapter
     }
 
     @SuppressLint("SimpleDateFormat")
@@ -96,6 +101,15 @@ class EventDetailsView : Fragment() {
 
         viewModel.layoutReady.observe(this, Observer {
             // TODO USE TO LOAD REST OF EVENT DATA
+        })
+
+        viewModel.comments.observe(viewLifecycleOwner, Observer {
+            adapter.comments=it
+            adapter.notifyDataSetChanged()
+        })
+
+        viewModel.userPic.observe(viewLifecycleOwner, Observer {
+            loadUserPic(it)
         })
     }
 
@@ -198,4 +212,16 @@ class EventDetailsView : Fragment() {
         event_details_buy.isClickable = true
     }
 
+    private fun loadUserPic(url : String){
+        event_details_user_pic.let {
+            Glide.with(it.context)
+                .load(url)
+                .apply(RequestOptions.circleCropTransform())
+                .into(it)
+        }
+    }
+
+    override fun openProfile(userId: String) {
+
+    }
 }

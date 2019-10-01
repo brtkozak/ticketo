@@ -32,5 +32,10 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="no_offers">Brak ofert</string>
     <string name="write_something">Napisz coś...</string>
+    <string name="week">tyg.</string>
+    <string name="days">dni</string>
+    <string name="hours">godz.</string>
+    <string name="just_now">Przed chwilą</string>
+    <string name="minutes">min.</string>
 
 </resources>

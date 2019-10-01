@@ -1,6 +1,5 @@
 package com.google.ticketo.model
 
-import androidx.room.*
 import java.util.*
 
 data class Event(

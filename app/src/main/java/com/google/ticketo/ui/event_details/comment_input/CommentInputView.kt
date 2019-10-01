@@ -51,6 +51,12 @@ class CommentInputView : Fragment() {
         comment_input_back.setOnClickListener {
             NavigationUtils.backPress(it)
         }
+
+        comment_input_send.setOnClickListener {
+            hideKeyboard()
+            viewModel.sendComment(comment_input_edit_text.text.toString())
+            NavigationUtils.backPress(it)
+        }
     }
 
     private fun textListener(){
@@ -74,5 +80,9 @@ class CommentInputView : Fragment() {
             InputMethodManager.SHOW_IMPLICIT,
             InputMethodManager.HIDE_IMPLICIT_ONLY
         )
+    }
+
+    private fun hideKeyboard(){
+        imgr.hideSoftInputFromWindow(view!!.windowToken,0 )
     }
 }

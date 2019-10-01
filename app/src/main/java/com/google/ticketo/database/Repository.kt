@@ -1,5 +1,6 @@
 package com.google.ticketo.database
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -85,12 +86,12 @@ class Repository(context: Context) {
         }
     }
 
-    fun getEventsWithIntentsByCity(city : String) : LiveData<List<EventWithIntents>>{
+    fun getEventsWithIntentsByCity(city: String): LiveData<List<EventWithIntents>> {
         updateGetEventsInCity(city)
         return localDatabase.eventDao().getEventWithIntentsByCity(city)
     }
 
-    fun getEventWithIntents(eventId: String) : LiveData<EventWithIntents>{
+    fun getEventWithIntents(eventId: String): LiveData<EventWithIntents> {
         return localDatabase.eventDao().getEventWithIntents(eventId)
     }
 
@@ -251,28 +252,48 @@ class Repository(context: Context) {
     fun getSearchByLocation(search: String): Single<List<Pair<String, String>>> =
         firestoreRepository.getSearchByLocation(search)
 
-    fun getEventsWithBuyIntent () : LiveData<List<EventWithIntents>> =
+    fun getEventsWithBuyIntent(): LiveData<List<EventWithIntents>> =
         localDatabase.eventDao().getEventsWithBuyIntent()
 
-    fun getEventsWithSellIntent () : LiveData<List<EventWithIntents>> =
+    fun getEventsWithSellIntent(): LiveData<List<EventWithIntents>> =
         localDatabase.eventDao().getEventsWithSellIntent()
 
-    fun getEventsWithBuyIntentCount () : LiveData<Int> =
+    fun getEventsWithBuyIntentCount(): LiveData<Int> =
         localDatabase.eventDao().getEventsWithBuyIntentCount()
 
-    fun getEventsWithSellIntentCount () : LiveData<Int> =
+    fun getEventsWithSellIntentCount(): LiveData<Int> =
         localDatabase.eventDao().getEventsWithSellIntentCount()
 
-    fun getUser(userId : String) : LiveData<User> =
+    fun getUser(userId: String): LiveData<User> =
         firestoreRepository.getUser(userId)
 
-    fun getReviews(userId : String, reviewType : String) =
+    fun getReviews(userId: String, reviewType: String) =
         firestoreRepository.getReviews(userId, reviewType)
 
-    fun addReview(userId: String, reviewType : String) =
+    fun addReview(userId: String, reviewType: String) =
         firestoreRepository.addReview(userId, reviewType)
 
-    fun removeReview(userId : String, reviewType: String) =
+    fun removeReview(userId: String, reviewType: String) =
         firestoreRepository.removeReview(userId, reviewType)
 
+    @SuppressLint("CheckResult")
+    fun sendComment(comment: String, eventId: String): Single<Boolean> =
+        firestoreRepository.getCurrentUser().flatMap {
+            val commentDto = Comment(
+                comment,
+                it.firebaseId,
+                it.name,
+                it.picture
+            )
+            firestoreRepository.sendComment(commentDto, eventId)
+    }
+
+    fun getComments(eventId: String) : LiveData<List<Comment>> =
+        firestoreRepository.getComments(eventId)
+
+    fun getUserPic() : Single<String> =
+        firestoreRepository.getCurrentUser().flatMap {
+            Single.just(it.picture)
+        }
 }
+
