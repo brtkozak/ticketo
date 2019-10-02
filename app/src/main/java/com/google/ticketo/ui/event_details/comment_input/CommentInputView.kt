@@ -14,6 +14,7 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 
 import com.google.ticketo.R
+import com.google.ticketo.ui.StringViewModelFactory
 import com.google.ticketo.utils.NavigationUtils
 import kotlinx.android.synthetic.main.comment_input_fragment.*
 
@@ -36,7 +37,7 @@ class CommentInputView : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         val eventId = arguments?.get("eventId") as String
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this, CommentInputFactory(context!!, eventId)).get(CommentInputViewModel::class.java)
+        viewModel = ViewModelProvider(this, StringViewModelFactory(context!!, eventId)).get(CommentInputViewModel::class.java)
 
         initView()
         onClicks()

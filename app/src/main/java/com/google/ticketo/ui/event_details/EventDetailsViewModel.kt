@@ -25,7 +25,7 @@ class EventDetailsViewModel(private val repository: Repository, var eventId : St
     val _sellLock = MutableLiveData<Int>(0)
     val sellLock: LiveData<Int> = _sellLock
 
-    val _layoutReady = MutableLiveData<Int>(0)  // TODO USE TO LOAD REST OF EVENT DATA
+    private val _layoutReady = MutableLiveData<Int>(0)  // TODO USE TO LOAD REST OF EVENT DATA
     val layoutReady: LiveData<Int> = _layoutReady
 
     val buyers : LiveData<List<User>> = repository.getGroup(eventId, BUYERS)
@@ -107,6 +107,13 @@ class EventDetailsViewModel(private val repository: Repository, var eventId : St
 
     fun updateFavourites(state : Boolean){
         repository.updateFavourites(eventId, state)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .subscribe()
+    }
+
+    fun deleteComment(commentId :String){
+        repository.deleteComment(eventId, commentId)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
             .subscribe()

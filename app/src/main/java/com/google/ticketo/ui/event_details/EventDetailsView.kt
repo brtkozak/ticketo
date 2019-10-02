@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.ticketo.R
+import com.google.ticketo.ui.StringViewModelFactory
 import com.google.ticketo.utils.Const.BUYERS
 import com.google.ticketo.utils.Const.BUY_INTENT
 import com.google.ticketo.utils.Const.SELLERS
@@ -48,7 +49,7 @@ class EventDetailsView : Fragment(), CommentAdapter.EventDetailsCallback {
         val eventId = arguments?.get("eventId") as String
         super.onActivityCreated(savedInstanceState)
 
-        viewModel = ViewModelProvider(this, EventDetailsFactory(context!!, eventId)).get(EventDetailsViewModel::class.java)
+        viewModel = ViewModelProvider(this, StringViewModelFactory(context!!, eventId)).get(EventDetailsViewModel::class.java)
         initView()
         setObservers()
         onClicks()
@@ -109,6 +110,8 @@ class EventDetailsView : Fragment(), CommentAdapter.EventDetailsCallback {
         })
 
         viewModel.userPic.observe(viewLifecycleOwner, Observer {
+            event_details_main_container.isVisible=true
+            event_details_main_progressbar.isVisible=false
             loadUserPic(it)
         })
     }
@@ -222,6 +225,18 @@ class EventDetailsView : Fragment(), CommentAdapter.EventDetailsCallback {
     }
 
     override fun openProfile(userId: String) {
+        if(userId==viewModel.userId){
+            view!!.findNavController().navigate(R.id.action_eventDetailsView_to_myProfileView)
+        }
+        else{
+            val bundle = bundleOf(
+                "userId" to userId
+            )
+            view!!.findNavController().navigate(R.id.action_eventDetailsView_to_customProfileView, bundle, null, null)
+        }
+    }
 
+    override fun deleteComment(commentId: String) {
+        viewModel.deleteComment(commentId)
     }
 }

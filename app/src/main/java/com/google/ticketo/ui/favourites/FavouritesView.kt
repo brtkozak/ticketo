@@ -13,7 +13,7 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.google.ticketo.R
-import com.google.ticketo.ui.RepositoryViewModelFactory
+import com.google.ticketo.ui.ViewModelFactory
 import com.google.ticketo.utils.NavigationUtils
 import kotlinx.android.synthetic.main.favourites_fragment.*
 
@@ -37,7 +37,7 @@ class FavouritesView : Fragment(), FavouriteEventAdapter.BaseEventCallback {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(
             this,
-            RepositoryViewModelFactory(context!!)
+            ViewModelFactory(context!!)
         ).get(FavouritesViewModel::class.java)
 
         initView()

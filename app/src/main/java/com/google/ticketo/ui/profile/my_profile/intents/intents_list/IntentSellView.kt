@@ -13,9 +13,8 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.google.ticketo.R
-import com.google.ticketo.ui.RepositoryViewModelFactory
+import com.google.ticketo.ui.ViewModelFactory
 import kotlinx.android.synthetic.main.intent_list_fragment.*
-import kotlinx.android.synthetic.main.users_list_fragment.*
 
 class IntentSellView : Fragment(), IntentAdapter.IntentCallback {
 
@@ -36,7 +35,7 @@ class IntentSellView : Fragment(), IntentAdapter.IntentCallback {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(activity!!, RepositoryViewModelFactory(context!!)).get(
+        viewModel = ViewModelProvider(activity!!, ViewModelFactory(context!!)).get(
             IntentShareViewModel::class.java)
 
         initView()

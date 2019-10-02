@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -29,7 +30,7 @@ class CommentAdapter(val context: Context, val userId: String, val callback: Eve
         comments?.get(position)?.let { holder.bind(it) }
     }
 
-    class ViewHolder(val view: View, userId: String, val callback: EventDetailsCallback) :
+    class ViewHolder(val view: View, val userId: String, val callback: EventDetailsCallback) :
         RecyclerView.ViewHolder(view) {
 
         fun bind(item: Comment) {
@@ -39,13 +40,26 @@ class CommentAdapter(val context: Context, val userId: String, val callback: Eve
                     .load(item.userPic)
                     .apply(RequestOptions.circleCropTransform())
                     .into(it)
+
+                it.setOnClickListener {
+                    callback.openProfile(item.userId!!)
+                }
             }
             view.item_comment_text.text = item.content
-            view.item_comment_time.text=DateUtlis.getPeriod(item.date, view.item_comment_text.context)
+            view.item_comment_time.text =
+                DateUtlis.getPeriod(item.date, view.item_comment_text.context)
+
+            if(item.userId==this.userId){
+                view.item_comment_delete.isVisible = true
+                view.item_comment_delete.setOnClickListener {
+                    callback.deleteComment(item.id!!)
+                }
+            }
         }
     }
 
     interface EventDetailsCallback {
         fun openProfile(userId: String)
+        fun deleteComment(commentId : String)
     }
 }

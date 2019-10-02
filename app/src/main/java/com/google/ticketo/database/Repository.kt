@@ -295,5 +295,8 @@ class Repository(context: Context) {
         firestoreRepository.getCurrentUser().flatMap {
             Single.just(it.picture)
         }
+
+    fun deleteComment(eventId : String, commentId : String) : Single<Boolean> =
+        firestoreRepository.deleteComment(eventId, commentId)
 }
 

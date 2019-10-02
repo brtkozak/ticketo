@@ -1,24 +1,18 @@
 package com.google.ticketo.ui.dashboard
 
-import android.content.Intent
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 
 import kotlinx.android.synthetic.main.dashboard_fragment.*
 import android.view.*
-import androidx.core.app.ActivityOptionsCompat
 import androidx.core.os.bundleOf
-import androidx.databinding.library.baseAdapters.BR.event
-import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.ticketo.R
-import com.google.ticketo.database.Repository
-import com.google.ticketo.ui.RepositoryViewModelFactory
+import com.google.ticketo.ui.ViewModelFactory
 import kotlinx.android.synthetic.main.item_dashboard_event.*
 
 class DashboardView : Fragment(), EventAdapter.DashboardCallback {
@@ -39,7 +33,7 @@ class DashboardView : Fragment(), EventAdapter.DashboardCallback {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(
             this,
-            RepositoryViewModelFactory(context!!)
+            ViewModelFactory(context!!)
         ).get(DashboardViewModel::class.java)
 
         initView()

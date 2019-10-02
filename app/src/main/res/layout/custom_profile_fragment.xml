@@ -40,7 +40,8 @@
                     android:id="@+id/custom_profile_progress_bar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:visibility="gone"
+                    android:visibility="visible"
+                    tools:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -51,7 +52,7 @@
                 android:id="@+id/custom_profile_container"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:visibility="visible"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -114,8 +115,8 @@
                             android:id="@+id/textView2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="64dp"
-                            android:layout_marginTop="64dp"
+                            android:layout_marginStart="80dp"
+                            android:layout_marginTop="80dp"
                             android:background="@null"
                             android:text="@string/recommend_with_colon"
                             android:textSize="20sp"
@@ -127,12 +128,13 @@
                             android:id="@+id/textView4"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="64dp"
-                            android:layout_marginEnd="64dp"
+                            android:layout_marginTop="80dp"
+                            android:layout_marginEnd="80dp"
                             android:background="@null"
                             android:text="@string/warn_with_color"
                             android:textSize="20sp"
                             app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="1.0"
                             app:layout_constraintStart_toEndOf="@+id/custom_profile_user_name"
                             app:layout_constraintTop_toBottomOf="@+id/custom_profile_user_name" />
 
@@ -141,17 +143,19 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
+                            android:textSize="20sp"
                             app:layout_constraintBottom_toBottomOf="@+id/textView2"
                             app:layout_constraintStart_toEndOf="@+id/textView2"
                             app:layout_constraintTop_toTopOf="@+id/textView2" />
 
                     <ImageButton
                             android:id="@+id/custom_profile_recommend_button"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
                             android:layout_marginTop="16dp"
                             android:background="@drawable/recommend_button_selector"
                             android:clickable="true"
+                            android:adjustViewBounds="true"
                             app:layout_constraintEnd_toEndOf="@+id/custom_profile_recommend_counter"
                             app:layout_constraintStart_toStartOf="@+id/textView2"
                             app:layout_constraintTop_toBottomOf="@+id/textView2">
@@ -162,15 +166,17 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
+                            android:textSize="20sp"
                             app:layout_constraintBottom_toBottomOf="@+id/textView4"
                             app:layout_constraintStart_toEndOf="@+id/textView4"
                             app:layout_constraintTop_toTopOf="@+id/textView4" />
 
                     <ImageButton
                             android:id="@+id/custom_profile_warn_button"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
                             android:layout_marginTop="16dp"
+                            android:adjustViewBounds="true"
                             android:background="@drawable/warn_button_selector"
                             android:clickable="true"
                             app:layout_constraintEnd_toEndOf="@+id/custom_profile_warn_counter"
@@ -187,6 +193,23 @@
                             app:layout_constraintEnd_toEndOf="@+id/custom_profile_user_name"
                             app:layout_constraintStart_toStartOf="@+id/custom_profile_user_name"
                             app:layout_constraintTop_toBottomOf="@+id/custom_profile_user_name" />
+
+                    <com.google.android.material.button.MaterialButton
+                            android:id="@+id/custom_profile_open_facebook_profile"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="60dp"
+                            android:backgroundTint="@color/primary"
+                            android:textAllCaps="false"
+                            android:text="@string/open_facebook_profile"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.496"
+                            android:textColor="@color/white"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/custom_profile_recommend_button"
+                            app:strokeColor="@color/white"
+                            app:strokeWidth="1dp" />
+
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

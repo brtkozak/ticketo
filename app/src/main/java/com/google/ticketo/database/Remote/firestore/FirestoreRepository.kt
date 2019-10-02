@@ -133,6 +133,15 @@ class FirestoreRepository {
             .delete()
             .single()
 
+    fun deleteComment(eventId: String, commentId : String) : Single<Boolean> =
+        database
+            .collection("events")
+            .document(eventId)
+            .collection("comments")
+            .document(commentId)
+            .delete()
+            .single()
+
     fun addToGroup(user: User, eventId: String, group: String): Single<Boolean> =
         database.collection("events")
             .document(eventId)

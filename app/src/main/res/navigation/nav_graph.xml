@@ -33,6 +33,12 @@
         <action
                 android:id="@+id/action_eventDetailsView_to_commentInputView"
                 app:destination="@id/commentInputView" />
+        <action
+                android:id="@+id/action_eventDetailsView_to_customProfileView"
+                app:destination="@id/customProfileView" />
+        <action
+                android:id="@+id/action_eventDetailsView_to_myProfileView"
+                app:destination="@id/myProfileView" />
     </fragment>
     <fragment
             android:id="@+id/favouritesView"

@@ -37,5 +37,7 @@
     <string name="hours">godz.</string>
     <string name="just_now">Przed chwilą</string>
     <string name="minutes">min.</string>
+    <string name="delete">Usuń</string>
+    <string name="open_facebook_profile">Pokaż profil na Facebooku</string>
 
 </resources>

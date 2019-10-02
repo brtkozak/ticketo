@@ -10,14 +10,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.FragmentNavigatorExtras
 
 import com.google.ticketo.R
 import com.google.ticketo.databinding.MyProfileFragmentBinding
-import com.google.ticketo.ui.RepositoryViewModelFactory
+import com.google.ticketo.ui.ViewModelFactory
 import com.google.ticketo.utils.Const
 import com.google.ticketo.utils.NavigationUtils
-import kotlinx.android.synthetic.main.dashboard_fragment.*
 import kotlinx.android.synthetic.main.my_profile_fragment.*
 
 class MyProfileView : Fragment() {
@@ -40,7 +38,7 @@ class MyProfileView : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this, RepositoryViewModelFactory(context!!)).get(
+        viewModel = ViewModelProvider(this, ViewModelFactory(context!!)).get(
             MyProfileViewModel::class.java
         )
 
