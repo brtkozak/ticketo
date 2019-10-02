@@ -105,7 +105,7 @@ class EventDetailsView : Fragment(), CommentAdapter.EventDetailsCallback {
         })
 
         viewModel.comments.observe(viewLifecycleOwner, Observer {
-            adapter.comments=it
+            adapter.comments=it.sortedBy { comment -> comment.date }
             adapter.notifyDataSetChanged()
         })
 

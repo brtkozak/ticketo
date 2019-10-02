@@ -39,5 +39,6 @@
     <string name="minutes">min.</string>
     <string name="delete">Usuń</string>
     <string name="open_facebook_profile">Pokaż profil na Facebooku</string>
+    <string name="login_text">bazuje na społeczności. \n Aby kontynuować zaloguj się przez Facebooka.</string>
 
 </resources>
