@@ -189,13 +189,21 @@ class FirestoreRepository {
             }
     }
 
-    fun sendComment(comment : Comment, eventId : String) : Single<Boolean> =
+    fun sendComment(commentDto : CommentDto, eventId : String) : Single<Boolean> =
         database
             .collection("events")
             .document(eventId)
             .collection("comments")
-            .add(comment)
-            .single()
+            .document().let {
+                it.set(CommentDto(
+                    commentDto.content,
+                    commentDto.userId,
+                    commentDto.userName,
+                    commentDto.userPic,
+                    commentDto.date,
+                    it.id))
+                    .single()
+            }
 
     fun insertEvent() {
         val events = mutableListOf<EventResponse>()

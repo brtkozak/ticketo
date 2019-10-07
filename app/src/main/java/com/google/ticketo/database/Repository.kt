@@ -271,7 +271,7 @@ class Repository(context: Context) {
     @SuppressLint("CheckResult")
     fun sendComment(comment: String, eventId: String): Single<Boolean> =
         firestoreRepository.getCurrentUser().flatMap {
-            val commentDto = Comment(
+            val commentDto = CommentDto(
                 comment,
                 it.firebaseId,
                 it.name,

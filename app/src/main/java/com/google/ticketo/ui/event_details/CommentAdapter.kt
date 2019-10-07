@@ -10,6 +10,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.ticketo.R
 import com.google.ticketo.model.Comment
+import com.google.ticketo.model.CommentDto
 import com.google.ticketo.utils.DateUtlis
 import kotlinx.android.synthetic.main.item_comment.view.*
 
@@ -34,22 +35,22 @@ class CommentAdapter(val context: Context, val userId: String, val callback: Eve
         RecyclerView.ViewHolder(view) {
 
         fun bind(item: Comment) {
-            view.item_comment_user_name.text = item.userName
+            view.item_comment_user_name.text = item.user?.name
             view.item_comment_user_pic.let {
                 Glide.with(it.context)
-                    .load(item.userPic)
+                    .load(item.user?.picture)
                     .apply(RequestOptions.circleCropTransform())
                     .into(it)
 
                 it.setOnClickListener {
-                    callback.openProfile(item.userId!!)
+                    callback.openProfile(item.user?.firebaseId!!)
                 }
             }
             view.item_comment_text.text = item.content
             view.item_comment_time.text =
                 DateUtlis.getPeriod(item.date, view.item_comment_text.context)
 
-            if(item.userId==this.userId){
+            if(item.user?.firebaseId==this.userId){
                 view.item_comment_delete.isVisible = true
                 view.item_comment_delete.setOnClickListener {
                     callback.deleteComment(item.id!!)

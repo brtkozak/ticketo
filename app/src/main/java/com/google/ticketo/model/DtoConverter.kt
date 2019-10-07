@@ -3,7 +3,6 @@ package com.google.ticketo.model
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.ticketo.model.Responses.eventResponse.EventResponse
-import com.google.ticketo.utils.Const
 import java.util.*
 
 object DtoConverter {
@@ -76,8 +75,12 @@ object DtoConverter {
     fun querySnapshotToListOfComments(querySnapshot: QuerySnapshot) : List<Comment> {
         val result = mutableListOf<Comment>()
         querySnapshot.forEach {
-            val comment = it.toObject(Comment::class.java)
-            comment.id=it.id
+            val commentDto = it.toObject(CommentDto::class.java)
+            val comment = Comment(
+                commentDto.content,
+                User(firebaseId = commentDto.userId, name = commentDto.userName, picture = commentDto.userPic),
+                commentDto.date,
+                commentDto.id)
             result.add(comment)
         }
         return result

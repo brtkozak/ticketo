@@ -6,6 +6,7 @@ import com.google.firebase.firestore.EventListener
 import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.ticketo.model.Comment
+import com.google.ticketo.model.CommentDto
 import com.google.ticketo.model.DtoConverter
 
 class CommentListLiveData(private val collectionReference: CollectionReference) : LiveData<List<Comment>>() {
