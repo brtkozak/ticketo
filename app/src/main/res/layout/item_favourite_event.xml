@@ -5,8 +5,8 @@
         xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
-                name="event"
-                type="com.google.ticketo.model.Event"/>
+                name="eventInfo"
+                type="com.google.ticketo.model.EventInfo"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

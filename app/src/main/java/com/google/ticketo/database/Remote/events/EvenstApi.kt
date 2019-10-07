@@ -20,7 +20,7 @@ interface EvenstApi {
         @Path("id") id: String
     ): Observable<EventResponse>
 
-    @GET("events")
+    @GET("eventInfo")
     fun getEventsByCountry(
         @Query("countryCode") countryCode: String,
         @Query("size") size: Int,

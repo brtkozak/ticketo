@@ -39,21 +39,21 @@ class FavouriteEventAdapter(val context: Context, val callback: BaseEventCallbac
         val callback: BaseEventCallback
     ) : RecyclerView.ViewHolder(view) {
 
-        fun bind(event: Event) {
-            view.item_favourite_event_name.text = event.name
+        fun bind(data: Event) {
+            view.item_favourite_event_name.text = data.eventInfo!!.name
 
             view.item_favourite_event_image.let {
                 Glide.with(it.context)
-                    .load(event.imageUrl)
+                    .load(data.eventInfo!!.imageUrl)
                     .apply(RequestOptions.centerCropTransform())
                     .into(it)
             }
 
             view.item_favourite_favourite.setOnClickListener {
-                callback.removeFromFavourites(event.id)
+                callback.removeFromFavourites(data.eventInfo!!.id)
             }
             view.setOnClickListener {
-                callback.goToDetails(event.id)
+                callback.goToDetails(data.eventInfo!!.id)
             }
         }
     }

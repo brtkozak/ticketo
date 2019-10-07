@@ -1,26 +1,12 @@
 package com.google.ticketo.ui.dashboard
 
-import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import androidx.core.os.bundleOf
-import androidx.core.view.ViewCompat
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
-import com.google.ticketo.R
 import com.google.ticketo.databinding.ItemDashboardEventBinding
-import com.google.ticketo.model.Event
-import com.google.ticketo.model.eventPic
-import kotlinx.android.synthetic.main.dashboard_fragment.*
-import kotlinx.android.synthetic.main.item_dashboard_event.*
-import kotlinx.android.synthetic.main.item_dashboard_event.view.*
+import com.google.ticketo.model.EventInfo
 
-class EventAdapter(val events: List<Event>, val callback: DashboardCallback) :
+class EventAdapter(val eventBasics: List<EventInfo>, val callback: DashboardCallback) :
     RecyclerView.Adapter<EventAdapter.EventHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventHolder {
@@ -30,19 +16,19 @@ class EventAdapter(val events: List<Event>, val callback: DashboardCallback) :
     }
 
     override fun getItemCount(): Int {
-        return events.size
+        return eventBasics.size
     }
 
     override fun onBindViewHolder(holder: EventHolder, position: Int) {
-        holder.bind(events[position])
+        holder.bind(eventBasics[position])
     }
 
     class EventHolder(val binding: ItemDashboardEventBinding, val callback: DashboardCallback) : RecyclerView.ViewHolder(binding.root) {
 
-       fun bind(event: Event){
-           binding.event=event
+       fun bind(eventInfo: EventInfo){
+           binding.eventInfo=eventInfo
            itemView.setOnClickListener {
-               callback.goToDetails(event.id)
+               callback.goToDetails(eventInfo.id)
            }
        }
     }

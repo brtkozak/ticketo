@@ -8,7 +8,7 @@
 
         <variable
                 name="event"
-                type="com.google.ticketo.model.EventWithIntents" />
+                type="com.google.ticketo.model.Event" />
     </data>
 
     <RelativeLayout
@@ -107,7 +107,7 @@
                                     android:layout_height="200dp"
                                     android:foreground="@drawable/gradient_bottom"
                                     android:transitionName="event_image"
-                                    app:eventPic="@{event.imageUrl}"
+                                    app:eventPic="@{event.eventInfo.imageUrl}"
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintHorizontal_bias="0.0"
                                     app:layout_constraintStart_toStartOf="parent"
@@ -122,7 +122,7 @@
                                     android:layout_marginBottom="8dp"
                                     android:background="#07000000"
                                     android:singleLine="true"
-                                    android:text="@{event.name}"
+                                    android:text="@{event.eventInfo.name}"
                                     android:textSize="35sp"
                                     app:layout_constraintBottom_toTopOf="@+id/constraintLayout2"
                                     app:layout_constraintEnd_toEndOf="parent"
@@ -184,7 +184,7 @@
                                         android:layout_height="wrap_content"
                                         android:layout_marginStart="8dp"
                                         android:layout_marginTop="16dp"
-                                        android:text="@{event.city}"
+                                        android:text="@{event.location.city}"
                                         app:layout_constraintStart_toEndOf="@+id/imageView"
                                         app:layout_constraintTop_toTopOf="parent"
                                         tools:text="Wrocław" />
@@ -216,7 +216,7 @@
                                         android:layout_height="wrap_content"
                                         android:layout_marginStart="8dp"
                                         android:layout_marginTop="8dp"
-                                        android:text="@{event.locationName}"
+                                        android:text="@{event.location.locationName}"
                                         app:layout_constraintStart_toEndOf="@+id/imageView"
                                         app:layout_constraintTop_toBottomOf="@+id/event_details_location_city"
                                         tools:text="Akademia Club" />

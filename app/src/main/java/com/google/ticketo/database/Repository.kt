@@ -4,26 +4,18 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
-import androidx.room.Room
-import com.google.firebase.database.core.Repo
 import com.google.ticketo.database.Local.LocalDatabase
 import com.google.ticketo.database.Remote.firestore.FirestoreRepository
 import com.google.ticketo.model.*
-import com.google.ticketo.utils.Const
 import com.google.ticketo.utils.Const.BUY_INTENT
-import io.reactivex.Flowable
-import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import java.sql.Timestamp
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.ZoneId
-import java.time.temporal.TemporalAdjuster
 import java.time.temporal.TemporalAdjusters
 import java.util.*
-import java.util.concurrent.Executor
 import java.util.concurrent.Executors
 
 class Repository(context: Context) {
@@ -43,7 +35,7 @@ class Repository(context: Context) {
         }
     }
 
-    fun getEventsInCity(city: String): LiveData<List<Event>> {
+    fun getEventsInCity(city: String): LiveData<List<EventInfo>> {
         updateGetEventsInCity(city)
         return localDatabase.eventDao().getEventsInCity(city)
     }
@@ -86,16 +78,16 @@ class Repository(context: Context) {
         }
     }
 
-    fun getEventsWithIntentsByCity(city: String): LiveData<List<EventWithIntents>> {
+    fun getEventsWithIntentsByCity(city: String): LiveData<List<Event>> {
         updateGetEventsInCity(city)
         return localDatabase.eventDao().getEventWithIntentsByCity(city)
     }
 
-    fun getEventWithIntents(eventId: String): LiveData<EventWithIntents> {
+    fun getEventWithIntents(eventId: String): LiveData<Event> {
         return localDatabase.eventDao().getEventWithIntents(eventId)
     }
 
-    fun getEventsThisWeekend(): LiveData<List<Event>> {
+    fun getEventsThisWeekend(): LiveData<List<EventInfo>> {
         val day = Calendar.getInstance().get(Calendar.DAY_OF_WEEK)
         var startDate = Date()
         val endDate = getClosestDay(DayOfWeek.SUNDAY, 1)
@@ -154,7 +146,7 @@ class Repository(context: Context) {
         return cal.time
     }
 
-    fun getEvent(eventId: String): Single<Event> {
+    fun getEvent(eventId: String): Single<EventInfo> {
         updateGetEvent(eventId)
         return Single.fromCallable { localDatabase.eventDao().getEvent(eventId) }
     }
@@ -252,10 +244,10 @@ class Repository(context: Context) {
     fun getSearchByLocation(search: String): Single<List<Pair<String, String>>> =
         firestoreRepository.getSearchByLocation(search)
 
-    fun getEventsWithBuyIntent(): LiveData<List<EventWithIntents>> =
+    fun getEventsWithBuyIntent(): LiveData<List<Event>> =
         localDatabase.eventDao().getEventsWithBuyIntent()
 
-    fun getEventsWithSellIntent(): LiveData<List<EventWithIntents>> =
+    fun getEventsWithSellIntent(): LiveData<List<Event>> =
         localDatabase.eventDao().getEventsWithSellIntent()
 
     fun getEventsWithBuyIntentCount(): LiveData<Int> =

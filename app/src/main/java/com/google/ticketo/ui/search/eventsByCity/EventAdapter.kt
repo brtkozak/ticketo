@@ -10,17 +10,13 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.ticketo.R
 import com.google.ticketo.model.Event
-import com.google.ticketo.model.EventIntents
-import com.google.ticketo.model.EventWithIntents
-import com.google.ticketo.ui.search.ResultAdapter
 import kotlinx.android.synthetic.main.item_events_by_city.view.*
-import kotlinx.android.synthetic.main.item_favourite_event.view.*
 import java.text.SimpleDateFormat
 
 class EventAdapter(val context: Context, val callback: EventsByCityCallback) :
     RecyclerView.Adapter<EventAdapter.EventHolder>() {
 
-    var events: List<EventWithIntents>? = null
+    var events: List<Event>? = null
 
     override fun getItemCount(): Int = events?.size ?: 0
 
@@ -38,32 +34,31 @@ class EventAdapter(val context: Context, val callback: EventsByCityCallback) :
         RecyclerView.ViewHolder(view) {
 
         @SuppressLint("SimpleDateFormat")
-        fun bind(data: EventWithIntents) {
+        fun bind(data: Event) {
 
             view.item_event_by_city_image.let {
                 Glide.with(it.context)
-                    .load(data.imageUrl)
+                    .load(data.eventInfo!!.imageUrl)
                     .apply(RequestOptions.centerCropTransform())
                     .into(it)
             }
 
-            view.item_event_by_city_name.text = data.name
+            view.item_event_by_city_name.text = data.eventInfo!!.name
             val dateFormat = SimpleDateFormat("E dd.MM.yyyy")
             val timeFormat = SimpleDateFormat("HH:mm")
-            view.item_event_by_city_date.text = dateFormat.format(data.startDate)
-            view.item_event_by_city_time.text = timeFormat.format(data.startDate)
+            view.item_event_by_city_date.text = dateFormat.format(data.eventInfo!!.startDate)
+            view.item_event_by_city_time.text = timeFormat.format(data.eventInfo!!.endDate)
 
-            view.item_events_by_city_favourite.isSelected = data.favourite
+            view.item_events_by_city_favourite.isSelected = data.eventInfo!!.favourite!!
 
             itemView.setOnClickListener {
-                callback.goToDetails(data.id)
+                callback.goToDetails(data.eventInfo!!.id)
             }
 
             view.item_events_by_city_favourite.setOnClickListener {
-                callback.onFavouriteClick(data.id, !data.favourite)
+                callback.onFavouriteClick(data.eventInfo!!.id, !data.eventInfo!!.favourite!!)
             }
         }
-
     }
 
     interface EventsByCityCallback {

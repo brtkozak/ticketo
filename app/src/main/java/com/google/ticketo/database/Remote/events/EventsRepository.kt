@@ -13,7 +13,7 @@ class EventsRepository {
 //        }
 //    }
 //
-//    fun getEventsByCountry(country: String, size: Int, page: Int): Observable<List<Event>> {
+//    fun getEventsByCountry(country: String, size: Int, page: Int): Observable<List<EventInfo>> {
 //        return eventsApi.getEventsByCountry(country, size, page)
 //            .subscribeOn(Schedulers.io())
 //            .observeOn(AndroidSchedulers.mainThread())

@@ -7,4 +7,5 @@ object Const {
     const val SELLERS = "sellers"
     const val RECOMMEND = "recommend"
     const val WARN = "warn"
+    const val EVENTS = "events"
 }

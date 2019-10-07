@@ -1,21 +1,17 @@
 package com.google.ticketo.model
 
-import java.util.*
+import androidx.room.Embedded
+import androidx.room.Ignore
 
 data class Event(
-    var id: String = "",
-    var name: String? = null,
-    var imageUrl: String? = null,
-    var startDate: Date? = null,
-    var endDate: Date? = null,
-    var locationName: String? = null,
-    var city: String? = null,
-    var address: String? = null,
-    var postalCode: String? = null,
-    var currency: String? = null,
-    var minPrice: Double? = null,
-    var maxPrice: Double? = null,
-    var lastUpdate: Date? = null
+    @Embedded
+    var eventInfo : EventInfo ?=null,
+    @Embedded
+    var location : Location? =null,
+    @Ignore
+    var buyers : List<User> ? =null,
+    @Ignore
+    var sellers : List<User> ? =null,
+    @Ignore
+    var comments : List<Comment> ?=null
 )
-
-

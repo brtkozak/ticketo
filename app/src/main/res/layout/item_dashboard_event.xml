@@ -5,8 +5,8 @@
 
     <data>
         <variable
-                name="event"
-                type="com.google.ticketo.model.Event" />
+                name="eventInfo"
+                type="com.google.ticketo.model.EventInfo" />
     </data>
 
     <LinearLayout
@@ -30,7 +30,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="200dp"
                         android:transitionName="event_image"
-                        app:eventPic="@{event.imageUrl}"
+                        app:eventPic="@{eventInfo.imageUrl}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -41,7 +41,7 @@
                         android:layout_marginTop="4dp"
                         android:ellipsize="end"
                         android:maxLines="2"
-                        android:text="@{event.name}"
+                        android:text="@{eventInfo.name}"
                         android:gravity="center_horizontal"
                         android:textSize="16sp"
                         app:layout_constraintBottom_toBottomOf="parent"

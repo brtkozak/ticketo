@@ -1,14 +1,11 @@
 package com.google.ticketo.database.Local
 
 import android.content.Context
-import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.google.ticketo.database.Local.Daos.Converters.DateConverter
 import com.google.ticketo.database.Local.Daos.EventDao
 import com.google.ticketo.database.Local.Daos.EventIntentsDao
 import com.google.ticketo.database.Local.Daos.LocationDao
-import com.google.ticketo.database.Remote.firestore.FirestoreRepository
-import com.google.ticketo.model.Event
 import com.google.ticketo.model.EventDto
 import com.google.ticketo.model.EventIntents
 import com.google.ticketo.model.Location

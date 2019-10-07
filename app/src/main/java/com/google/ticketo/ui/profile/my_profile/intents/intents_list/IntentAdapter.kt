@@ -9,13 +9,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.ticketo.R
-import com.google.ticketo.model.EventWithIntents
+import com.google.ticketo.model.Event
 import kotlinx.android.synthetic.main.item_intent_event.view.*
 
 class IntentAdapter(val context: Context, val callback: IntentCallback) :
     RecyclerView.Adapter<IntentAdapter.EventHolder>()  {
 
-    var events: List<EventWithIntents>? = null
+    var events: List<Event>? = null
 
     override fun getItemCount(): Int = events?.size ?: 0
 
@@ -33,25 +33,25 @@ class IntentAdapter(val context: Context, val callback: IntentCallback) :
         RecyclerView.ViewHolder(view) {
 
         @SuppressLint("SimpleDateFormat")
-        fun bind(data: EventWithIntents) {
+        fun bind(data: Event) {
 
             view.item_intent_event_image.let {
                 Glide.with(it.context)
-                    .load(data.imageUrl)
+                    .load(data.eventInfo!!.imageUrl)
                     .apply(RequestOptions.centerCropTransform())
                     .into(it)
             }
 
-            view.item_intent_favourite.isSelected = data.favourite
+            view.item_intent_favourite.isSelected = data.eventInfo!!.favourite!!
 
-            view.item_intent_event_name.text = data.name
+            view.item_intent_event_name.text = data.eventInfo!!.name
 
             itemView.setOnClickListener {
-                callback.goToDetails(data.id)
+                callback.goToDetails(data.eventInfo!!.id)
             }
 
             view.item_intent_favourite.setOnClickListener {
-                callback.onFavouriteClick(data.id, !data.favourite)
+                callback.onFavouriteClick(data.eventInfo!!.id, !data.eventInfo!!.favourite!!)
             }
         }
 
