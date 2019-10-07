@@ -13,5 +13,5 @@ data class Event(
     @Ignore
     var sellers : List<User> ? =null,
     @Ignore
-    var commentDtos : List<CommentDto> ?=null
+    var comments : List<Comment> ?=null
 )
