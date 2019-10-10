@@ -8,7 +8,7 @@
 
         <variable
                 name="event"
-                type="com.google.ticketo.model.EventWithIntents" />
+                type="com.google.ticketo.model.Event" />
     </data>
 
     <RelativeLayout

@@ -16,7 +16,7 @@ import io.reactivex.schedulers.Schedulers
 
 class EventDetailsViewModel(private val repository: Repository, var eventId : String) : ViewModel() {
 
-    val event: LiveData<EventWithIntents> = repository.getEventWithIntents(eventId)
+    val event: LiveData<Event> = repository.getEventWithIntents(eventId)
     val userId = repository.firestoreRepository.fireAuth.currentUser!!.uid
 
     val _buyLock = MutableLiveData<Int>(0)

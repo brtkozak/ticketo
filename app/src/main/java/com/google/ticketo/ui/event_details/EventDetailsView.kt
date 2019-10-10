@@ -71,9 +71,9 @@ class EventDetailsView : Fragment(), CommentAdapter.EventDetailsCallback {
             val timeFormat = SimpleDateFormat("HH:mm")
             event_details_date.text = dateFormat.format(it.startDate)
             event_details_time.text = timeFormat.format(it.startDate)
-            event_details_buy.isSelected = it.buy
-            event_details_sell.isSelected = it.sell
-            event_details_favourite.isSelected = it.favourite
+            event_details_buy.isSelected = it.buy!!
+            event_details_sell.isSelected = it.sell!!
+            event_details_favourite.isSelected = it.favourite!!
         })
 
         viewModel.buyers.observe(this, Observer {

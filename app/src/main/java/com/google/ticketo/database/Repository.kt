@@ -86,12 +86,12 @@ class Repository(context: Context) {
         }
     }
 
-    fun getEventsWithIntentsByCity(city: String): LiveData<List<EventWithIntents>> {
+    fun getEventsWithIntentsByCity(city: String): LiveData<List<Event>> {
         updateGetEventsInCity(city)
         return localDatabase.eventDao().getEventWithIntentsByCity(city)
     }
 
-    fun getEventWithIntents(eventId: String): LiveData<EventWithIntents> {
+    fun getEventWithIntents(eventId: String): LiveData<Event> {
         return localDatabase.eventDao().getEventWithIntents(eventId)
     }
 
@@ -252,10 +252,10 @@ class Repository(context: Context) {
     fun getSearchByLocation(search: String): Single<List<Pair<String, String>>> =
         firestoreRepository.getSearchByLocation(search)
 
-    fun getEventsWithBuyIntent(): LiveData<List<EventWithIntents>> =
+    fun getEventsWithBuyIntent(): LiveData<List<Event>> =
         localDatabase.eventDao().getEventsWithBuyIntent()
 
-    fun getEventsWithSellIntent(): LiveData<List<EventWithIntents>> =
+    fun getEventsWithSellIntent(): LiveData<List<Event>> =
         localDatabase.eventDao().getEventsWithSellIntent()
 
     fun getEventsWithBuyIntentCount(): LiveData<Int> =

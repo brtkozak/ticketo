@@ -15,7 +15,11 @@ data class Event(
     var currency: String? = null,
     var minPrice: Double? = null,
     var maxPrice: Double? = null,
-    var lastUpdate: Date? = null
+    var lastUpdate: Date? = null,
+    var buy: Boolean? = false,
+    var sell: Boolean? = false,
+    var favourite: Boolean? = false,
+    var location: String? = null
 )
 
 
