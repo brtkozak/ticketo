@@ -85,8 +85,11 @@ class CustomProfileView : Fragment() {
         }
 
         custom_profile_open_facebook_profile.setOnClickListener {
-            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(viewModel.user.value?.profileLink))
-            startActivity(browserIntent)
+            if(viewModel.user.value?.profileLink!=null) {
+                val browserIntent =
+                    Intent(Intent.ACTION_VIEW, Uri.parse(viewModel.user.value?.profileLink))
+                startActivity(browserIntent)
+            }
         }
 
     }
@@ -116,10 +119,10 @@ class CustomProfileView : Fragment() {
         } else if (!custom_profile_warn_button.isSelected && custom_profile_recommend_button.isSelected) {
             viewModel._warnLock.value = 2
             viewModel.addReview(Const.WARN)
-            viewModel.removeReview(Const.RECOMMEND, Const.SELLERS)
+            viewModel.removeReview(Const.RECOMMEND, Const.WARN)
         } else {
             viewModel._warnLock.value = 1
-            viewModel.removeReview(Const.SELLERS, Const.SELLERS)
+            viewModel.removeReview(Const.WARN, Const.WARN)
         }
     }
 
