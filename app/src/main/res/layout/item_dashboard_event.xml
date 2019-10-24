@@ -28,7 +28,7 @@
                 <ImageView
                         android:id="@+id/item_dashboard_event_image"
                         android:layout_width="match_parent"
-                        android:layout_height="200dp"
+                        android:layout_height="180dp"
                         android:transitionName="event_image"
                         app:eventPic="@{event.imageUrl}"
                         app:layout_constraintEnd_toEndOf="parent"

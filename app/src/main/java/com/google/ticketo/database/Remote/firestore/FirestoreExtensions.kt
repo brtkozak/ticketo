@@ -24,7 +24,6 @@ fun Query.single(): Single<QuerySnapshot> =
             .addOnFailureListener {
 
             }
-
     }
 
 fun <T> Task<T>.single(): Single<Boolean> =

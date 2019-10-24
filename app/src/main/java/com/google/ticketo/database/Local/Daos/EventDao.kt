@@ -20,6 +20,12 @@ interface EventDao {
     @Query("SELECT * FROM eventdto JOiN location ON eventdto.location=location.locationName WHERE city= :city AND lastUpdate> :lastUpdate LIMIT 1")
     fun checkUpdateWithCity(city: String, lastUpdate: Date): Event?
 
+    @Query("SELECT * FROM EventDto JOIN location ON eventdto.location=location.locationName WHERE city!= :city AND startDate NOT BETWEEN :startDate AND :endDate")
+    fun discoverEvents(city : String, startDate: Date, endDate: Date): LiveData<List<Event>>
+
+    @Query("SELECT * FROM EventDto JOIN location ON eventdto.location=location.locationName WHERE city!= :city AND startDate NOT BETWEEN :startDate AND :endDate AND lastUpdate> :lastUpdate LIMIT 1 ")
+    fun checkDiscoverUpdate(city : String, startDate: Date, endDate: Date, lastUpdate: Date) : Event?
+
     @Query("SELECT * FROM eventdto JOIN location ON eventdto.location=location.locationName WHERE eventdto.id = :id AND lastUpdate> :lastUpdate LIMIT 1")
     fun checkEventUpdate(id : String, lastUpdate : Date) : Event?
 

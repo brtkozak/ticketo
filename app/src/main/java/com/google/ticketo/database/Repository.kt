@@ -48,6 +48,45 @@ class Repository(context: Context) {
         return localDatabase.eventDao().getEventsInCity(city)
     }
 
+    fun discoverEvents(city : String): LiveData<List<Event>> {
+        val startDate = Date()
+        val endDate = getClosestDay(DayOfWeek.SUNDAY, 1)
+        updateDiscoverEvents(city, startDate, endDate)
+        return localDatabase.eventDao().discoverEvents(city, startDate, endDate)
+    }
+
+    private fun updateDiscoverEvents(city : String, startDate: Date, endDate: Date){
+        executor.execute {
+            val exist =
+                (localDatabase.eventDao().checkDiscoverUpdate(
+                    city,
+                    startDate,
+                    endDate,
+                    getUpdateTime(Date(), eventsTimeout)
+                ) != null)
+            if (!exist) {
+                firestoreRepository
+                    .discoverEvents(city, startDate, endDate)
+                    .subscribe { it ->
+                        executor.execute {
+                            localDatabase.locationDao().insertLocations(it.second)
+                        }
+                        executor.execute {
+                            localDatabase.eventDao().insertEvents(it.first)
+                        }
+                        executor.execute {
+                            val eventIntents = mutableListOf<EventIntents>()
+                            it.first.forEach {
+                                if (localDatabase.eventIntentsDao().checkEventIntents(it.id) == null)
+                                    eventIntents.add(EventIntents(eventId = it.id))
+                            }
+                            localDatabase.eventIntentsDao().insertEventsIntents(eventIntents)
+                        }
+                    }
+            }
+        }
+    }
+
     private val eventsTimeout = 2
     private fun updateGetEventsInCity(city: String) {
         executor.execute {
@@ -61,16 +100,13 @@ class Repository(context: Context) {
                 firestoreRepository
                     .getEventsByCity(city)
                     .subscribe { it ->
-
                         executor.execute {
                             localDatabase.locationDao().insertLocations(it.second)
                         }
-
                         executor.execute {
                             Log.d("looog", "saving")
                             localDatabase.eventDao().insertEvents(it.first)
                         }
-
                         executor.execute {
                             val eventIntents = mutableListOf<EventIntents>()
                             it.first.forEach {
@@ -79,10 +115,8 @@ class Repository(context: Context) {
                             }
                             localDatabase.eventIntentsDao().insertEventsIntents(eventIntents)
                         }
-
                     }
-            } else
-                Log.d("looog", "from local")
+            }
         }
     }
 

@@ -8,17 +8,17 @@ import java.util.*
 
 object DtoConverter {
 
-    fun querySnapshotToEvent(querySnapshot: QuerySnapshot) : Pair<EventDto?, Location?> {
-        var eventResponse : EventResponse? = null
-        querySnapshot.forEach{
-            eventResponse=it.toObject(EventResponse::class.java)
+    fun querySnapshotToEvent(querySnapshot: QuerySnapshot): Pair<EventDto?, Location?> {
+        var eventResponse: EventResponse? = null
+        querySnapshot.forEach {
+            eventResponse = it.toObject(EventResponse::class.java)
         }
         val event = eventResponseToEventDto(eventResponse)
         val location = eventResponseToLocation(eventResponse)
         return Pair(event, location)
     }
 
-    fun querySnapshotToEventsList(querySnapshot: QuerySnapshot) : Pair<List<EventDto>, List<Location>> {
+    fun querySnapshotToEventsList(querySnapshot: QuerySnapshot): Pair<List<EventDto>, List<Location>> {
         val events = mutableListOf<EventDto>()
         val locations = mutableListOf<Location>()
         querySnapshot.forEach {
@@ -29,7 +29,7 @@ object DtoConverter {
         return Pair(events, locations)
     }
 
-    fun querySnapshotToListOfReviews(querySnapshot: QuerySnapshot) : List<Review> {
+    fun querySnapshotToListOfReviews(querySnapshot: QuerySnapshot): List<Review> {
         val result = mutableListOf<Review>()
         querySnapshot.forEach {
             result.add(it.toObject(Review::class.java))
@@ -55,7 +55,7 @@ object DtoConverter {
 
 
     private fun eventResponseToLocation(eventResponse: EventResponse?): Location? =
-        eventResponse?.let{
+        eventResponse?.let {
             Location(
                 it.location!!.locationName,
                 it.location.city,
@@ -65,7 +65,7 @@ object DtoConverter {
         }
 
 
-    fun querySnapshoTtoLisOfUsers(querySnapshot: QuerySnapshot) : List<User> {
+    fun querySnapshoTtoLisOfUsers(querySnapshot: QuerySnapshot): List<User> {
         val result = mutableListOf<User>()
         querySnapshot.forEach {
             result.add(it.toObject(User::class.java))
@@ -73,21 +73,21 @@ object DtoConverter {
         return result
     }
 
-    fun querySnapshotToListOfComments(querySnapshot: QuerySnapshot) : List<Comment> {
+    fun querySnapshotToListOfComments(querySnapshot: QuerySnapshot): List<Comment> {
         val result = mutableListOf<Comment>()
         querySnapshot.forEach {
             val comment = it.toObject(Comment::class.java)
-            comment.id=it.id
+            comment.id = it.id
             result.add(comment)
         }
         return result
     }
 
-    fun documentSnapshotToUser(documentSnapshot : DocumentSnapshot) : User {
+    fun documentSnapshotToUser(documentSnapshot: DocumentSnapshot): User {
         return documentSnapshot.toObject(User::class.java)!!
     }
 
-    fun querySnapshotToEventsNameList(querySnapshot: QuerySnapshot) : List<Pair<String, String>> {
+    fun querySnapshotToEventsNameList(querySnapshot: QuerySnapshot): List<Pair<String, String>> {
         val result = mutableListOf<Pair<String, String>>()
         querySnapshot.forEach {
             val temp = it.toObject(EventResponse::class.java)
@@ -96,13 +96,35 @@ object DtoConverter {
         return result
     }
 
-    fun querySnapshotToEventsLocationList(querySnapshot: QuerySnapshot) : List<Pair<String, String>> {
+    fun querySnapshotToEventsLocationList(querySnapshot: QuerySnapshot): List<Pair<String, String>> {
         val result = mutableListOf<Pair<String, String>>()
         querySnapshot.forEach {
             val temp = it.toObject(EventResponse::class.java)
             result.add(Pair(temp.location?.city!!, ""))
         }
         return result.distinct()
+    }
+
+    fun removeUnwantedEvents(
+        city: String,
+        startDate: Date,
+        endDate: Date,
+        pair: Pair<List<EventDto>, List<Location>>
+    ): Pair<List<EventDto>, List<Location>> {
+        val toRemove = mutableListOf<Int>()
+        for (i in 0..(pair.first.size-1)) {
+            if (pair.second[i].city.equals(city) || (pair.first[i].startDate!! > startDate && pair.first[i].startDate!! < endDate)) {
+                toRemove.add(i)
+            }
+        }
+
+        val result = Pair(pair.first as MutableList, pair.second as MutableList)
+        var counter = 0
+        toRemove.forEach {
+            result.first.removeAt(it-counter)
+            counter ++
+        }
+        return result
     }
 
 }

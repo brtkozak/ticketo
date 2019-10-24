@@ -119,10 +119,14 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:visibility="gone"
-                        tools:visibility="visible">
+                        tools:visibility="visible"
+                        android:paddingTop="8dp">
                     <TextView android:layout_width="match_parent"
                               android:layout_height="30dp"
-                              android:text="W ten weekend"/>
+                              android:text="@string/this_weekend"
+                              android:paddingStart="8dp"
+                              android:textSize="20sp"
+                              android:textColor="@color/white"/>
                     <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/dashboard_fragment_events_this_weekend"
                             android:layout_width="match_parent"
@@ -130,7 +134,10 @@
                     </androidx.recyclerview.widget.RecyclerView>
                     <TextView android:layout_width="match_parent"
                               android:layout_height="30dp"
-                              android:text="W twoim miescie"/>
+                              android:text="@string/in_your_city"
+                              android:paddingStart="8dp"
+                              android:textSize="20sp"
+                            android:textColor="@color/white"/>
                     <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/dashboard_fragment_events_in_city"
                             android:layout_width="match_parent"
@@ -138,6 +145,20 @@
                             android:paddingStart="4dp"
                             android:paddingEnd="4dp">
                     </androidx.recyclerview.widget.RecyclerView>
+                    <TextView android:layout_width="match_parent"
+                            android:layout_height="30dp"
+                            android:text="@string/discover"
+                            android:paddingStart="8dp"
+                            android:textSize="20sp"
+                            android:textColor="@color/white"/>
+                    <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/dashboard_fragment_discover_events"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingStart="4dp"
+                            android:paddingEnd="4dp">
+                    </androidx.recyclerview.widget.RecyclerView>
+
                 </LinearLayout>
             </RelativeLayout>
         </androidx.core.widget.NestedScrollView>

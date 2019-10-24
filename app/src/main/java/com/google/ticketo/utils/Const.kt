@@ -7,4 +7,6 @@ object Const {
     const val SELLERS = "sellers"
     const val RECOMMEND = "recommend"
     const val WARN = "warn"
+    //add user localization to remove this const
+    const val CITY ="Wrocław"
 }

@@ -51,7 +51,8 @@ class DashboardView : Fragment(), EventAdapter.DashboardCallback {
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         dashboard_fragment_events_in_city.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-
+        dashboard_fragment_discover_events.layoutManager=
+            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
     }
 
     private fun setObservers() {
@@ -61,6 +62,10 @@ class DashboardView : Fragment(), EventAdapter.DashboardCallback {
 
         viewModel.eventsThisWeekend.observe(this, Observer {
             dashboard_fragment_events_this_weekend.adapter = EventAdapter(it, this)
+        })
+
+        viewModel.discoverEvents.observe(this, Observer {
+            dashboard_fragment_discover_events.adapter = EventAdapter(it, this)
         })
     }
 
