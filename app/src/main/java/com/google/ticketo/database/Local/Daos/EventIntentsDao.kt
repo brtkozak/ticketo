@@ -31,4 +31,13 @@ interface EventIntentsDao {
 
     @Query("SELECT eventdto.* FROM eventdto JOIN eventintents ON eventdto.id = eventintents.eventId WHERE favourite= 1")
     fun getFavouriteEvents() : LiveData<List<Event>>
+
+    @Query ("SELECT COUNT(*) FROM eventintents WHERE favourite=1")
+    fun getFavouritesCount() : Int
+
+    @Query ("SELECT COUNT(*) FROM eventintents WHERE buy=1")
+    fun getBuyOffersCount() : Int
+
+    @Query ("SELECT COUNT(*) FROM eventintents WHERE sell=1")
+    fun getSellOffersCout() : Int
 }

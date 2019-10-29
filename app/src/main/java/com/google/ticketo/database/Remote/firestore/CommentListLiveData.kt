@@ -11,7 +11,6 @@ import com.google.ticketo.model.DtoConverter
 class CommentListLiveData(private val collectionReference: CollectionReference) : LiveData<List<Comment>>() {
 
     private val listener = MySnapshotListener()
-
     override fun onActive() {
         collectionReference.addSnapshotListener(listener)
     }
@@ -25,6 +24,5 @@ class CommentListLiveData(private val collectionReference: CollectionReference) 
             if (querySnapshot != null)
                 value = DtoConverter.querySnapshotToListOfComments(querySnapshot)
         }
-
     }
 }

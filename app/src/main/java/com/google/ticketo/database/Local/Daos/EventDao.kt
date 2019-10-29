@@ -36,7 +36,7 @@ interface EventDao {
     fun checkUpdateWithDates(startDate: Date, endDate: Date, lastUpdate: Date): Event?
 
     @Query("SELECT * FROM eventdto JOIN location ON eventdto.location=location.locationName WHERE id = :eventId")
-    fun getEvent(eventId: String): Event
+    fun getEvent(eventId: String): Event?
 
     @Query("SELECT * FROM eventdto JOIN location ON eventdto.location=location.locationName WHERE id = :eventId")
     fun getEventWithDate(eventId: String): Event
@@ -58,6 +58,9 @@ interface EventDao {
 
     @Query("SELECT COUNT(*) FROM eventdto JOIN eventintents ON eventdto.id = eventintents.eventId WHERE eventintents.sell = 1")
     fun getEventsWithSellIntentCount() : LiveData<Int>
+
+    @Query("SELECT * FROM EventDto WHERE EventDto.id = :id")
+    fun getEventDtoById(id : String) : EventDto?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertEvents(events: List<EventDto>)
