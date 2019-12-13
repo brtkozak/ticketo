@@ -1,17 +1,17 @@
 package com.google.ticketo
 
-import com.google.firebase.database.core.Repo
 import com.google.ticketo.database.Local.Daos.Converters.DateConverter
-import com.google.ticketo.database.Remote.facebook.FacebookApi
 import com.google.ticketo.database.Remote.facebook.FacebookRepository
+import com.google.ticketo.database.Remote.firestore.FirestoreRepository
 import com.google.ticketo.database.Repository
 import com.google.ticketo.model.DtoConverter
 import com.google.ticketo.model.EventDto
 import com.google.ticketo.model.Location
-import org.junit.Assert
+import com.google.ticketo.model.Responses.eventResponse.EventResponse
 import org.junit.Test
 
 import org.junit.Assert.*
+import java.time.DayOfWeek
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -55,5 +55,20 @@ class ExampleUnitTest {
         val convertedDate = dateConverter.toDate(timestamp)
         val date = Date(timestamp)
         assertEquals(date, convertedDate)
+    }
+
+    @Test
+    fun closestDayTest(){
+        val closestSaturday = Repository.getClosestDay(DayOfWeek.FRIDAY)
+        val dateNow = Date()
+        val dateDiffInMilliseconds = closestSaturday.time - dateNow.time
+        assert(TimeUnit.DAYS.convert(dateDiffInMilliseconds, TimeUnit.MILLISECONDS).toInt() == 0)
+    }
+
+    @Test
+    fun convertEventResponseToLocationTest(){
+        val eventResponse = EventResponse(location = Location(locationName = "test") )
+        val location = DtoConverter.eventResponseToLocation(eventResponse)
+        assert(location is Location && location.locationName == "test")
     }
 }

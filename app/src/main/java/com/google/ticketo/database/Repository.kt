@@ -41,6 +41,7 @@ class Repository(context: Context) {
                     Repository(context)
             return instance as Repository
         }
+
     }
 
     fun getEventsInCity(city: String): LiveData<List<Event>> {
@@ -132,10 +133,10 @@ class Repository(context: Context) {
     fun getEventsThisWeekend(): LiveData<List<Event>> {
         val day = Calendar.getInstance().get(Calendar.DAY_OF_WEEK)
         var startDate = Date()
-        val endDate = getClosestDay(DayOfWeek.SUNDAY, 1)
         if (day != Calendar.FRIDAY && day != Calendar.SATURDAY && day != Calendar.SUNDAY) {
             startDate = getClosestDay(DayOfWeek.FRIDAY)
         }
+        val endDate = getClosestDay(DayOfWeek.SUNDAY, 1)
         updateGetEventsByDates(startDate, endDate)
         return localDatabase.eventDao().getEventsThisWeekend(startDate, endDate)
     }
